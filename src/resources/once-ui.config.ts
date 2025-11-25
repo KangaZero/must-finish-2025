@@ -22,12 +22,14 @@ const routes: RoutesConfig = {
   "/work": true,
   "/blog": true,
   "/gallery": true,
+  "/contact": true,
 };
 
 const display: DisplayConfig = {
   location: true,
   time: true,
   themeSwitcher: true,
+  menuAccordion: true,
 };
 
 // Enable password protection on selected routes
@@ -204,7 +206,7 @@ const sameAs: SameAsConfig = {
 const socialSharing: SocialSharingConfig = {
   display: true,
   platforms: {
-    x: true,
+    x: false,
     linkedin: true,
     facebook: false,
     pinterest: false,

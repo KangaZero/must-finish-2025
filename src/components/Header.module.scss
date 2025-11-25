@@ -19,3 +19,23 @@
         bottom: 0;
     }
 }
+
+.menuItems {
+  transition: width 0.3s ease, opacity 0.3s ease;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  width: 240px; // or your desired expanded width
+  opacity: 1;
+}
+.menuVisible {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+.menuHidden {
+  opacity: 0;
+  width: 0;
+  transform: translateX(-20px);
+  pointer-events: none;
+}
