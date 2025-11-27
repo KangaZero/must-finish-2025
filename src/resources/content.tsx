@@ -63,7 +63,9 @@ const home: Home = {
   title: `${person.name}'s Portfolio`,
   description: `Portfolio website showcasing my work as a ${person.role}`,
   headline:
-    <Text>New year,  new{" "}
+    <Text>New year
+      <br/>
+      new{" "}
       <TypeFx
         words={["portfolio", "framework", "trends", "ways to suffer"]}
         speed={80}

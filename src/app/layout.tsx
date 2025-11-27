@@ -14,7 +14,6 @@ import {
   SpacingToken,
 } from "@once-ui-system/core";
 import { Footer, Header, RouteGuard, Providers } from "@/components";
-import LightRays from "@/components/LightRays";
 import { baseURL, effects, fonts, style, dataStyle, home } from "@/resources";
 
 import styles from "./layout.module.scss";
@@ -117,8 +116,7 @@ export default async function RootLayout({
           padding="0"
           horizontal="center"
         >
-          <div className="fixed inset-0 pointer-events-none z-0">
-
+          <div className="fixed inset-0 pointer-events-none z-1">
             {[...Array(16)].map((_, i) => (
               <div
                 key={i}
@@ -138,8 +136,8 @@ export default async function RootLayout({
                   position: "absolute",
                   fontSize: "2rem",
                   opacity: 0.4,
-                  left: `${Math.random() * 85}%`,
-                  top: `${Math.random() * 85}%`,
+                  left: `${Math.random() * 75}%`,
+                  top: `${Math.random() * 75}%`,
                   animationDelay: `${Math.random() * 5}s`,
                 }}
               >
@@ -190,20 +188,6 @@ export default async function RootLayout({
               }}
             />
 
-          </RevealFx>
-          <RevealFx fill position="absolute" zIndex={1} className="absolute inset-0 top-0 left-0 pointer-events-none">
-            <LightRays
-              raysOrigin="top-center"
-              raysColor="#00ffff"
-              raysSpeed={1.5}
-              lightSpread={0.8}
-              rayLength={1.2}
-              followMouse={true}
-              mouseInfluence={0.1}
-              noiseAmount={0.1}
-              distortion={0.05}
-              className="custom-rays"
-            />
           </RevealFx>
           <Flex fillWidth minHeight="16" s={{ hide: true }} />
           <Header />
