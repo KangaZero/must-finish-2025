@@ -9,6 +9,7 @@ const person: Person = {
   avatar: "/images/avatar.jpg",
   email: "samuelyongw@gmail.com",
   location: "Asia/Tokyo", // Expecting the IANA time zone identifier, e.g., 'Europe/Vienna'
+  locationCoordinates: [35.660504, 139.724981], // Latitude, Longitude for Tokyo
   languages: ["English", "Japanese"], // optional: Leave the array empty if you don't want to display languages
 };
 
@@ -25,7 +26,7 @@ const social: Social = [
   {
     name: "GitHub",
     icon: "github",
-    link: "https://github.com/once-ui-system",
+    link: "https://github.com/KangaZero",
     essential: true,
   },
   {
@@ -34,18 +35,18 @@ const social: Social = [
     link: "https://www.linkedin.com/company/once-ui/",
     essential: true,
   },
-  {
-    name: "Instagram",
-    icon: "instagram",
-    link: "https://www.instagram.com/once_ui/",
-    essential: false,
-  },
-  {
-    name: "Threads",
-    icon: "threads",
-    link: "https://www.threads.com/@once_ui",
-    essential: true,
-  },
+  // {
+  //   name: "Instagram",
+  //   icon: "instagram",
+  //   link: "https://www.instagram.com/once_ui/",
+  //   essential: false,
+  // },
+  // {
+  //   name: "Threads",
+  //   icon: "threads",
+  //   link: "https://www.threads.com/@once_ui",
+  //   essential: true,
+  // },
   {
     name: "Email",
     icon: "email",
@@ -60,31 +61,38 @@ const home: Home = {
   label: "Home",
   title: `${person.name}'s Portfolio`,
   description: `Portfolio website showcasing my work as a ${person.role}`,
-  headline: <>Building bridges between design and code</>,
+  headline: <>Another year, another portfolio</>,
   featured: {
     display: true,
     title: (
       <Row gap="12" vertical="center">
-        <strong className="ml-4">Once UI</strong>{" "}
-        <Line background="brand-alpha-strong" vert height="20" />
+        {/* <strong className="ml-4">Once UI</strong>{" "} */}
+        {/* <Line background="brand-alpha-strong" vert height="20" /> */}
         <Text marginRight="4" onBackground="brand-medium">
-          Featured work
+          2025
         </Text>
       </Row>
     ),
     href: "/work/building-once-ui-a-customizable-design-system",
   },
   subline: (
-    <>
-      I'm Selene, a design engineer at{" "}
+    <Row>
+      Created by{" "}
       <Logo
         dark
-        icon="/trademarks/wordmark-dark.svg"
-        style={{ display: "inline-flex", top: "0.25em", marginLeft: "-0.25em" }}
+        wordmark="/trademarks/kanga-zero.svg"
+        brand={{
+          copy: true,
+          url: social.find((item) => item.name === "GitHub")?.link
+        }}
+        // popover="auto"
+        about="KangaZero logo"
+        href={social.find((item) => item.name === "GitHub")?.link}
+        style={{ display: "inline-flex", top: "0.25em", marginLeft: "0.55em", scale: "3" }}
       />
-      , where I craft intuitive
-      <br /> user experiences. After hours, I build my own projects.
-    </>
+      {/* , where I craft intuitive
+      <br /> user experiences. After hours, I build my own projects. */}
+    </Row>
   ),
 };
 
@@ -234,7 +242,7 @@ const about: About = {
             height: 9,
           },
         ],
-      },  
+      },
     ],
   },
 };

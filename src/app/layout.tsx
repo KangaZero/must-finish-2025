@@ -16,6 +16,8 @@ import {
 import { Footer, Header, RouteGuard, Providers } from "@/components";
 import { baseURL, effects, fonts, style, dataStyle, home } from "@/resources";
 
+import styles from "./layout.module.scss";
+
 export async function generateMetadata() {
   return Meta.generate({
     title: home.title,
@@ -56,17 +58,17 @@ export default async function RootLayout({
                   
                   // Set defaults from config
                   const config = ${JSON.stringify({
-                    brand: style.brand,
-                    accent: style.accent,
-                    neutral: style.neutral,
-                    solid: style.solid,
-                    "solid-style": style.solidStyle,
-                    border: style.border,
-                    surface: style.surface,
-                    transition: style.transition,
-                    scaling: style.scaling,
-                    "viz-style": dataStyle.variant,
-                  })};
+              brand: style.brand,
+              accent: style.accent,
+              neutral: style.neutral,
+              solid: style.solid,
+              "solid-style": style.solidStyle,
+              border: style.border,
+              surface: style.surface,
+              transition: style.transition,
+              scaling: style.scaling,
+              "viz-style": dataStyle.variant,
+            })};
                   
                   // Apply default values
                   Object.entries(config).forEach(([key, value]) => {
@@ -113,6 +115,25 @@ export default async function RootLayout({
           padding="0"
           horizontal="center"
         >
+          <div className="fixed inset-0 pointer-events-none z-0">
+            {[...Array(12)].map((_, i) => (
+              <div
+                key={i}
+                className={styles["maple-leaf"]}
+                style={{
+                  position: "absolute",
+                  fontSize: "2rem",
+                  opacity: 0.4,
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  // animation: `maple-float ${5 + Math.random() * 5}s ease-in-out infinite`,
+                  animationDelay: `${Math.random() * 5}s`,
+                }}
+              >
+                🍁
+              </div>
+            ))}
+          </div>
           <RevealFx fill position="absolute">
             <Background
               mask={{

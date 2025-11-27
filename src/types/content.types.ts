@@ -25,6 +25,8 @@ export type Person = {
   email: string;
   /** IANA time zone location */
   location: IANATimeZone;
+  /** Geographic coordinates for the location */
+  locationCoordinates: [number, number]; // [latitude, longitude]
   /** Languages spoken */
   languages?: string[];
 };
@@ -47,7 +49,7 @@ export type Newsletter = {
  */
 export type Social = Array<{
   /** Name of the social platform */
-  name: string;
+  name: 'GitHub' | 'LinkedIn' | 'Instagram' | 'Threads' | 'Email';
   /** Icon for the social platform
    * The icons are a part of "src/resources/icons.ts" file.
    * If you need a different icon, import it there and reference it everywhere else
