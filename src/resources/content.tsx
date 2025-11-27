@@ -1,5 +1,5 @@
 import { About, Blog, Gallery, Home, Newsletter, Person, Social, Work } from "@/types";
-import { Line, Logo, Row, Text} from "@once-ui-system/core";
+import { Line, Logo, Row, Text, TypeFx } from "@once-ui-system/core";
 
 const person: Person = {
   firstName: "Samuel Wai Weng",
@@ -62,7 +62,15 @@ const home: Home = {
   label: "Home",
   title: `${person.name}'s Portfolio`,
   description: `Portfolio website showcasing my work as a ${person.role}`,
-  headline: <>Another year, another portfolio</>,
+  headline:
+    <Text>New year,  new{" "}
+      <TypeFx
+        words={["portfolio", "framework", "trends", "ways to suffer"]}
+        speed={80}
+        hold={2000}
+        trigger="instant"
+      />
+    </Text>,
   featured: {
     display: true,
     title: (

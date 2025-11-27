@@ -14,6 +14,7 @@ import {
   SpacingToken,
 } from "@once-ui-system/core";
 import { Footer, Header, RouteGuard, Providers } from "@/components";
+import LightRays from "@/components/LightRays";
 import { baseURL, effects, fonts, style, dataStyle, home } from "@/resources";
 
 import styles from "./layout.module.scss";
@@ -33,6 +34,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <Flex
       suppressHydrationWarning
@@ -116,6 +118,7 @@ export default async function RootLayout({
           horizontal="center"
         >
           <div className="fixed inset-0 pointer-events-none z-0">
+
             {[...Array(16)].map((_, i) => (
               <div
                 key={i}
@@ -146,6 +149,7 @@ export default async function RootLayout({
           </div>
           <RevealFx fill position="absolute">
             <Background
+              zIndex={0}
               mask={{
                 x: effects.mask.x,
                 y: effects.mask.y,
@@ -184,6 +188,21 @@ export default async function RootLayout({
                 angle: effects.lines.angle,
                 color: effects.lines.color,
               }}
+            />
+
+          </RevealFx>
+          <RevealFx fill position="absolute" zIndex={1} className="absolute inset-0 top-0 left-0 pointer-events-none">
+            <LightRays
+              raysOrigin="top-center"
+              raysColor="#00ffff"
+              raysSpeed={1.5}
+              lightSpread={0.8}
+              rayLength={1.2}
+              followMouse={true}
+              mouseInfluence={0.1}
+              noiseAmount={0.1}
+              distortion={0.05}
+              className="custom-rays"
             />
           </RevealFx>
           <Flex fillWidth minHeight="16" s={{ hide: true }} />
