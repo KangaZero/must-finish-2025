@@ -8,6 +8,7 @@ const person: Person = {
   role: "Frontend Developer",
   avatar: "/images/avatar.jpg",
   email: "samuelyongw@gmail.com",
+  githubUsername: "KangaZero",
   location: "Asia/Tokyo", // Expecting the IANA time zone identifier, e.g., 'Europe/Vienna'
   locationCoordinates: [35.660504, 139.724981], // Latitude, Longitude for Tokyo
   languages: ["English", "Japanese"], // optional: Leave the array empty if you don't want to display languages

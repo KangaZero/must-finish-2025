@@ -19,9 +19,14 @@ import {
 } from "@once-ui-system/core";
 import { style, dataStyle } from "../resources";
 import { iconLibrary } from "../resources/icons";
+import {QueryClientProvider, QueryClient} from "@tanstack/react-query";
 
 export function Providers({ children }: { children: React.ReactNode }) {
+
+  const queryClient = new QueryClient();
+
   return (
+    <QueryClientProvider client={queryClient}>
     <LayoutProvider>
       <ThemeProvider
         brand={style.brand as Schemes}
@@ -53,5 +58,6 @@ export function Providers({ children }: { children: React.ReactNode }) {
         </DataThemeProvider>
       </ThemeProvider>
     </LayoutProvider>
+    </QueryClientProvider>
   );
 }

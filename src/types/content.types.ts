@@ -23,6 +23,8 @@ export type Person = {
   avatar: string;
   /** Email address */
   email: string;
+  /** GitHub username */
+  githubUsername: string;
   /** IANA time zone location */
   location: IANATimeZone;
   /** Geographic coordinates for the location */
