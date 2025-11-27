@@ -124,8 +124,8 @@ export default async function RootLayout({
                   position: "absolute",
                   fontSize: "2rem",
                   opacity: 0.4,
-                  left: `${Math.random() * 95}%`,
-                  top: `${Math.random() * 95}%`,
+                  left: `${Math.random() * 85}%`,
+                  top: `${Math.random() * 85}%`,
                   animationDelay: `${Math.random() * 5}s`,
                 }}
               >

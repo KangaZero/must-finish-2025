@@ -5,3 +5,19 @@
         text-align: center;
     }
 }
+
+.logoMobile {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .logoMobile {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-top: 12px;
+  }
+  .logoDesktop {
+    display: none;
+  }
+}
