@@ -119,7 +119,18 @@ export default async function RootLayout({
             {[...Array(16)].map((_, i) => (
               <div
                 key={i}
-                className={styles["mapleLeaf"]}
+                className={
+                  [
+                    styles.mapleLeaf,
+                    i % 4 === 0
+                      ? styles.mapleLeafSlow
+                      : i % 4 === 1
+                        ? styles.mapleLeafMedium
+                        : i % 4 === 2
+                          ? styles.mapleLeafFast
+                          : styles.mapleLeaf3D
+                  ].join(" ")
+                }
                 style={{
                   position: "absolute",
                   fontSize: "2rem",

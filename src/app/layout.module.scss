@@ -1,19 +1,61 @@
 @keyframes mapleFloat {
-  0%, 100% {
-    transform: translate3d(0, 0, 0) rotate(0deg);
-  }
-  25% {
-    transform: translate3d(20px, 40px, 0) rotate(90deg);
-  }
-  50% {
-    transform: translate3d(-20px, 80px, 0) rotate(180deg);
-  }
-  75% {
-    transform: translate3d(20px, 40px, 0) rotate(270deg);
-  }
+
+    0%,
+    100% {
+        transform: translate3d(0, 0, 0) rotate(0deg);
+    }
+
+    25% {
+        transform: translate3d(20px, 40px, 0) rotate(90deg);
+    }
+
+    50% {
+        transform: translate3d(-20px, 80px, 0) rotate(180deg);
+    }
+
+    75% {
+        transform: translate3d(20px, 40px, 0) rotate(270deg);
+    }
 }
 
 .mapleLeaf {
-  will-change: transform;
-  animation: mapleFloat 8s ease-in-out infinite;
+    will-change: transform;
+    animation: mapleFloat 8s ease-in-out infinite;
+}
+
+.mapleLeafSlow {
+    animation: mapleFloat 12s ease-in-out infinite;
+}
+
+.mapleLeafMedium {
+    animation: mapleFloat 8s ease-in-out infinite;
+}
+
+.mapleLeafFast {
+    animation: mapleFloat 4s ease-in-out infinite;
+}
+
+.mapleLeaf3D {
+    animation: mapleFloat3D 10s ease-in-out infinite;
+    perspective: 400px;
+}
+
+@keyframes mapleFloat3D {
+
+    0%,
+    100% {
+        transform: translate3d(0, 0, 0) rotateY(0deg) rotateZ(0deg);
+    }
+
+    25% {
+        transform: translate3d(30px, 60px, 40px) rotateY(60deg) rotateZ(90deg);
+    }
+
+    50% {
+        transform: translate3d(-30px, 120px, -40px) rotateY(120deg) rotateZ(180deg);
+    }
+
+    75% {
+        transform: translate3d(30px, 60px, 40px) rotateY(180deg) rotateZ(270deg);
+    }
 }

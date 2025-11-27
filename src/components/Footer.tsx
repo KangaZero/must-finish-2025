@@ -43,7 +43,7 @@ export const Footer = () => {
         <Row gap="12" vertical="center">
           {social.map(
             (item) => item.name === "GitHub" && githubData && !isError && (
-              <Badge href={item.link} icon="github" id="github-followers" children={<StatusIndicator color={isLoading ? "gray" : "green"} />} title={`${isLoading ? "Loading..." : githubData?.followers}`} effect={false} arrow={false} paddingX="8" paddingY="4" />
+              <Badge key={item.name} href={item.link} icon="github" id="github-followers" children={<StatusIndicator color={isLoading ? "gray" : "green"} />} title={`${isLoading ? "Loading..." : githubData?.followers}`} effect={false} arrow={false} paddingX="8" paddingY="4" />
                 // <IconButton
                 //   key={item.name}
                 //   href={item.link}

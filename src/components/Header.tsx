@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { Fade, Flex, Line, Row, ToggleButton, Animation, Icon, IconButton, HoverCard, HeadingNav, Avatar, Column, Text } from "@once-ui-system/core";
+import { Fade, Flex, Line, Row, ToggleButton, Animation, Icon, IconButton, HoverCard, HeadingNav, Avatar, Column, Text, StyleOverlay } from "@once-ui-system/core";
 import {
   Map,
   MapMarker,
@@ -223,6 +223,10 @@ export const Header = () => {
                   <ThemeToggle />
                 </>
               )}
+              <Line background="neutral-alpha-medium" vert maxHeight="24" />
+              <StyleOverlay minHeight={25} overflowY="auto">
+                <IconButton tooltip="Open style settings" icon="sun" variant="ghost" />
+              </StyleOverlay>
               {display.menuAccordion && (
                 <>
                   <Line background="neutral-alpha-medium" vert maxHeight="24" />

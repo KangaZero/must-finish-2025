@@ -1,0 +1,5 @@
+.parallax-root { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+.parallax-item { will-change: transform; pointer-events: none; }
+@media (prefers-reduced-motion: reduce) {
+  .parallax-item { transform: none !important; transition: none !important; }
+}
