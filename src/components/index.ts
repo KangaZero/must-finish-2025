@@ -1,4 +1,5 @@
 export { Header } from "@/components/Header";
+export { CustomHeadingNav } from "@/components/CustomHeadingNav";
 export { Footer } from "@/components/Footer";
 export { Mailchimp } from "@/components/Mailchimp";
 export { ProjectCard } from "@/components/ProjectCard";

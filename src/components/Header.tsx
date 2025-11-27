@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { Fade, Flex, Line, Row, ToggleButton, Animation, Icon, HoverCard, Avatar, Column, Text } from "@once-ui-system/core";
+import { Fade, Flex, Line, Row, ToggleButton, Animation, Icon, IconButton, HoverCard, HeadingNav, Avatar, Column, Text } from "@once-ui-system/core";
 import {
   Map,
   MapMarker,
@@ -18,6 +18,7 @@ import { routes, display, person, about, blog, work, gallery } from "@/resources
 import { ThemeToggle } from "./ThemeToggle";
 import styles from "./Header.module.scss";
 import React from "react";
+import { CustomHeadingNav } from "./CustomHeadingNav";
 
 
 type TimeDisplayProps = {
@@ -107,7 +108,7 @@ export const Header = () => {
                   <Map className="border-4 rounded-sm" zoom={12} center={person.locationCoordinates} style={{ height: "200px", width: "100%" }}>
                     <MapZoomControl className="z-20 top-auto right-1 bottom-1 left-auto" />
                     <MapLocateControl className="z-20 top-1" />
-                    <MapTileLayer zIndex={1} darkUrl="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}"/>
+                    <MapTileLayer zIndex={1} darkUrl="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}" />
                     <MapCircle center={person.locationCoordinates} radius={200} />
                     <MapMarker key={person.location.split('/')[1]} position={person.locationCoordinates} icon={<span className="text-sm">🦑</span>}>
                       <MapPopup>Hey this is where I work at!</MapPopup>
@@ -249,6 +250,7 @@ export const Header = () => {
           </Flex>
         </Flex>
       </Row>
+      <CustomHeadingNav />
     </>
   );
 };

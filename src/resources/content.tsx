@@ -1,5 +1,5 @@
 import { About, Blog, Gallery, Home, Newsletter, Person, Social, Work } from "@/types";
-import { Line, Logo, Row, Text } from "@once-ui-system/core";
+import { Line, Logo, Row, Text} from "@once-ui-system/core";
 
 const person: Person = {
   firstName: "Samuel Wai Weng",
@@ -79,13 +79,11 @@ const home: Home = {
     <Row>
       Created by{" "}
       <Logo
-        dark
         wordmark="/trademarks/kanga-zero.svg"
         brand={{
           copy: true,
           url: social.find((item) => item.name === "GitHub")?.link
         }}
-        // popover="auto"
         about="KangaZero logo"
         href={social.find((item) => item.name === "GitHub")?.link}
         style={{ display: "inline-flex", top: "0.25em", marginLeft: "0.55em", scale: "3" }}

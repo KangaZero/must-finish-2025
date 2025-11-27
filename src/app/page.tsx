@@ -16,7 +16,7 @@ import {
   CodeBlock,
 } from "@once-ui-system/core";
 import { home, about, person, baseURL, routes } from "@/resources";
-import { Mailchimp } from "@/components";
+import { Mailchimp} from "@/components";
 import { Projects } from "@/components/work/Projects";
 import { Posts } from "@/components/blog/Posts";
 
@@ -71,7 +71,7 @@ export default function Home() {
           }}
         />
         <Column fillWidth horizontal="center" gap="m">
-          <Column maxWidth="s" horizontal="center" align="center">
+          <Column maxWidth="s" horizontal="center" align="center" position="relative">
             {home.featured.display && (
               <RevealFx
                 fillWidth

@@ -116,17 +116,16 @@ export default async function RootLayout({
           horizontal="center"
         >
           <div className="fixed inset-0 pointer-events-none z-0">
-            {[...Array(12)].map((_, i) => (
+            {[...Array(16)].map((_, i) => (
               <div
                 key={i}
-                className={styles["maple-leaf"]}
+                className={styles["mapleLeaf"]}
                 style={{
                   position: "absolute",
                   fontSize: "2rem",
                   opacity: 0.4,
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
-                  // animation: `maple-float ${5 + Math.random() * 5}s ease-in-out infinite`,
+                  left: `${Math.random() * 95}%`,
+                  top: `${Math.random() * 95}%`,
                   animationDelay: `${Math.random() * 5}s`,
                 }}
               >
