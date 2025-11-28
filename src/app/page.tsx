@@ -15,15 +15,19 @@ import {
   Icon,
   CodeBlock,
 } from "@once-ui-system/core";
-import { home, about, person, baseURL, routes } from "@/resources";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { type Metadata } from "next";
+
+import { home, about, person, baseURL, userSettings, routes } from "@/resources";
+
 import { Mailchimp } from "@/components";
 import { Projects } from "@/components/work/Projects";
 import { Posts } from "@/components/blog/Posts";
 import DrawingPanel from "@/components/DrawingPanel";
+import MagicBento from "@/components/MagicBento";
 
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
-export async function generateMetadata() {
+export async function generateMetadata(): Promise<Metadata> {
   return Meta.generate({
     title: home.title,
     description: home.description,
@@ -202,7 +206,16 @@ export default function Home() {
               </Column>
           )
         } */}
-        <Projects range={[2]} />
+        <MagicBento
+        textAutoHide={true}
+        // enableStars={userSettings.isEffectsEnabled}
+        // enableBorderGlow={userSettings.isEffectsEnabled}
+        // enableMagnetism={userSettings.isEffectsEnabled}
+        // enableSpotlight={userSettings.isEffectsEnabled}
+        // enableTilt={userSettings.isEffectsEnabled}
+        disableAnimations={!userSettings.isEffectsEnabled}
+        />
+        {/*<Projects range={[2]} />*/}
         <Column fillWidth gap="xl" marginTop="xl">
           <Column fillWidth horizontal="center" gap="m" paddingBottom="m">
             <Heading variant="display-strong-m" wrap="balance">

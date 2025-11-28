@@ -1,5 +1,9 @@
-import { About, Blog, Gallery, Home, Newsletter, Person, Social, Work } from "@/types";
+import type { About, Blog, Gallery, Home, Newsletter, Person, Social, Work, UserSettings } from "@/types";
 import { Line, Logo, Row, Text, TypeFx } from "@once-ui-system/core";
+
+const userSettings: UserSettings = {
+  isEffectsEnabled: true,
+}
 
 const person: Person = {
   firstName: "Samuel Wai Weng",
@@ -325,4 +329,4 @@ const gallery: Gallery = {
   ],
 };
 
-export { person, social, newsletter, home, about, blog, work, gallery };
+export { userSettings, person, social, newsletter, home, about, blog, work, gallery };

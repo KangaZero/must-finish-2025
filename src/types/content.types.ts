@@ -7,6 +7,10 @@ import { zones } from "tzdata";
  */
 export type IANATimeZone = Extract<keyof typeof zones, string>; // Narrow to string keys for React usage
 
+export type UserSettings = {
+  isEffectsEnabled: boolean;
+}
+
 /**
  * Represents a person featured in the portfolio.
  */

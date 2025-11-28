@@ -224,7 +224,9 @@ export const Header = () => {
                 </>
               )}
               <Line background="neutral-alpha-medium" vert maxHeight="24" />
-              <StyleOverlay minHeight={25} overflowY="auto">
+              <StyleOverlay 
+                
+                minHeight={25} overflowY="auto">
                 <IconButton tooltip="Open style settings" icon="sun" variant="ghost" />
               </StyleOverlay>
               {display.menuAccordion && (
