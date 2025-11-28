@@ -1,0 +1,575 @@
+.drawingPanel {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  gap: var(--spacing-m);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  flex-wrap: wrap;
+  gap: var(--spacing-s);
+}
+
+.headerActions {
+  display: flex;
+  gap: var(--spacing-s);
+  flex-wrap: wrap;
+}
+
+.mainContainer {
+  display: flex;
+  width: 100%;
+  /* gap: var(--spacing-m); */
+  min-height: 600px;
+
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    min-height: auto;
+  }
+}
+
+.toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-s);
+  /* padding: var(--spacing-m); */
+  background: var(--neutral-alpha-weak);
+  border-radius: var(--radius-m);
+  width: 240px;
+  max-height: 600px;
+  overflow-y: auto;
+  flex-shrink: 0;
+
+  /* Custom scrollbar */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--neutral-alpha-medium);
+    border-radius: var(--radius-s);
+
+    &:hover {
+      background: var(--neutral-alpha-strong);
+    }
+  }
+
+  @media (max-width: 1024px) {
+    width: 100%;
+    max-height: none;
+  }
+
+  @media (max-width: 640px) {
+    padding: var(--spacing-s);
+  }
+}
+
+.toolSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  margin-top: var(--spacing-m);
+
+  &:first-child {
+    margin-top: 0;
+  }
+}
+
+.toolLabel {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--neutral-strong);
+  margin-bottom: var(--spacing-xs);
+}
+
+.colorPicker {
+  width: 100%;
+  height: 40px;
+  border: 2px solid var(--neutral-alpha-medium);
+  border-radius: var(--radius-s);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: transparent;
+
+  &:hover {
+    transform: scale(1.02);
+    border-color: var(--accent);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  &:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+}
+
+.slider {
+  width: 100%;
+  height: 6px;
+  background: var(--neutral-alpha-medium);
+  border-radius: var(--radius-s);
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+
+  &:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+  }
+
+  &::-webkit-slider-thumb {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    background: var(--accent);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+    &:hover {
+      transform: scale(1.2);
+    }
+
+    &:active {
+      transform: scale(1.1);
+    }
+  }
+
+  &::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    background: var(--accent);
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    transition: transform 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+    &:hover {
+      transform: scale(1.2);
+    }
+
+    &:active {
+      transform: scale(1.1);
+    }
+  }
+
+  &::-ms-thumb {
+    width: 18px;
+    height: 18px;
+    background: var(--accent);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+    &:hover {
+      transform: scale(1.2);
+    }
+  }
+}
+
+.fileInput {
+  width: 100%;
+  font-size: 12px;
+  padding: var(--spacing-xs);
+  border: 2px dashed var(--neutral-alpha-medium);
+  border-radius: var(--radius-s);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: var(--surface);
+
+  &:hover {
+    border-color: var(--accent);
+    background: var(--neutral-alpha-weak);
+  }
+
+  &:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-color: var(--accent);
+  }
+
+  @media (max-width: 640px) {
+    font-size: 10px;
+    padding: var(--spacing-xxs);
+  }
+}
+
+.canvasContainer {
+  flex: 1;
+  background: var(--neutral-alpha-weak);
+  border-radius: var(--radius-m);
+  overflow: hidden;
+  position: relative;
+  box-shadow: var(--shadow-m);
+  min-height: 400px;
+
+  @media (max-width: 1024px) {
+    min-height: 500px;
+    width: 100%;
+  }
+
+  @media (max-width: 768px) {
+    min-height: 400px;
+  }
+
+  @media (max-width: 640px) {
+    min-height: 300px;
+    border-radius: var(--radius-s);
+  }
+}
+
+.canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: white;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+
+  &:focus {
+    outline: 3px solid var(--accent);
+    outline-offset: -3px;
+  }
+
+  &.penCursor {
+    cursor: crosshair;
+  }
+
+  &.eraserCursor {
+    cursor: pointer;
+  }
+
+  &.textCursor {
+    cursor: text;
+  }
+
+  &.selectCursor {
+    cursor: default;
+  }
+
+  &.shapeCursor {
+    cursor: crosshair;
+  }
+}
+
+.layersPanel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-s);
+  /* padding: var(--spacing-m); */
+  background: var(--neutral-alpha-weak);
+  border-radius: var(--radius-m);
+  width: 240px;
+  max-height: 600px;
+  overflow-y: auto;
+  flex-shrink: 0;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--neutral-alpha-medium);
+    border-radius: var(--radius-s);
+
+    &:hover {
+      background: var(--neutral-alpha-strong);
+    }
+  }
+
+  @media (max-width: 1024px) {
+    width: 100%;
+    max-height: 300px;
+  }
+
+  @media (max-width: 640px) {
+    padding: var(--spacing-s);
+    max-height: 250px;
+  }
+}
+
+.layerItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-s);
+  padding: var(--spacing-s);
+  background: var(--surface);
+  border-radius: var(--radius-s);
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+
+  &:hover {
+    background: var(--neutral-alpha-weak);
+    transform: translateX(2px);
+    border-color: var(--neutral-alpha-medium);
+  }
+
+  &:focus-within {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 640px) {
+    padding: var(--spacing-xs);
+  }
+}
+
+.layerText {
+  flex: 1;
+  font-size: var(--font-size-xs);
+  color: var(--neutral-strong);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.emptyLayers {
+  text-align: center;
+  padding: var(--spacing-l);
+  color: var(--neutral-alpha-medium);
+  font-size: var(--font-size-xs);
+  font-style: italic;
+
+  @media (max-width: 640px) {
+    padding: var(--spacing-m);
+  }
+}
+
+/* .textInputSection {
+  margin-top: var(--spacing-m);
+  padding-top: var(--spacing-m);
+  border-top: 1px solid var(--neutral-alpha-weak);
+} */
+
+/* Accessibility - Visually hidden but screen reader accessible */
+.visuallyHidden,
+:global(.visually-hidden) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Focus visible styles are handled by once-ui */
+
+/* Responsive breakpoints */
+@media (max-width: 1200px) {
+  .toolbar,
+  .layersPanel {
+    width: 220px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .mainContainer {
+    flex-direction: column;
+    gap: var(--spacing-s);
+  }
+
+  .toolbar,
+  .layersPanel {
+    width: 100%;
+    max-height: none;
+  }
+
+  .canvasContainer {
+    order: 1;
+  }
+
+  .toolbar {
+    order: 0;
+  }
+
+  .layersPanel {
+    order: 2;
+    max-height: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .headerActions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .canvasContainer {
+    min-height: 350px;
+  }
+}
+
+@media (max-width: 640px) {
+  .header {
+    gap: var(--spacing-xs);
+  }
+
+  .headerActions {
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+
+    :global(button) {
+      flex: 1 1 calc(50% - var(--spacing-xs));
+      min-width: 0;
+    }
+  }
+
+  .canvasContainer {
+    min-height: 300px;
+    border-radius: var(--radius-s);
+  }
+
+  .toolbar,
+  .layersPanel {
+    padding: var(--spacing-s);
+    border-radius: var(--radius-s);
+  }
+
+  .toolSection {
+    margin-top: var(--spacing-s);
+  }
+}
+
+@media (max-width: 480px) {
+  .mainContainer {
+    gap: var(--spacing-xs);
+  }
+
+  .canvasContainer {
+    min-height: 250px;
+  }
+
+  .layersPanel {
+    max-height: 200px;
+  }
+
+  .headerActions {
+    :global(button) {
+      font-size: 12px;
+      padding: var(--spacing-xs);
+    }
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .colorPicker {
+    height: 48px; /* Larger touch target */
+  }
+
+  .slider {
+    height: 8px;
+
+    &::-webkit-slider-thumb {
+      width: 24px;
+      height: 24px;
+    }
+
+    &::-moz-range-thumb {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  .layerItem {
+    padding: var(--spacing-s) var(--spacing-m);
+    min-height: 44px; /* Minimum touch target size */
+  }
+
+  :global(button) {
+    min-height: 44px;
+  }
+}
+
+/* Print styles */
+@media print {
+  .toolbar,
+  .layersPanel,
+  .header {
+    display: none;
+  }
+
+  .canvasContainer {
+    box-shadow: none;
+    border: 1px solid #000;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .colorPicker,
+  .fileInput,
+  .layerItem {
+    border-width: 2px;
+  }
+
+  .canvas:focus {
+    outline-width: 4px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  :global(*),
+  :global(*::before),
+  :global(*::after) {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .layerItem {
+    transform: none;
+  }
+
+  .colorPicker,
+  .slider::-webkit-slider-thumb,
+  .slider::-moz-range-thumb {
+    transform: none !important;
+  }
+}
+
+/* Dark mode specific adjustments */
+@media (prefers-color-scheme: dark) {
+  .canvas {
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
+  }
+
+  .fileInput {
+    background: rgba(255, 255, 255, 0.05);
+  }
+}
+
+/* Light mode specific adjustments */
+@media (prefers-color-scheme: light) {
+  .canvas {
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+  }
+}

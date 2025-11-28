@@ -19,6 +19,7 @@ import { home, about, person, baseURL, routes } from "@/resources";
 import { Mailchimp } from "@/components";
 import { Projects } from "@/components/work/Projects";
 import { Posts } from "@/components/blog/Posts";
+import DrawingPanel from "@/components/DrawingPanel";
 
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
@@ -39,18 +40,24 @@ export default function Home() {
       dropdown={
         <Column gap="2" padding="4" minWidth={10}>
           <Option
-            hasPrefix={<Icon size="xs" name="edit" onBackground="neutral-weak" />}
+            hasPrefix={
+              <Icon size="xs" name="edit" onBackground="neutral-weak" />
+            }
             label="Edit"
             value="edit"
           />
           <Option
-            hasPrefix={<Icon size="xs" name="copy" onBackground="neutral-weak" />}
+            hasPrefix={
+              <Icon size="xs" name="copy" onBackground="neutral-weak" />
+            }
             label="Duplicate"
             value="duplicate"
           />
           <Line marginY="2" />
           <Option
-            hasPrefix={<Icon size="xs" name="delete" onBackground="danger-medium" />}
+            hasPrefix={
+              <Icon size="xs" name="delete" onBackground="danger-medium" />
+            }
             danger
             label="Delete"
             value="delete"
@@ -73,7 +80,12 @@ export default function Home() {
           }}
         />
         <Column fillWidth horizontal="center" gap="m">
-          <Column maxWidth="s" horizontal="center" align="center" position="relative">
+          <Column
+            maxWidth="s"
+            horizontal="center"
+            align="center"
+            position="relative"
+          >
             {home.featured.display && (
               <RevealFx
                 fillWidth
@@ -95,19 +107,39 @@ export default function Home() {
                 </Badge>
               </RevealFx>
             )}
-            <RevealFx translateY="4" fillWidth horizontal="center" paddingBottom="16">
+            <RevealFx
+              translateY="4"
+              fillWidth
+              horizontal="center"
+              paddingBottom="16"
+            >
               <Heading wrap="balance" variant="display-strong-l">
                 {home.headline}
               </Heading>
             </RevealFx>
-            <RevealFx translateY="8" delay={0.2} fillWidth horizontal="center" paddingBottom="32">
-              <Text wrap="balance" onBackground="neutral-weak" variant="heading-default-xl">
+            <RevealFx
+              translateY="8"
+              delay={0.2}
+              fillWidth
+              horizontal="center"
+              paddingBottom="32"
+            >
+              <Text
+                wrap="balance"
+                onBackground="neutral-weak"
+                variant="heading-default-xl"
+              >
                 {home.subline}
               </Text>
             </RevealFx>
-                      </Column>
+          </Column>
           <Column horizontal="center" align="center" gap="16">
-            <RevealFx paddingTop="12" delay={0.4} horizontal="center" paddingLeft="12">
+            <RevealFx
+              paddingTop="12"
+              delay={0.4}
+              horizontal="center"
+              paddingLeft="12"
+            >
               <CodeBlock
                 lineNumbers={true}
                 copyButton={true}
@@ -116,9 +148,9 @@ export default function Home() {
                     code: `// To visit the About page, type this in your browser console:\nwindow.location.href = '/about';`,
                     language: "typescript",
                     startLineNumber: 1,
-                    highlight: '2',
-                    label: "aboutMe.ts"
-                  }
+                    highlight: "2",
+                    label: "aboutMe.ts",
+                  },
                 ]}
               />
               {/* <Button
@@ -145,7 +177,7 @@ export default function Home() {
             </RevealFx>
           </Column>
         </Column>
-          {/* <RevealFx translateY="16" delay={0.6}>
+        {/* <RevealFx translateY="16" delay={0.6}>
             <Projects range={[1, 1]} />
           </RevealFx> */}
         {/* {
@@ -170,10 +202,29 @@ export default function Home() {
               </Column>
           )
         } */}
-          {/* <Projects range={[2]} />
-        <Mailchimp /> */}
-      </Column >
+        <Projects range={[2]} />
+        <Column fillWidth gap="xl" marginTop="xl">
+          <Column fillWidth horizontal="center" gap="m" paddingBottom="m">
+            <Heading variant="display-strong-m" wrap="balance">
+              Creative Drawing Panel
+            </Heading>
+            <Column maxWidth={40}>
+              <Text
+                wrap="balance"
+                onBackground="neutral-weak"
+                variant="body-default-l"
+              >
+                Unleash your creativity with our interactive drawing panel.
+                Draw, add shapes, upload images, and create stunning digital
+                art.
+              </Text>
+            </Column>
+          </Column>
+          <DrawingPanel />
+        </Column>
+        {/* <Mailchimp />  */}
+      </Column>
       <ReactQueryDevtools initialIsOpen={false} />
-    </ContextMenu >
+    </ContextMenu>
   );
 }

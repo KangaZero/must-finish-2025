@@ -13,8 +13,6 @@ export const Footer = () => {
   const currentYear = new Date().getFullYear();
   const { data: githubData, isLoading, isError } = getGithubProfile(person.githubUsername);
 
-  console.trace(githubData)
-
   return (
     <Row as="footer" fillWidth padding="8" horizontal="center" s={{ direction: "column" }}>
       <Row
