@@ -15,6 +15,7 @@ import {
   SortableContext,
   rectSortingStrategy,
   useSortable,
+  rectSwappingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import "./MagicBento.css";
@@ -24,6 +25,7 @@ export interface BentoCardProps {
   title?: string;
   description?: string;
   label?: string;
+  image?: string;
   textAutoHide?: boolean;
   disableAnimations?: boolean;
 }
@@ -90,6 +92,20 @@ const cardData: Array<BentoCardProps & { id: string }> = [
     description: "Enterprise-grade protection",
     label: "Protection",
   },
+  {
+      id: "card-7",
+      color: "#060010",
+      title: "Test",
+      description: "Amazing",
+      label: "Protection",
+    },
+    {
+      id: "card-8",
+      color: "#060010",
+      title: "Security",
+      description: "Enterprise-grade protection",
+      label: "Protection",
+    }
 ];
 
 const createParticleElement = (
@@ -725,7 +741,6 @@ const SortableCard: React.FC<{
             );
           };
 
-          el.addEventListener("mousemove", handleMouseMove);
           el.addEventListener("mouseleave", handleMouseLeave);
           el.addEventListener("click", handleClick);
         }}
