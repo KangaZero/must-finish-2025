@@ -13,6 +13,9 @@ import {
   useTheme,
 } from "@once-ui-system/core";
 import styles from "./DrawingPanel.module.scss";
+import { Dialog } from "@once-ui-system/core";
+import { isContext } from "node:vm";
+import StarBorder from "./StarBorder";
 
 // Base types for drawing data
 interface LineData {
@@ -112,6 +115,7 @@ export default function DrawingPanel() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isDrawing, setIsDrawing] = useState(false);
+  const [isTextDialogOpen, setIsTextDialogOpen] = useState(false);
   const [currentTool, setCurrentTool] = useState<Tool>("pen");
   const [currentColor, setCurrentColor] = useState("#000000");
   const [lineWidth, setLineWidth] = useState(2);
@@ -592,7 +596,14 @@ export default function DrawingPanel() {
       ctx.lineCap = "round";
       ctx.lineJoin = "round";
 
-      if (currentTool === "rectangle") {
+      if (currentTool === "pen") {
+        ctx.beginPath();
+        ctx.moveTo(currentPath[0].x, currentPath[0].y);
+        for (let i = 1; i < currentPath.length; i++) {
+          ctx.lineTo(currentPath[i].x, currentPath[i].y);
+        }
+        ctx.stroke();
+      } else if (currentTool === "rectangle") {
         const width = currentMousePos.x - startPos.x;
         const height = currentMousePos.y - startPos.y;
         ctx.strokeRect(startPos.x, startPos.y, width, height);
@@ -631,6 +642,17 @@ export default function DrawingPanel() {
     selection,
     drawSelection,
   ]);
+
+  const resetSelection = () => {
+    setSelection({
+      objectId: null,
+      isDragging: false,
+      isResizing: false,
+      isRotating: false,
+      dragStart: null,
+      resizeHandle: null,
+    });
+  };
 
   const getMousePos = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current;
@@ -705,23 +727,18 @@ export default function DrawingPanel() {
           }
         }
 
-        if (!selected) {
-          setSelection({
-            objectId: null,
-            isDragging: false,
-            isResizing: false,
-            isRotating: false,
-            dragStart: null,
-            resizeHandle: null,
-          });
+        if (!selected || currentTool !== "select") {
+          resetSelection();
         }
       } else if (currentTool === "pen") {
+        setStartPos(pos);
         setCurrentPath([pos]);
       } else if (currentTool === "rectangle" || currentTool === "circle") {
         setStartPos(pos);
         setCurrentMousePos(pos);
       } else if (currentTool === "text") {
         setTextPosition(pos);
+        setIsTextDialogOpen(true);
       } else if (currentTool === "eraser") {
         setCurrentPath([pos]);
       }
@@ -1270,7 +1287,11 @@ export default function DrawingPanel() {
       // Tool shortcuts
       if (e.key === "p") {
         setCurrentTool("pen");
-      } else if (e.key === "e") {
+      } else {
+        resetSelection();
+      }
+
+      if (e.key === "e") {
         setCurrentTool("eraser");
       } else if (e.key === "r") {
         setCurrentTool("rectangle");
@@ -1395,7 +1416,10 @@ export default function DrawingPanel() {
 
           <ToggleButton
             selected={currentTool === "select"}
-            onClick={() => setCurrentTool("select")}
+            onClick={() => {
+              resetSelection();
+              setCurrentTool("select");
+            }}
             size="m"
             fillWidth
             aria-label="Select tool"
@@ -1407,7 +1431,10 @@ export default function DrawingPanel() {
 
           <ToggleButton
             selected={currentTool === "pen"}
-            onClick={() => setCurrentTool("pen")}
+            onClick={() => {
+              resetSelection();
+              setCurrentTool("pen");
+            }}
             size="m"
             fillWidth
             aria-label="Pen tool for freehand drawing"
@@ -1419,7 +1446,10 @@ export default function DrawingPanel() {
 
           <ToggleButton
             selected={currentTool === "eraser"}
-            onClick={() => setCurrentTool("eraser")}
+            onClick={() => {
+              resetSelection();
+              setCurrentTool("eraser");
+            }}
             size="m"
             fillWidth
             aria-label="Eraser tool"
@@ -1431,7 +1461,10 @@ export default function DrawingPanel() {
 
           <ToggleButton
             selected={currentTool === "rectangle"}
-            onClick={() => setCurrentTool("rectangle")}
+            onClick={() => {
+              resetSelection();
+              setCurrentTool("rectangle");
+            }}
             size="m"
             fillWidth
             aria-label="Rectangle shape tool"
@@ -1443,7 +1476,10 @@ export default function DrawingPanel() {
 
           <ToggleButton
             selected={currentTool === "circle"}
-            onClick={() => setCurrentTool("circle")}
+            onClick={() => {
+              resetSelection();
+              setCurrentTool("circle");
+            }}
             size="m"
             fillWidth
             aria-label="Circle shape tool"
@@ -1455,7 +1491,10 @@ export default function DrawingPanel() {
 
           <ToggleButton
             selected={currentTool === "text"}
-            onClick={() => setCurrentTool("text")}
+            onClick={() => {
+              resetSelection();
+              setCurrentTool("text");
+            }}
             size="m"
             fillWidth
             aria-label="Text tool"
@@ -1480,7 +1519,19 @@ export default function DrawingPanel() {
               id="color-picker"
               type="color"
               value={currentColor}
-              onChange={(e) => setCurrentColor(e.target.value)}
+              onChange={(e) => {
+                setCurrentColor(e.target.value);
+                if (currentTool === "select" && selection.objectId) {
+                  setObjects((prev) =>
+                    prev.map((obj) => {
+                      if (obj.id === selection.objectId) {
+                        return { ...obj, color: e.target.value };
+                      }
+                      return obj;
+                    }),
+                  );
+                }
+              }}
               className={styles.colorPicker}
               aria-label="Color picker for drawing"
             />
@@ -1503,7 +1554,19 @@ export default function DrawingPanel() {
               min="1"
               max="20"
               value={lineWidth}
-              onChange={(e) => setLineWidth(Number(e.target.value))}
+              onChange={(e) => {
+                setLineWidth(Number(e.target.value));
+                if (currentTool === "select" && selection.objectId) {
+                  setObjects((prev) =>
+                    prev.map((obj) => {
+                      if (obj.id === selection.objectId) {
+                        return { ...obj, lineWidth: Number(e.target.value) };
+                      }
+                      return obj;
+                    }),
+                  );
+                }
+              }}
               className={styles.slider}
               aria-valuemin={1}
               aria-valuemax={20}
@@ -1759,76 +1822,7 @@ export default function DrawingPanel() {
               aria-label="Upload image to canvas"
             />
           </div>
-          
-          {textPosition && (
-            <div 
-              style={{
-                position: 'absolute',
-                top: '16px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                zIndex: 1000,
-                background: 'var(--surface)',
-                padding: 'var(--spacing-m)',
-                borderRadius: 'var(--radius-m)',
-                boxShadow: 'var(--shadow-l)',
-                minWidth: '300px',
-                maxWidth: '90%',
-              }} 
-            >
-              <Text
-                variant="label-default-s"
-                as="h3"
-                style={{ marginBottom: "8px" }}
-              >
-                Add Text
-              </Text>
-              <label htmlFor="text-input" className="visually-hidden">
-                Enter text to add to canvas
-              </label>
-              <Input
-                id="text-input"
-                value={textInput}
-                onChange={(e) => setTextInput(e.target.value)}
-                placeholder="Enter text"
-                style={{ marginBottom: "8px" }}
-                aria-label="Text input for canvas"
-                autoFocus
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    handleAddText();
-                  }else if (e.key === "Escape") {
-                    setTextInput("");
-                    setTextPosition(null);
-                  }
-                }}
-              />
-              <Row gap="s">
-              <Button
-                onClick={handleAddText}
-                size="s"
-                fillWidth
-                aria-label="Add text to canvas"
-              >
-                Add Text
-              </Button>
-              <Button
-                onClick={() => {
-                    setTextInput("");
-                    setTextPosition(null);
-                }}
-                size="s"
-                fillWidth
-                variant="secondary"
-                aria-label="Cancel text input"
-              >
-                Cancel
-              </Button>
-              </Row>
-            </div>
-          )}
         </Column>
-
         {/* Canvas */}
         <Column
           fillWidth
@@ -1974,6 +1968,86 @@ export default function DrawingPanel() {
           (Circle), T (Text), V (Select)
         </Text>
       </Column>
+      <Dialog
+        isOpen={isTextDialogOpen}
+        onClose={() => setIsTextDialogOpen(false)}
+        title="Add Text"
+        maxWidth={48}
+        footer={
+          <Row gap="s">
+            <Button
+              onClick={() => {
+                handleAddText();
+                setIsTextDialogOpen(false);
+              }}
+              size="s"
+              fillWidth
+              aria-label="Add text to canvas"
+            >
+              Add Text
+            </Button>
+            <Button
+              onClick={() => {
+                setTextInput("");
+                setTextPosition(null);
+                setIsTextDialogOpen(false);
+              }}
+              size="s"
+              fillWidth
+              variant="secondary"
+              aria-label="Cancel text input"
+            >
+              Cancel
+            </Button>
+          </Row>
+        }
+      >
+        <Row>
+          <div className={styles.toolSection}>
+            <Text
+              variant="label-default-s"
+              as="h3"
+              style={{ marginBottom: "8px" }}
+            >
+              Color
+            </Text>
+            <label htmlFor="color-picker" className="visually-hidden">
+              Choose drawing color
+            </label>
+            <input
+              id="color-picker"
+              type="color"
+              value={currentColor}
+              onChange={(e) => setCurrentColor(e.target.value)}
+              className={styles.colorPicker}
+              aria-label="Color picker for drawing"
+            />
+          </div>
+        </Row>
+        <label htmlFor="text-input" className="visually-hidden">
+          Enter text to add to canvas
+        </label>
+        <StarBorder as="button" color="orange" speed="3s" thickness={1}>
+          <Input
+            id="text-input"
+            value={textInput}
+            onChange={(e) => setTextInput(e.target.value)}
+            placeholder="Enter text"
+            style={{ marginBottom: "8px" }}
+            aria-label="Text input for canvas"
+            autoFocus
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleAddText();
+              } else if (e.key === "Escape") {
+                setTextInput("");
+                setTextPosition(null);
+                setIsTextDialogOpen(false);
+              }
+            }}
+          />
+        </StarBorder>
+      </Dialog>
     </Column>
   );
 }

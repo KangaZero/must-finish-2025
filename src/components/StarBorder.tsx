@@ -5,7 +5,7 @@ type StarBorderProps<T extends React.ElementType> = React.ComponentPropsWithoutR
   as?: T;
   className?: string;
   children?: React.ReactNode;
-  color?: string;
+  color?: React.CSSProperties['color'];
   speed?: React.CSSProperties['animationDuration'];
   thickness?: number;
 };
