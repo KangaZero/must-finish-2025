@@ -798,8 +798,24 @@ const MagicBento: React.FC<BentoProps> = ({
   const gridRef = useRef<HTMLDivElement>(null);
   const isMobile = useMobileDetection();
   const shouldDisableAnimations = disableAnimations || isMobile;
-  const [items, setItems] = useState(cardData);
-
+  const [items, setItems] = useState(() => {
+    if (validateUniqueIds(cardData)) {
+      return cardData;
+    }
+    return [];
+  });
+   
+   function validateUniqueIds(cards: { id: string }[]) {
+     const seen = new Set<string>();
+     for (const card of cards) {
+       if (seen.has(card.id)) {
+         throw new Error(`Duplicate id found: ${card.id}`); }
+       seen.add(card.id);
+     }
+     return true;
+   }
+   
+   // Usage (call this once after cardData is defined):
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {

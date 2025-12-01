@@ -9,7 +9,7 @@ export type IANATimeZone = Extract<keyof typeof zones, string>; // Narrow to str
 
 export type UserSettings = {
   isEffectsEnabled: boolean;
-}
+};
 
 /**
  * Represents a person featured in the portfolio.
@@ -55,7 +55,7 @@ export type Newsletter = {
  */
 export type Social = Array<{
   /** Name of the social platform */
-  name: 'GitHub' | 'LinkedIn' | 'Instagram' | 'Threads' | 'Email';
+  name: "GitHub" | "LinkedIn" | "Instagram" | "Threads" | "Email";
   /** Icon for the social platform
    * The icons are a part of "src/resources/icons.ts" file.
    * If you need a different icon, import it there and reference it everywhere else
@@ -245,4 +245,53 @@ export interface Gallery extends BasePageConfig {
     /** Image orientation (horizontal/vertical) */
     orientation: string;
   }>;
+}
+
+type AchievementTitle =
+  | "New Beginnings"
+  | "Eos"
+  | "Fashion Police"
+  | "Snoopy Detective"
+  | "Social Stalker"
+  | "Go Touch Grass";
+
+export type Achievement =
+  | {
+      id: number;
+      title: AchievementTitle;
+      image?: {
+        /** Image source path */
+        src: string;
+        /** Image alt text */
+        alt: string;
+        /** Image width ratio */
+        width: number;
+        /** Image height ratio */
+        height: number;
+      };
+      description: string;
+      rarity: "common" | "uncommon" | "rare" | "legendary";
+      isUnlocked: true;
+      UnlockedAt: Date;
+    }
+  | {
+      id: number;
+      title: AchievementTitle;
+      image?: {
+        /** Image source path */
+        src: string;
+        /** Image alt text */
+        alt: string;
+        /** Image width ratio */
+        width: number;
+        /** Image height ratio */
+        height: number;
+      };
+      description: string;
+      rarity: "common" | "uncommon" | "rare" | "legendary";
+      isUnlocked: false;
+    };
+
+export interface Achievements extends BasePageConfig {
+  achievements: Array<Achievement>;
 }

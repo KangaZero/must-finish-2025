@@ -1,9 +1,20 @@
-import type { About, Blog, Gallery, Home, Newsletter, Person, Social, Work, UserSettings } from "@/types";
+import type {
+  About,
+  Blog,
+  Gallery,
+  Home,
+  Newsletter,
+  Person,
+  Social,
+  Work,
+  UserSettings,
+  Achievement,
+} from "@/types";
 import { Line, Logo, Row, Text, TypeFx } from "@once-ui-system/core";
 
 const userSettings: UserSettings = {
   isEffectsEnabled: true,
-}
+};
 
 const person: Person = {
   firstName: "Samuel Wai Weng",
@@ -66,9 +77,10 @@ const home: Home = {
   label: "Home",
   title: `${person.name}'s Portfolio`,
   description: `Portfolio website showcasing my work as a ${person.role}`,
-  headline:
-    <Text>New year
-      <br/>
+  headline: (
+    <Text>
+      New year
+      <br />
       new{" "}
       <TypeFx
         words={["portfolio", "framework", "trends", "ways to suffer"]}
@@ -76,7 +88,8 @@ const home: Home = {
         hold={2000}
         trigger="instant"
       />
-    </Text>,
+    </Text>
+  ),
   featured: {
     display: true,
     title: (
@@ -97,11 +110,16 @@ const home: Home = {
         wordmark="/trademarks/kanga-zero.svg"
         brand={{
           copy: true,
-          url: social.find((item) => item.name === "GitHub")?.link
+          url: social.find((item) => item.name === "GitHub")?.link,
         }}
         about="KangaZero logo"
         href={social.find((item) => item.name === "GitHub")?.link}
-        style={{ display: "inline-flex", top: "0.25em", marginLeft: "0.55em", scale: "3" }}
+        style={{
+          display: "inline-flex",
+          top: "0.25em",
+          marginLeft: "0.55em",
+          scale: "3",
+        }}
       />
       {/* , where I craft intuitive
       <br /> user experiences. After hours, I build my own projects. */}
@@ -130,9 +148,10 @@ const about: About = {
     title: "Introduction",
     description: (
       <>
-        Selene is a Jakarta-based design engineer with a passion for transforming complex challenges
-        into simple, elegant design solutions. Her work spans digital interfaces, interactive
-        experiences, and the convergence of design and technology.
+        Selene is a Jakarta-based design engineer with a passion for
+        transforming complex challenges into simple, elegant design solutions.
+        Her work spans digital interfaces, interactive experiences, and the
+        convergence of design and technology.
       </>
     ),
   },
@@ -146,12 +165,12 @@ const about: About = {
         role: "Senior Design Engineer",
         achievements: [
           <>
-            Redesigned the UI/UX for the FLY platform, resulting in a 20% increase in user
-            engagement and 30% faster load times.
+            Redesigned the UI/UX for the FLY platform, resulting in a 20%
+            increase in user engagement and 30% faster load times.
           </>,
           <>
-            Spearheaded the integration of AI tools into design workflows, enabling designers to
-            iterate 50% faster.
+            Spearheaded the integration of AI tools into design workflows,
+            enabling designers to iterate 50% faster.
           </>,
         ],
         images: [
@@ -170,12 +189,12 @@ const about: About = {
         role: "Lead Designer",
         achievements: [
           <>
-            Developed a design system that unified the brand across multiple platforms, improving
-            design consistency by 40%.
+            Developed a design system that unified the brand across multiple
+            platforms, improving design consistency by 40%.
           </>,
           <>
-            Led a cross-functional team to launch a new product line, contributing to a 15% increase
-            in overall company revenue.
+            Led a cross-functional team to launch a new product line,
+            contributing to a 15% increase in overall company revenue.
           </>,
         ],
         images: [],
@@ -329,4 +348,60 @@ const gallery: Gallery = {
   ],
 };
 
-export { userSettings, person, social, newsletter, home, about, blog, work, gallery };
+const achievementsList: Array<Achievement> = [
+  {
+    id: 1,
+    title: "New Beginnings",
+    description: "Entered the page for the first time",
+    rarity: "common",
+    isUnlocked: false,
+  },
+  {
+    id: 2,
+    title: "Eos",
+    description: "Changed the theme of the page",
+    rarity: "common",
+    isUnlocked: false,
+  },
+  {
+    id: 3,
+    title: "Fashion Police",
+    description: "Changed the style overlay of the page",
+    rarity: "common",
+    isUnlocked: false,
+  },
+  {
+    id: 4,
+    title: "Snoopy Detective",
+    description: "Found the creator's workplace",
+    rarity: "uncommon",
+    isUnlocked: false,
+  },
+  {
+    id: 5,
+    title: "Social Stalker",
+    description: "Looked at all of the creator's socials",
+    rarity: "uncommon",
+    isUnlocked: false,
+  },
+  {
+    id: 21,
+    title: "Go Touch Grass",
+    description: "Unlocked all achievements",
+    rarity: "legendary",
+    isUnlocked: false,
+  },
+] as const;
+
+export {
+  userSettings,
+  person,
+  social,
+  newsletter,
+  home,
+  about,
+  blog,
+  work,
+  gallery,
+  achievementsList,
+};

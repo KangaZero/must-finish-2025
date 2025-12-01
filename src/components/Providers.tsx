@@ -19,45 +19,47 @@ import {
 } from "@once-ui-system/core";
 import { style, dataStyle } from "../resources";
 import { iconLibrary } from "../resources/icons";
-import {QueryClientProvider, QueryClient} from "@tanstack/react-query";
+import { AchievementsProvider } from "./AchievementsProvider";
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
 export function Providers({ children }: { children: React.ReactNode }) {
-
   const queryClient = new QueryClient();
 
   return (
     <QueryClientProvider client={queryClient}>
-    <LayoutProvider>
-      <ThemeProvider
-        brand={style.brand as Schemes}
-        accent={style.accent as Schemes}
-        neutral={style.neutral as NeutralColor}
-        solid={style.solid as SolidType}
-        solidStyle={style.solidStyle as SolidStyle}
-        border={style.border as BorderStyle}
-        surface={style.surface as SurfaceStyle}
-        transition={style.transition as TransitionStyle}
-        scaling={style.scaling as ScalingSize}
-      >
-        <DataThemeProvider
-          variant={dataStyle.variant as ChartVariant}
-          mode={dataStyle.mode as ChartMode}
-          height={dataStyle.height}
-          axis={{
-            stroke: dataStyle.axis.stroke,
-          }}
-          tick={{
-            fill: dataStyle.tick.fill,
-            fontSize: dataStyle.tick.fontSize,
-            line: dataStyle.tick.line,
-          }}
+      <LayoutProvider>
+        <ThemeProvider
+          brand={style.brand as Schemes}
+          accent={style.accent as Schemes}
+          neutral={style.neutral as NeutralColor}
+          solid={style.solid as SolidType}
+          solidStyle={style.solidStyle as SolidStyle}
+          border={style.border as BorderStyle}
+          surface={style.surface as SurfaceStyle}
+          transition={style.transition as TransitionStyle}
+          scaling={style.scaling as ScalingSize}
         >
-          <ToastProvider>
-            <IconProvider icons={iconLibrary}>{children}</IconProvider>
-          </ToastProvider>
-        </DataThemeProvider>
-      </ThemeProvider>
-    </LayoutProvider>
+          <DataThemeProvider
+            variant={dataStyle.variant as ChartVariant}
+            mode={dataStyle.mode as ChartMode}
+            height={dataStyle.height}
+            axis={{
+              stroke: dataStyle.axis.stroke,
+            }}
+            tick={{
+              fill: dataStyle.tick.fill,
+              fontSize: dataStyle.tick.fontSize,
+              line: dataStyle.tick.line,
+            }}
+          >
+            <ToastProvider>
+              <AchievementsProvider>
+                <IconProvider icons={iconLibrary}>{children}</IconProvider>
+              </AchievementsProvider>
+            </ToastProvider>
+          </DataThemeProvider>
+        </ThemeProvider>
+      </LayoutProvider>
     </QueryClientProvider>
   );
 }

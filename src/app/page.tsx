@@ -18,14 +18,20 @@ import {
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { type Metadata } from "next";
 
-import { home, about, person, baseURL, userSettings, routes } from "@/resources";
+import {
+  home,
+  about,
+  person,
+  baseURL,
+  userSettings,
+  routes,
+} from "@/resources";
 
 import { Mailchimp } from "@/components";
 import { Projects } from "@/components/work/Projects";
 import { Posts } from "@/components/blog/Posts";
 import DrawingPanel from "@/components/DrawingPanel";
 import MagicBento from "@/components/MagicBento";
-
 
 export async function generateMetadata(): Promise<Metadata> {
   return Meta.generate({
@@ -83,7 +89,12 @@ export default function Home() {
             image: `${baseURL}${person.avatar}`,
           }}
         />
-        <Column fillWidth horizontal="center" gap="m">
+        <Column
+          paddingY="40"
+          fillWidth
+          horizontal="center"
+          gap="m"
+        >
           <Column
             maxWidth="s"
             horizontal="center"
@@ -157,29 +168,31 @@ export default function Home() {
                   },
                 ]}
               />
-              {/* <Button
-                id="about"
-                data-border="rounded"
-                href={about.path}
-                variant="secondary"
-                size="m"
-                weight="default"
-                arrowIcon
-              >
-                <Row gap="8" vertical="center" paddingRight="4">
-                  {about.avatar.display && (
-                    <Avatar
-                      marginRight="8"
-                      style={{ marginLeft: "-0.75rem" }}
-                      src={person.avatar}
-                      size="m"
-                    />
-                  )}
-                  {about.title}
-                </Row>
-              </Button> */}
             </RevealFx>
           </Column>
+          <Row>
+            <Button
+              id="about"
+              data-border="rounded"
+              href={about.path}
+              variant="secondary"
+              size="m"
+              weight="default"
+              arrowIcon
+            >
+              <Row gap="8" vertical="center" paddingRight="4">
+                {about.avatar.display && (
+                  <Avatar
+                    marginRight="8"
+                    style={{ marginLeft: "-0.75rem" }}
+                    src={person.avatar}
+                    size="m"
+                  />
+                )}
+                {about.title}
+              </Row>
+            </Button>
+          </Row>
         </Column>
         {/* <RevealFx translateY="16" delay={0.6}>
             <Projects range={[1, 1]} />
@@ -206,17 +219,17 @@ export default function Home() {
               </Column>
           )
         } */}
+        <RevealFx fillWidth horizontal="center">
+          <Heading wrap="balance" variant="display-strong-m">
+            Projects
+          </Heading>
+        </RevealFx>
         <MagicBento
-        textAutoHide={true}
-        // enableStars={userSettings.isEffectsEnabled}
-        // enableBorderGlow={userSettings.isEffectsEnabled}
-        // enableMagnetism={userSettings.isEffectsEnabled}
-        // enableSpotlight={userSettings.isEffectsEnabled}
-        // enableTilt={userSettings.isEffectsEnabled}
-        disableAnimations={!userSettings.isEffectsEnabled}
+          textAutoHide={true}
+          disableAnimations={!userSettings.isEffectsEnabled}
         />
         {/*<Projects range={[2]} />*/}
-        <Column fillWidth gap="xl" marginTop="xl">
+        <Column fillWidth gap="xl">
           <Column fillWidth horizontal="center" gap="m" paddingBottom="m">
             <Heading variant="display-strong-m" wrap="balance">
               Creative Drawing Panel
