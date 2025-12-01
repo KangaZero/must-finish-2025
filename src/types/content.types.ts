@@ -253,6 +253,7 @@ type AchievementTitle =
   | "Fashion Police"
   | "Snoopy Detective"
   | "Social Stalker"
+  | "Woah! Hacker"
   | "Go Touch Grass";
 
 export type Achievement =
