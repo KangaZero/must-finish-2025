@@ -5,4 +5,5 @@ export type Console = {
   clear: () => void;
   reset: () => void;
   about: () => void;
+  masterLogin: (secretPassword: string) => void;
 };

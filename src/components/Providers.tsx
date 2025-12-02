@@ -20,6 +20,7 @@ import {
 import { style, dataStyle } from "../resources";
 import { iconLibrary } from "../resources/icons";
 import { AchievementsProvider } from "./AchievementsProvider";
+import { ConsoleCommandProvider } from "./ConsoleCommandProvider";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
 export function Providers({ children }: { children: React.ReactNode }) {
@@ -54,7 +55,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
           >
             <ToastProvider>
               <AchievementsProvider>
-                <IconProvider icons={iconLibrary}>{children}</IconProvider>
+                <ConsoleCommandProvider>
+                  <IconProvider icons={iconLibrary}>{children}</IconProvider>
+                </ConsoleCommandProvider>
               </AchievementsProvider>
             </ToastProvider>
           </DataThemeProvider>

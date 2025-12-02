@@ -30,6 +30,7 @@ export const AchievementsProvider = ({
   const { addToast } = useToast();
   const [achievements, setAchievements] =
     useState<Achievement[]>(achievementsList);
+  const [unlockSandMandala, setUnlockSandMandala] = useState(false);
 
   const unlockAchievement = (title: Achievement["title"]) => {
     const isCurrentAchievementAlreadyUnlocked = achievements.some(
@@ -58,8 +59,13 @@ export const AchievementsProvider = ({
   useEffect(() => {
     if (typeof window !== "undefined") {
       const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
-      if (stored) {
+      // could be in .env, but nothing to hide so yeah. also this is just a random git commit
+      const keyToUnlockSandMandala = "e1eda57b";
+      console.log("stored", stored);
+      if (stored && stored !== keyToUnlockSandMandala) {
         setAchievements(JSON.parse(stored));
+      } else if (stored === keyToUnlockSandMandala) {
+        setUnlockSandMandala(true);
       }
     }
   }, []);
@@ -69,6 +75,7 @@ export const AchievementsProvider = ({
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(achievements));
   }, [achievements]);
 
+  // NOTE: No Achievements have been unlocked yet, or it has been reset by the user
   useEffect(() => {
     if (
       !achievements.find(
@@ -76,8 +83,12 @@ export const AchievementsProvider = ({
       )
     ) {
       unlockAchievement("New Beginnings");
+      if (unlockSandMandala) {
+        unlockAchievement("Sand Mandala");
+        setUnlockSandMandala(false);
+      }
     }
-  }, [achievements]);
+  }, [achievements, unlockSandMandala]);
 
   const value = useMemo(
     () => ({ achievements, unlockAchievement }),

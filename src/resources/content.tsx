@@ -385,13 +385,35 @@ const achievementsList: Array<Achievement> = [
     isUnlocked: false,
   },
   {
+    id: 19,
+    title: "Sand Mandala",
+    description:
+      "Reset all achievements while already having unlocked all but 5 achievements",
+    noOfAchievementsRequiredToUnlock: 99,
+    rarity: "rare",
+    isUnlocked: false,
+  },
+  {
     id: 21,
     title: "Go Touch Grass",
     description: "Unlocked all achievements",
     rarity: "legendary",
     isUnlocked: false,
   },
-] as const;
+  //NOTE: This is a negative achievement, a secret one not counted in
+  {
+    id: -21,
+    title: "Speedophile",
+    description: "Unlocked all achievements in less than 67 seconds",
+    rarity: "mythic",
+    isUnlocked: false,
+  },
+];
+
+//NOTE: Have to reassign noOfAchievementsRequiredToUnlock for Sand Mandala, as "achievementList" cannot be called in itself
+achievementsList.find(
+  (achievement) => achievement.title === "Sand Mandala",
+)!.noOfAchievementsRequiredToUnlock = achievementsList.length - 6;
 
 export {
   userSettings,

@@ -254,7 +254,9 @@ type AchievementTitle =
   | "Snoopy Detective"
   | "Social Stalker"
   | "Woah! Hacker"
-  | "Go Touch Grass";
+  | "Sand Mandala"
+  | "Go Touch Grass"
+  | "Speedophile";
 
 export type Achievement =
   | {
@@ -271,9 +273,10 @@ export type Achievement =
         height: number;
       };
       description: string;
-      rarity: "common" | "uncommon" | "rare" | "legendary";
+      rarity: "common" | "uncommon" | "rare" | "legendary" | "mythic";
       isUnlocked: true;
       UnlockedAt: Date;
+      noOfAchievementsRequiredToUnlock?: number;
     }
   | {
       id: number;
@@ -289,8 +292,9 @@ export type Achievement =
         height: number;
       };
       description: string;
-      rarity: "common" | "uncommon" | "rare" | "legendary";
+      rarity: "common" | "uncommon" | "rare" | "legendary" | "mythic";
       isUnlocked: false;
+      noOfAchievementsRequiredToUnlock?: number;
     };
 
 export interface Achievements extends BasePageConfig {

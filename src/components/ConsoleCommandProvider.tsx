@@ -3,6 +3,8 @@
 import React, { createContext, useContext, useMemo, useEffect } from "react";
 import { useAchievements } from "./AchievementsProvider";
 import { useRouter } from "next/navigation";
+import { Achievement, Achievements } from "@/types";
+import { achievementsList } from "@/resources";
 
 type ConsoleCommandContextType = {
   registerCommands: () => void;
@@ -33,15 +35,19 @@ export const ConsoleCommandProvider = ({
           "%cAvailable commands:",
           "color: #3498db; font-size: 1.2em;",
         );
-        console.table({
-          "portfolio.help()": "Display this help message",
-          "portfolio.list()": "List all achievements",
-          "portfolio.unlock(title)": "Unlock an achievement by title",
-          "portfolio.navigate(path)": "Navigate to a page (e.g., '/about')",
-          "portfolio.clear()": "Clear the console",
-          "portfolio.reset()": "Reset all achievements",
-          "portfolio.about()": "Learn about this portfolio",
-        });
+        console.table([
+          ["portfolio.help()", "Display this help message"],
+          ["portfolio.list()", "List all achievements"],
+          ["portfolio.unlock(title)", "Unlock an achievement by title"],
+          ["portfolio.navigate(path)", "Navigate to a page (e.g., '/about')"],
+          ["portfolio.clear()", "Clear the console"],
+          ["portfolio.reset()", "Reset all achievements"],
+          ["portfolio.about()", "Learn about this portfolio"],
+          [
+            "portfolio.masterLogin(secretPassword)",
+            "//TODO remove this\npassword: 'password123'",
+          ],
+        ]);
         console.log(
           "%cTip: Try unlocking an achievement using the console! 👀",
           "color: #f39c12; font-style: italic;",
@@ -69,7 +75,6 @@ export const ConsoleCommandProvider = ({
       navigate: (path: string) => {
         console.log(`%c🧭 Navigating to ${path}...`, "color: #3498db;");
         router.push(path);
-        unlockAchievement("Woah! Hacker");
       },
 
       clear: () => {
@@ -82,7 +87,35 @@ export const ConsoleCommandProvider = ({
 
       reset: () => {
         if (typeof window !== "undefined") {
-          localStorage.removeItem("achievements");
+          let isAllowedToUnlockSandMandalaAchievement = false;
+          const currentAchievementsLocalStorage =
+            localStorage.getItem("achievements");
+          if (currentAchievementsLocalStorage) {
+            const parsedAchievementsLocalStorage = JSON.parse(
+              currentAchievementsLocalStorage,
+            ) as Achievement[];
+            const currentUnlockedAchievements =
+              parsedAchievementsLocalStorage.map((obj) => obj.isUnlocked);
+            const noOfAchievementsRequiredToUnlockSandMandala =
+              achievementsList.find(
+                (achievement) => achievement.title === "Sand Mandala",
+              )!.noOfAchievementsRequiredToUnlock;
+            if (
+              currentUnlockedAchievements.length >=
+              noOfAchievementsRequiredToUnlockSandMandala!
+            ) {
+              console.log(
+                "You who fears nothing, you have unlocked the secret achievement!",
+                "style: color: #3498db; font-size: 1.2em; font-weight: bold; font-style: italic;",
+              );
+              isAllowedToUnlockSandMandalaAchievement = true;
+            }
+          }
+          if (isAllowedToUnlockSandMandalaAchievement) {
+            localStorage.setItem("achievements", "e1eda57b");
+          } else {
+            localStorage.removeItem("achievements");
+          }
           console.log(
             "%c🔄 Achievements reset! Refresh the page to see changes.",
             "color: #e67e22; font-weight: bold;",
@@ -107,6 +140,32 @@ export const ConsoleCommandProvider = ({
           "%cCreated with ❤️ using Next.js and Once UI",
           "color: #e74c3c; font-style: italic;",
         );
+      },
+      masterLogin: (secretPassword: string) => {
+        const correctPassword = "password123";
+        if (secretPassword !== correctPassword) {
+          console.log(
+            "%cIncorrect password. Try again!",
+            "color: #e74c3c; font-weight: bold;",
+          );
+        } else {
+          console.log(
+            "%cMaster login successful! 🎉",
+            "color: #2ecc71; font-weight: bold;",
+          );
+          console.log(
+            `
+            _  _  _ _ _ _  _                                                       _   _       _          _______       _
+           (_)(_)(_|_) | || |                                                     (_) (_)     | |        (_______)     (_)       _
+            _  _  _ _| | || |  _ ___  ____  ____  _____ ____     _____ _   _  ____ _   _  ____| |  _      _  _  _ _____ _  ___ _| |_ _____  ____
+           | || || | | | || |_/ ) _ \|    \|    \| ___ |  _ \   (___  ) | | |/ ___) | | |/ ___) |_/ )    | ||_|| | ___ | |/___|_   _) ___ |/ ___)
+           | || || | | | ||  _ ( |_| | | | | | | | ____| | | |   / __/| |_| | |   | |_| ( (___|  _ ( _   | |   | | ____| |___ | | |_| ____| |_
+            \_____/|_|\_)_)_| \_)___/|_|_|_|_|_|_|_____)_| |_|  (_____)____/|_|   |____/ \____)_| \_| )  |_|   |_|_____)_(___/   \__)_____)_(_)
+                                                                                                    |/
+            `,
+          );
+          unlockAchievement("Woah! Hacker");
+        }
       },
     };
 
