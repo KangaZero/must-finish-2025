@@ -21,8 +21,10 @@ import { CSS } from "@dnd-kit/utilities";
 import "./MagicBento.css";
 import { Flex, Kbd } from "@once-ui-system/core";
 import { useTheme } from "next-themes";
+import { Item } from "@radix-ui/react-dropdown-menu";
 
 export interface BentoCardProps {
+  correctIndex: number;
   color?: string;
   title?: string;
   description?: string;
@@ -53,6 +55,7 @@ const MOBILE_BREAKPOINT = 768;
 
 const cardData: Array<BentoCardProps & { id: string }> = [
   {
+    correctIndex: 4,
     id: "card-1",
     color: "#060010",
     title: "Analytics",
@@ -60,6 +63,7 @@ const cardData: Array<BentoCardProps & { id: string }> = [
     label: "Insights",
   },
   {
+    correctIndex: 7,
     id: "card-2",
     color: "#060010",
     title: "Dashboard",
@@ -67,6 +71,7 @@ const cardData: Array<BentoCardProps & { id: string }> = [
     label: "Overview",
   },
   {
+    correctIndex: 0,
     id: "card-3",
     color: "#060010",
     title: "Collaboration",
@@ -74,6 +79,7 @@ const cardData: Array<BentoCardProps & { id: string }> = [
     label: "Teamwork",
   },
   {
+    correctIndex: 1,
     id: "card-4",
     color: "#060010",
     title: "Automation",
@@ -81,6 +87,7 @@ const cardData: Array<BentoCardProps & { id: string }> = [
     label: "Efficiency",
   },
   {
+    correctIndex: 3,
     id: "card-5",
     color: "#060010",
     title: "Integration",
@@ -88,6 +95,7 @@ const cardData: Array<BentoCardProps & { id: string }> = [
     label: "Connectivity",
   },
   {
+    correctIndex: 5,
     id: "card-6",
     color: "#060010",
     title: "Security",
@@ -95,6 +103,7 @@ const cardData: Array<BentoCardProps & { id: string }> = [
     label: "Protection",
   },
   {
+    correctIndex: 2,
     id: "card-7",
     color: "#060010",
     title: "Test",
@@ -102,6 +111,7 @@ const cardData: Array<BentoCardProps & { id: string }> = [
     label: "Protection",
   },
   {
+    correctIndex: 6,
     id: "card-8",
     color: "#060010",
     title: "Security",
@@ -628,7 +638,7 @@ const SortableCard: React.FC<{
           <div className="magic-bento-card__header">
             <div className="magic-bento-card__label">
               <span>
-                <Kbd className="mr-4">{index + 1}</Kbd>
+                <Kbd className="mr-4">{card.correctIndex}</Kbd>
               </span>
               {card.label}
             </div>
@@ -772,7 +782,11 @@ const BentoCardGrid: React.FC<{
   children: React.ReactNode;
   gridRef?: React.RefObject<HTMLDivElement | null>;
 }> = ({ children, gridRef }) => (
-  <div className="card-grid bento-section" ref={gridRef}>
+  <div
+    className="card-grid bento-section"
+    style={{ position: "relative" }}
+    ref={gridRef}
+  >
     {children}
   </div>
 );
@@ -807,6 +821,7 @@ const MagicBento: React.FC<BentoProps> = ({
   enableMagnetism = true,
 }) => {
   const gridRef = useRef<HTMLDivElement>(null);
+  const combinedCardRef = useRef<HTMLDivElement>(null);
   const isMobile = useMobileDetection();
   const shouldDisableAnimations = disableAnimations || isMobile;
   const [items, setItems] = useState(() => {
@@ -815,6 +830,99 @@ const MagicBento: React.FC<BentoProps> = ({
     }
     return [];
   });
+  const initialItems = items;
+  const [isPuzzleSolved, setIsPuzzleSolved] = useState(false);
+  const [isCardsCombined, setIsCardsCombined] = useState(false);
+
+  //NOTE: Only run this in checkIfPuzzleIsSolvedAndExecuteFollowingTransition
+  const transitionToSolvedCard = () => {
+    if (!gridRef.current) return;
+    const grid = gridRef.current as HTMLElement;
+    const cards = grid.querySelectorAll<HTMLElement>(".magic-bento-card");
+    const gridRect = grid.getBoundingClientRect();
+
+    // Calculate the center of the grid
+    const centerX = gridRect.width / 2;
+    const centerY = gridRect.height / 2;
+
+    // Create a GSAP timeline
+    const tl = gsap.timeline({
+      onComplete: () => {
+        setIsCardsCombined(true);
+      },
+    });
+
+    // Animate each card to the center
+    cards.forEach((card, index) => {
+      const cardRect = card.getBoundingClientRect();
+      const cardCenterX = cardRect.left - gridRect.left + cardRect.width / 2;
+      const cardCenterY = cardRect.top - gridRect.top + cardRect.height / 2;
+
+      // Calculate offset to move card to grid center
+      const offsetX = centerX - cardCenterX;
+      const offsetY = centerY - cardCenterY;
+
+      tl.to(
+        card,
+        {
+          x: offsetX,
+          y: offsetY,
+          scale: 0.5,
+          opacity: 0.8,
+          rotation: (index % 2 === 0 ? 1 : -1) * 10, // Slight rotation for visual interest
+          duration: 0.6,
+          ease: "power2.inOut",
+        },
+        0, // Start all at the same time (offset = 0)
+      );
+    });
+
+    // After cards converge, scale them down and fade out
+    tl.to(
+      cards,
+      {
+        scale: 0,
+        opacity: 0,
+        duration: 0.4,
+        ease: "power2.in",
+      },
+      0.6, // Start after the initial move
+    );
+
+    // Reveal the combined card
+    tl.fromTo(
+      combinedCardRef.current,
+      {
+        scale: 0,
+        opacity: 0,
+      },
+      {
+        scale: 1,
+        opacity: 1,
+        duration: 0.5,
+        ease: "back.out(1.7)",
+      },
+      0.8, // Start after cards fade out
+    );
+
+    return () => {
+      tl.kill();
+    };
+  };
+
+  //NOTE: Only run this in handleDragEnd
+  const checkIfPuzzleIsSolvedAndExecuteFollowingTransition = (
+    items: (BentoCardProps & {
+      id: string;
+    })[],
+  ) => {
+    const isCorrectIndex = !items.some(
+      (item, index) => item.correctIndex !== index,
+    );
+    if (!isCorrectIndex) return;
+    setIsPuzzleSolved(true);
+    transitionToSolvedCard();
+  };
 
   function validateUniqueIds(cards: { id: string }[]) {
     const seen = new Set<string>();
@@ -845,9 +953,18 @@ const MagicBento: React.FC<BentoProps> = ({
         const oldIndex = items.findIndex((item) => item.id === active.id);
         const newIndex = items.findIndex((item) => item.id === over.id);
 
+        checkIfPuzzleIsSolvedAndExecuteFollowingTransition(
+          arrayMove(items, oldIndex, newIndex),
+        );
         return arrayMove(items, oldIndex, newIndex);
       });
     }
+  };
+
+  const handleReset = () => {
+    setItems(initialItems);
+    setIsPuzzleSolved(false);
+    setIsCardsCombined(false);
   };
 
   return (
@@ -865,39 +982,74 @@ const MagicBento: React.FC<BentoProps> = ({
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
-        onDragEnd={handleDragEnd}
+        onDragEnd={(e) => {
+          handleDragEnd(e);
+        }}
       >
         <SortableContext
           items={items.map((item) => item.id)}
           strategy={rectSortingStrategy}
         >
           <BentoCardGrid gridRef={gridRef}>
-            {items.map((card, index) => {
-              const baseClassName = `magic-bento-card ${textAutoHide ? "magic-bento-card--text-autohide" : ""} ${enableBorderGlow ? "magic-bento-card--border-glow" : ""}`;
-              const cardProps = {
-                className: baseClassName,
-              };
+            <div
+              ref={combinedCardRef}
+              className="magic-bento-card magic-bento-card--combined"
+              style={{
+                display: isCardsCombined ? "flex" : "none",
+                width: "100%",
+                maxWidth: "600px",
+                aspectRatio: "16/9",
+                zIndex: 100,
+              }}
+            >
+              <div className="magic-bento-card__header">
+                <span className="magic-bento-card__label">
+                  🎉 Puzzle Solved!
+                </span>
+              </div>
+              <div className="magic-bento-card__content">
+                <h3 className="magic-bento-card__title">Congratulations!</h3>
+                <p className="magic-bento-card__description">
+                  You've successfully arranged all the pieces.
+                </p>
+                <button
+                  className="magic-bento-card__button"
+                  onClick={handleReset}
+                >
+                  Reset Puzzle
+                </button>
+              </div>
+            </div>
+            {!isCardsCombined && (
+              <>
+                {items.map((card, index) => {
+                  const baseClassName = `magic-bento-card ${textAutoHide ? "magic-bento-card--text-autohide" : ""} ${enableBorderGlow ? "magic-bento-card--border-glow" : ""}`;
+                  const cardProps = {
+                    className: baseClassName,
+                  };
 
-              return (
-                <SortableCard
-                  key={card.id}
-                  id={card.id}
-                  card={card}
-                  index={index}
-                  baseClassName={baseClassName}
-                  cardProps={cardProps}
-                  enableStars={enableStars}
-                  shouldDisableAnimations={shouldDisableAnimations}
-                  particleCount={particleCount}
-                  glowColor={glowColor}
-                  enableTilt={enableTilt}
-                  clickEffect={clickEffect}
-                  enableMagnetism={enableMagnetism}
-                  enableBorderGlow={enableBorderGlow}
-                  textAutoHide={textAutoHide}
-                />
-              );
-            })}
+                  return (
+                    <SortableCard
+                      key={card.id}
+                      id={card.id}
+                      card={card}
+                      index={index}
+                      baseClassName={baseClassName}
+                      cardProps={cardProps}
+                      enableStars={enableStars}
+                      shouldDisableAnimations={shouldDisableAnimations}
+                      particleCount={particleCount}
+                      glowColor={glowColor}
+                      enableTilt={enableTilt}
+                      clickEffect={clickEffect}
+                      enableMagnetism={enableMagnetism}
+                      enableBorderGlow={enableBorderGlow}
+                      textAutoHide={textAutoHide}
+                    />
+                  );
+                })}
+              </>
+            )}
           </BentoCardGrid>
         </SortableContext>
       </DndContext>

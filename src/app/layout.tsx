@@ -17,8 +17,9 @@ import { Footer, Header, RouteGuard, Providers } from "@/components";
 import { baseURL, effects, fonts, style, dataStyle, home } from "@/resources";
 
 import styles from "./layout.module.scss";
+import { Metadata } from "next";
 
-export async function generateMetadata() {
+export async function generateMetadata(): Promise<Metadata> {
   return Meta.generate({
     title: home.title,
     description: home.description,
@@ -33,7 +34,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   return (
     <Flex
       suppressHydrationWarning
@@ -56,26 +56,26 @@ export default async function RootLayout({
                 try {
                   const root = document.documentElement;
                   const defaultTheme = 'system';
-                  
+
                   // Set defaults from config
                   const config = ${JSON.stringify({
-              brand: style.brand,
-              accent: style.accent,
-              neutral: style.neutral,
-              solid: style.solid,
-              "solid-style": style.solidStyle,
-              border: style.border,
-              surface: style.surface,
-              transition: style.transition,
-              scaling: style.scaling,
-              "viz-style": dataStyle.variant,
-            })};
-                  
+                    brand: style.brand,
+                    accent: style.accent,
+                    neutral: style.neutral,
+                    solid: style.solid,
+                    "solid-style": style.solidStyle,
+                    border: style.border,
+                    surface: style.surface,
+                    transition: style.transition,
+                    scaling: style.scaling,
+                    "viz-style": dataStyle.variant,
+                  })};
+
                   // Apply default values
                   Object.entries(config).forEach(([key, value]) => {
                     root.setAttribute('data-' + key, value);
                   });
-                  
+
                   // Resolve theme
                   const resolveTheme = (themeValue) => {
                     if (!themeValue || themeValue === 'system') {
@@ -83,12 +83,12 @@ export default async function RootLayout({
                     }
                     return themeValue;
                   };
-                  
+
                   // Apply saved theme
                   const savedTheme = localStorage.getItem('data-theme');
                   const resolvedTheme = resolveTheme(savedTheme);
                   root.setAttribute('data-theme', resolvedTheme);
-                  
+
                   // Apply any saved style overrides
                   const styleKeys = Object.keys(config);
                   styleKeys.forEach(key => {
@@ -120,18 +120,16 @@ export default async function RootLayout({
             {[...Array(16)].map((_, i) => (
               <div
                 key={i}
-                className={
-                  [
-                    styles.mapleLeaf,
-                    i % 4 === 0
-                      ? styles.mapleLeafSlow
-                      : i % 4 === 1
-                        ? styles.mapleLeafMedium
-                        : i % 4 === 2
-                          ? styles.mapleLeafFast
-                          : styles.mapleLeaf3D
-                  ].join(" ")
-                }
+                className={[
+                  styles.mapleLeaf,
+                  i % 4 === 0
+                    ? styles.mapleLeafSlow
+                    : i % 4 === 1
+                      ? styles.mapleLeafMedium
+                      : i % 4 === 2
+                        ? styles.mapleLeafFast
+                        : styles.mapleLeaf3D,
+                ].join(" ")}
                 style={{
                   position: "absolute",
                   fontSize: "2rem",
@@ -187,7 +185,6 @@ export default async function RootLayout({
                 color: effects.lines.color,
               }}
             />
-
           </RevealFx>
           <Flex fillWidth minHeight="16" s={{ hide: true }} />
           <Header />

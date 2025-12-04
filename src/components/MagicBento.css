@@ -243,3 +243,29 @@
     position: relative;
     user-select: none;
 }
+
+.magic-bento-card--combined {
+    background: linear-gradient(
+        135deg,
+        var(--purple-primary) 0%,
+        #ff6b6b 50%,
+        #ffd93d 100%
+    );
+    border: 2px solid var(--purple-border);
+    box-shadow:
+        0 20px 60px rgba(132, 0, 255, 0.4),
+        0 0 100px var(--purple-glow);
+    color: var(--white);
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.magic-bento-card--combined .magic-bento-card__title {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.magic-bento-card--combined .magic-bento-card__description {
+    font-size: 16px;
+}
