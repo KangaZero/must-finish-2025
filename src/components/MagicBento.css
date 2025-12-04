@@ -7,9 +7,27 @@
     --purple-border: rgba(132, 0, 255, 0.8);
     --border-color: #392e4e;
     --background-dark: #060010;
+    --background-light: #d2f2f2;
     color-scheme: light dark;
 }
+[data-theme="light"] {
+    --border-color: #b3c2d2;
+    --background-light: #f8fafc;
+    --background-dark: #d2f2f2;
+    --purple-primary: #7c3aed;
+    --purple-glow: rgba(124, 58, 237, 0.15);
+    --purple-border: #7c3aed;
+}
 
+/* Dark theme overrides */
+[data-theme="dark"] {
+    --border-color: #392e4e;
+    --background-dark: #060010;
+    --background-light: #1a1a2e;
+    --purple-primary: rgba(132, 0, 255, 1);
+    --purple-glow: rgba(132, 0, 255, 0.2);
+    --purple-border: rgba(132, 0, 255, 0.8);
+}
 .card-grid {
     display: grid;
     gap: 0.5em;
@@ -49,12 +67,12 @@
 .magic-bento-card__header,
 .magic-bento-card__content {
     display: flex;
+    flex-direction: column;
     position: relative;
-    color: var(--white);
 }
 
 .magic-bento-card__header {
-    gap: 0.75em;
+    gap: 0.2em;
     justify-content: space-between;
 }
 
@@ -63,7 +81,18 @@
 }
 
 .magic-bento-card__label {
+    display: flex;
+    flex-direction: "row";
     font-size: 16px;
+}
+
+.magic-bento-card__image {
+    display: flex;
+    flex-direction: row;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
 }
 
 .magic-bento-card__title,

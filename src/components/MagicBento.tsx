@@ -19,6 +19,8 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import "./MagicBento.css";
+import { Flex, Kbd } from "@once-ui-system/core";
+import { useTheme } from "next-themes";
 
 export interface BentoCardProps {
   color?: string;
@@ -93,19 +95,19 @@ const cardData: Array<BentoCardProps & { id: string }> = [
     label: "Protection",
   },
   {
-      id: "card-7",
-      color: "#060010",
-      title: "Test",
-      description: "Amazing",
-      label: "Protection",
-    },
-    {
-      id: "card-8",
-      color: "#060010",
-      title: "Security",
-      description: "Enterprise-grade protection",
-      label: "Protection",
-    }
+    id: "card-7",
+    color: "#060010",
+    title: "Test",
+    description: "Amazing",
+    label: "Protection",
+  },
+  {
+    id: "card-8",
+    color: "#060010",
+    title: "Security",
+    description: "Enterprise-grade protection",
+    label: "Protection",
+  },
 ];
 
 const createParticleElement = (
@@ -584,7 +586,8 @@ const SortableCard: React.FC<{
 }> = ({
   id,
   card,
-  baseClassName,
+  index,
+  // baseClassName,
   cardProps,
   enableStars,
   shouldDisableAnimations,
@@ -623,7 +626,15 @@ const SortableCard: React.FC<{
           enableMagnetism={enableMagnetism}
         >
           <div className="magic-bento-card__header">
-            <div className="magic-bento-card__label">{card.label}</div>
+            <div className="magic-bento-card__label">
+              <span>
+                <Kbd className="mr-4">{index + 1}</Kbd>
+              </span>
+              {card.label}
+            </div>
+            <div className="magic-bento-card__image">
+              <img src={card.image} alt={card.title} />
+            </div>
           </div>
           <div className="magic-bento-card__content">
             <h2 className="magic-bento-card__title">{card.title}</h2>
@@ -641,38 +652,38 @@ const SortableCard: React.FC<{
         ref={(el) => {
           if (!el) return;
 
-          const handleMouseMove = (e: MouseEvent) => {
-            if (shouldDisableAnimations) return;
+          // const handleMouseMove = (e: MouseEvent) => {
+          //   if (shouldDisableAnimations) return;
 
-            const rect = el.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
+          //   const rect = el.getBoundingClientRect();
+          //   const x = e.clientX - rect.left;
+          //   const y = e.clientY - rect.top;
+          //   const centerX = rect.width / 2;
+          //   const centerY = rect.height / 2;
 
-            if (enableTilt) {
-              const rotateX = ((y - centerY) / centerY) * -10;
-              const rotateY = ((x - centerX) / centerX) * 10;
-              gsap.to(el, {
-                rotateX,
-                rotateY,
-                duration: 0.1,
-                ease: "power2.out",
-                transformPerspective: 1000,
-              });
-            }
+          //   if (enableTilt) {
+          //     const rotateX = ((y - centerY) / centerY) * -10;
+          //     const rotateY = ((x - centerX) / centerX) * 10;
+          //     gsap.to(el, {
+          //       rotateX,
+          //       rotateY,
+          //       duration: 0.1,
+          //       ease: "power2.out",
+          //       transformPerspective: 1000,
+          //     });
+          //   }
 
-            if (enableMagnetism) {
-              const magnetX = (x - centerX) * 0.05;
-              const magnetY = (y - centerY) * 0.05;
-              gsap.to(el, {
-                x: magnetX,
-                y: magnetY,
-                duration: 0.3,
-                ease: "power2.out",
-              });
-            }
-          };
+          //   if (enableMagnetism) {
+          //     const magnetX = (x - centerX) * 0.05;
+          //     const magnetY = (y - centerY) * 0.05;
+          //     gsap.to(el, {
+          //       x: magnetX,
+          //       y: magnetY,
+          //       duration: 0.3,
+          //       ease: "power2.out",
+          //     });
+          //   }
+          // };
 
           const handleMouseLeave = () => {
             if (shouldDisableAnimations) return;
@@ -804,18 +815,19 @@ const MagicBento: React.FC<BentoProps> = ({
     }
     return [];
   });
-   
-   function validateUniqueIds(cards: { id: string }[]) {
-     const seen = new Set<string>();
-     for (const card of cards) {
-       if (seen.has(card.id)) {
-         throw new Error(`Duplicate id found: ${card.id}`); }
-       seen.add(card.id);
-     }
-     return true;
-   }
-   
-   // Usage (call this once after cardData is defined):
+
+  function validateUniqueIds(cards: { id: string }[]) {
+    const seen = new Set<string>();
+    for (const card of cards) {
+      if (seen.has(card.id)) {
+        throw new Error(`Duplicate id found: ${card.id}`);
+      }
+      seen.add(card.id);
+    }
+    return true;
+  }
+
+  // Usage (call this once after cardData is defined):
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -864,10 +876,6 @@ const MagicBento: React.FC<BentoProps> = ({
               const baseClassName = `magic-bento-card ${textAutoHide ? "magic-bento-card--text-autohide" : ""} ${enableBorderGlow ? "magic-bento-card--border-glow" : ""}`;
               const cardProps = {
                 className: baseClassName,
-                style: {
-                  backgroundColor: card.color,
-                  "--glow-color": glowColor,
-                } as React.CSSProperties,
               };
 
               return (
