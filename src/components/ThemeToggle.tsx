@@ -7,16 +7,20 @@ import styles from "./ThemeToggle.module.scss";
 export const ThemeToggle: React.FC = () => {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-  const [currentTheme, setCurrentTheme] = useState<'light' | 'dark'>("light");
+  const [currentTheme, setCurrentTheme] = useState<"light" | "dark">("light");
   const toggleIconRef = React.useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setMounted(true);
-    setCurrentTheme(document.documentElement.getAttribute("data-theme") as 'light' | 'dark' || "light");
+    setCurrentTheme(
+      (document.documentElement.getAttribute("data-theme") as "light" | "dark") || "light",
+    );
   }, []);
 
   useEffect(() => {
-    setCurrentTheme(document.documentElement.getAttribute("data-theme") as 'light' | 'dark' || "light");
+    setCurrentTheme(
+      (document.documentElement.getAttribute("data-theme") as "light" | "dark") || "light",
+    );
     toggleIconRef.current?.classList.remove(styles.iconSlide);
     // Trigger reflow to restart the animation
     void toggleIconRef.current?.offsetWidth;
@@ -27,12 +31,14 @@ export const ThemeToggle: React.FC = () => {
   const nextTheme = currentTheme === "light" ? "dark" : "light";
 
   return (
-    <ToggleButton
-      children={<Icon
+    <ToggleButton onClick={() => setTheme(nextTheme)} aria-label={`Switch to ${nextTheme} mode`}>
+      <Icon
         ref={toggleIconRef}
-        name={icon} size="s" tooltip={`Switch to ${nextTheme} mode`} tooltipPosition="top" />}
-      onClick={() => setTheme(nextTheme)}
-      aria-label={`Switch to ${nextTheme} mode`}
-    />
+        name={icon}
+        size="s"
+        tooltip={`Switch to ${nextTheme} mode`}
+        tooltipPosition="top"
+      />
+    </ToggleButton>
   );
 };

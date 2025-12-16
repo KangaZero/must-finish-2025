@@ -1,5 +1,13 @@
 "use client";
-import { Row, IconButton, SmartLink, Text, Logo, StatusIndicator, Badge } from "@once-ui-system/core";
+import {
+  Row,
+  IconButton,
+  SmartLink,
+  Text,
+  Logo,
+  StatusIndicator,
+  Badge,
+} from "@once-ui-system/core";
 import { person, social } from "@/resources";
 import styles from "./Footer.module.scss";
 
@@ -40,8 +48,23 @@ export const Footer = () => {
         </Text>
         <Row gap="12" vertical="center">
           {social.map(
-            (item) => item.name === "GitHub" && githubData && !isError && (
-              <Badge key={item.name} href={item.link} icon="github" id="github-followers" children={<StatusIndicator color={isLoading ? "gray" : "green"} />} title={`${isLoading ? "Loading..." : githubData?.followers}`} effect={false} arrow={false} paddingX="8" paddingY="4" />
+            (item) =>
+              item.name === "GitHub" &&
+              githubData &&
+              !isError && (
+                <Badge
+                  key={item.name}
+                  href={item.link}
+                  icon="github"
+                  id="github-followers"
+                  title={`${isLoading ? "Loading..." : githubData?.followers}`}
+                  effect={false}
+                  arrow={false}
+                  paddingX="8"
+                  paddingY="4"
+                >
+                  <StatusIndicator color={isLoading ? "gray" : "green"} />
+                </Badge>
                 // <IconButton
                 //   key={item.name}
                 //   href={item.link}
@@ -51,10 +74,12 @@ export const Footer = () => {
                 //   variant="ghost"
                 //   children={<Text>{githubData?.followers}</Text>}
                 // />
-            ))}
+              ),
+          )}
           {social.map(
             (item) =>
-              item.link && item.name !== "GitHub" && (
+              item.link &&
+              item.name !== "GitHub" && (
                 <IconButton
                   key={item.name}
                   href={item.link}
@@ -63,11 +88,11 @@ export const Footer = () => {
                   size="s"
                   variant="ghost"
                 />
-              )
+              ),
           )}
           <Logo wordmark="/trademarks/kanga-zero.svg" className={styles.logoDesktop} />
         </Row>
-        <Row center hide s={{ hide: false }} >
+        <Row center hide s={{ hide: false }}>
           <Logo wordmark="/trademarks/kanga-zero.svg" />
         </Row>
       </Row>

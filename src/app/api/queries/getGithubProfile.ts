@@ -36,13 +36,14 @@ export type GithubProfile = {
   updated_at: string;
 };
 
-async function getProfile (username: string): Promise<GithubProfile> {
+async function getProfile(username: string): Promise<GithubProfile> {
   const res = await fetch(`https://api.github.com/users/${username}`);
   if (!res.ok) throw new Error("Failed to fetch GitHub profile");
   return res.json();
 }
 
 export function getGithubProfile(username: string) {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   return useQuery({
     queryKey: ["githubProfile", username],
     enabled: Boolean(username),

@@ -9,12 +9,14 @@
     "ignoreUnknown": false
   },
   "formatter": {
+    "ignore": ["**/next/**", "**/node_modules/**", "**/dist/**", "**/build/**"],
     "enabled": true,
     "indentStyle": "space",
     "indentWidth": 2,
     "lineWidth": 100
   },
   "linter": {
+    "ignore": ["**/next/**", "**/node_modules/**", "**/dist/**", "**/build/**"],
     "enabled": true,
     "rules": { "recommended": true }
   },

@@ -134,8 +134,11 @@ export default async function RootLayout({
                   position: "absolute",
                   fontSize: "2rem",
                   opacity: 0.4,
+                  // eslint-disable-next-line react-hooks/purity
                   left: `${Math.random() * 75}%`,
+                  // eslint-disable-next-line react-hooks/purity
                   top: `${Math.random() * 75}%`,
+                  // eslint-disable-next-line react-hooks/purity
                   animationDelay: `${Math.random() * 5}s`,
                 }}
               >

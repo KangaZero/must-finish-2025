@@ -85,14 +85,7 @@ type DrawingObject =
       data: ImageData;
     };
 
-type Tool =
-  | "select"
-  | "pen"
-  | "eraser"
-  | "rectangle"
-  | "circle"
-  | "text"
-  | "image";
+type Tool = "select" | "pen" | "eraser" | "rectangle" | "circle" | "text" | "image";
 
 type BackgroundType = "white" | "dark" | "transparent" | "custom" | "gradient";
 
@@ -120,17 +113,13 @@ export default function DrawingPanel() {
   const [currentColor, setCurrentColor] = useState("#000000");
   const [lineWidth, setLineWidth] = useState(2);
   const [objects, setObjects] = useState<DrawingObject[]>([]);
-  const [currentPath, setCurrentPath] = useState<{ x: number; y: number }[]>(
-    [],
-  );
+  const [currentPath, setCurrentPath] = useState<{ x: number; y: number }[]>([]);
   const [textInput, setTextInput] = useState("");
   const [textPosition, setTextPosition] = useState<{
     x: number;
     y: number;
   } | null>(null);
-  const [startPos, setStartPos] = useState<{ x: number; y: number } | null>(
-    null,
-  );
+  const [startPos, setStartPos] = useState<{ x: number; y: number } | null>(null);
 
   const [currentMousePos, setCurrentMousePos] = useState<{
     x: number;
@@ -226,11 +215,7 @@ export default function DrawingPanel() {
   }, []);
 
   const isPointInBounds = useCallback(
-    (
-      x: number,
-      y: number,
-      bounds: { x: number; y: number; width: number; height: number },
-    ) => {
+    (x: number, y: number, bounds: { x: number; y: number; width: number; height: number }) => {
       return (
         x >= bounds.x &&
         x <= bounds.x + bounds.width &&
@@ -242,11 +227,7 @@ export default function DrawingPanel() {
   );
 
   const getHandleAtPosition = useCallback(
-    (
-      x: number,
-      y: number,
-      bounds: { x: number; y: number; width: number; height: number },
-    ) => {
+    (x: number, y: number, bounds: { x: number; y: number; width: number; height: number }) => {
       const padding = 8;
       const handleSize = 8;
       const hitboxPadding = 4; // Extra padding for easier clicking
@@ -318,12 +299,7 @@ export default function DrawingPanel() {
   );
 
   const resizeObject = useCallback(
-    (
-      obj: DrawingObject,
-      handle: string,
-      dx: number,
-      dy: number,
-    ): DrawingObject => {
+    (obj: DrawingObject, handle: string, dx: number, dy: number): DrawingObject => {
       const bounds = getObjectBounds(obj);
 
       let newBounds = { ...bounds };
@@ -471,78 +447,59 @@ export default function DrawingPanel() {
 
       ctx.fillStyle = "#0066ff";
       handles.forEach((handle) => {
-        ctx.fillRect(
-          handle.x - handleSize / 2,
-          handle.y - handleSize / 2,
-          handleSize,
-          handleSize,
-        );
+        ctx.fillRect(handle.x - handleSize / 2, handle.y - handleSize / 2, handleSize, handleSize);
       });
     },
     [getObjectBounds],
   );
-  const drawObject = useCallback(
-    (ctx: CanvasRenderingContext2D, obj: DrawingObject) => {
-      // Set styles based on object type
-      if (obj.type !== "image") {
-        ctx.strokeStyle = obj.color;
-        ctx.fillStyle = obj.color;
-      }
+  const drawObject = useCallback((ctx: CanvasRenderingContext2D, obj: DrawingObject) => {
+    // Set styles based on object type
+    if (obj.type !== "image") {
+      ctx.strokeStyle = obj.color;
+      ctx.fillStyle = obj.color;
+    }
 
-      if (obj.type !== "image" && obj.type !== "text") {
-        ctx.lineWidth = obj.lineWidth;
-      }
+    if (obj.type !== "image" && obj.type !== "text") {
+      ctx.lineWidth = obj.lineWidth;
+    }
 
-      ctx.lineCap = "round";
-      ctx.lineJoin = "round";
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
 
-      switch (obj.type) {
-        case "line":
-          ctx.beginPath();
-          if (obj.data.points.length > 0) {
-            ctx.moveTo(obj.data.points[0].x, obj.data.points[0].y);
-            obj.data.points.forEach((point) => {
-              ctx.lineTo(point.x, point.y);
-            });
-            ctx.stroke();
-          }
-          break;
-
-        case "rectangle":
-          ctx.strokeRect(
-            obj.data.x,
-            obj.data.y,
-            obj.data.width,
-            obj.data.height,
-          );
-          break;
-
-        case "circle":
-          ctx.beginPath();
-          ctx.arc(obj.data.x, obj.data.y, obj.data.radius, 0, Math.PI * 2);
+    switch (obj.type) {
+      case "line":
+        ctx.beginPath();
+        if (obj.data.points.length > 0) {
+          ctx.moveTo(obj.data.points[0].x, obj.data.points[0].y);
+          obj.data.points.forEach((point) => {
+            ctx.lineTo(point.x, point.y);
+          });
           ctx.stroke();
-          break;
+        }
+        break;
 
-        case "text":
-          ctx.font = `${obj.data.fontSize || 20}px Arial`;
-          ctx.fillText(obj.data.text, obj.data.x, obj.data.y);
-          break;
+      case "rectangle":
+        ctx.strokeRect(obj.data.x, obj.data.y, obj.data.width, obj.data.height);
+        break;
 
-        case "image":
-          if (obj.data.image && obj.data.image.complete) {
-            ctx.drawImage(
-              obj.data.image,
-              obj.data.x,
-              obj.data.y,
-              obj.data.width,
-              obj.data.height,
-            );
-          }
-          break;
-      }
-    },
-    [],
-  );
+      case "circle":
+        ctx.beginPath();
+        ctx.arc(obj.data.x, obj.data.y, obj.data.radius, 0, Math.PI * 2);
+        ctx.stroke();
+        break;
+
+      case "text":
+        ctx.font = `${obj.data.fontSize || 20}px Arial`;
+        ctx.fillText(obj.data.text, obj.data.x, obj.data.y);
+        break;
+
+      case "image":
+        if (obj.data.image && obj.data.image.complete) {
+          ctx.drawImage(obj.data.image, obj.data.x, obj.data.y, obj.data.width, obj.data.height);
+        }
+        break;
+    }
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -609,8 +566,7 @@ export default function DrawingPanel() {
         ctx.strokeRect(startPos.x, startPos.y, width, height);
       } else if (currentTool === "circle") {
         const radius = Math.sqrt(
-          Math.pow(currentMousePos.x - startPos.x, 2) +
-            Math.pow(currentMousePos.y - startPos.y, 2),
+          Math.pow(currentMousePos.x - startPos.x, 2) + Math.pow(currentMousePos.y - startPos.y, 2),
         );
         ctx.beginPath();
         ctx.arc(startPos.x, startPos.y, radius, 0, Math.PI * 2);
@@ -687,9 +643,7 @@ export default function DrawingPanel() {
 
         // First, check if clicking on a selected object's resize handle
         if (selection.objectId) {
-          const selectedObj = objects.find(
-            (obj) => obj.id === selection.objectId,
-          );
+          const selectedObj = objects.find((obj) => obj.id === selection.objectId);
           if (selectedObj) {
             const bounds = getObjectBounds(selectedObj);
             const handle = getHandleAtPosition(pos.x, pos.y, bounds);
@@ -779,9 +733,7 @@ export default function DrawingPanel() {
 
       // Update cursor for hover states when in select mode
       if (currentTool === "select" && !isDrawing && selection.objectId) {
-        const selectedObj = objects.find(
-          (obj) => obj.id === selection.objectId,
-        );
+        const selectedObj = objects.find((obj) => obj.id === selection.objectId);
         if (selectedObj) {
           const bounds = getObjectBounds(selectedObj);
           const handle = getHandleAtPosition(pos.x, pos.y, bounds);
@@ -801,11 +753,7 @@ export default function DrawingPanel() {
 
       if (!isDrawing) return;
 
-      if (
-        currentTool === "select" &&
-        selection.objectId &&
-        selection.dragStart
-      ) {
+      if (currentTool === "select" && selection.objectId && selection.dragStart) {
         const dx = pos.x - selection.dragStart.x;
         const dy = pos.y - selection.dragStart.y;
 
@@ -927,8 +875,7 @@ export default function DrawingPanel() {
         const ctx = canvas?.getContext("2d");
         if (ctx) {
           const bgColor = getCanvasBackground();
-          ctx.strokeStyle =
-            backgroundType === "transparent" ? "rgba(255,255,255,1)" : bgColor;
+          ctx.strokeStyle = backgroundType === "transparent" ? "rgba(255,255,255,1)" : bgColor;
           ctx.lineWidth = lineWidth * 3;
           ctx.lineCap = "round";
           ctx.lineJoin = "round";
@@ -977,10 +924,7 @@ export default function DrawingPanel() {
       const pos = getMousePos(e);
       setIsDrawing(false);
 
-      if (
-        currentTool === "select" &&
-        (selection.isDragging || selection.isResizing)
-      ) {
+      if (currentTool === "select" && (selection.isDragging || selection.isResizing)) {
         setSelection((prev) => ({
           ...prev,
           isDragging: false,
@@ -1021,9 +965,7 @@ export default function DrawingPanel() {
         addObject(newObject);
         setStartPos(null);
       } else if (currentTool === "circle" && startPos) {
-        const radius = Math.sqrt(
-          Math.pow(pos.x - startPos.x, 2) + Math.pow(pos.y - startPos.y, 2),
-        );
+        const radius = Math.sqrt(Math.pow(pos.x - startPos.x, 2) + Math.pow(pos.y - startPos.y, 2));
         const newObject: DrawingObject = {
           id: Date.now().toString(),
           type: "circle",
@@ -1043,12 +985,17 @@ export default function DrawingPanel() {
     },
     [
       isDrawing,
+      getMousePos,
       currentTool,
+      selection.isDragging,
+      selection.isResizing,
       currentPath,
       startPos,
+      history,
+      historyStep,
+      objects,
       currentColor,
       lineWidth,
-      getMousePos,
       addObject,
     ],
   );
@@ -1317,19 +1264,9 @@ export default function DrawingPanel() {
   ]);
 
   return (
-    <Column
-      fillWidth
-      gap="m"
-      role="application"
-      aria-label="Drawing Panel Application"
-    >
+    <Column fillWidth gap="m" role="application" aria-label="Drawing Panel Application">
       {/* Header */}
-      <Row
-        fillWidth
-        horizontal="between"
-        vertical="center"
-        className={styles.header}
-      >
+      <Row fillWidth horizontal="between" vertical="center" className={styles.header}>
         <Heading variant="display-strong-s" as="h2">
           Drawing Panel
         </Heading>
@@ -1406,11 +1343,7 @@ export default function DrawingPanel() {
           role="toolbar"
           aria-label="Drawing tools"
         >
-          <Text
-            variant="label-default-s"
-            as="h3"
-            style={{ marginBottom: "8px" }}
-          >
+          <Text variant="label-default-s" as="h3" style={{ marginBottom: "8px" }}>
             Tools
           </Text>
 
@@ -1505,11 +1438,7 @@ export default function DrawingPanel() {
           </ToggleButton>
 
           <div className={styles.toolSection}>
-            <Text
-              variant="label-default-s"
-              as="h3"
-              style={{ marginBottom: "8px" }}
-            >
+            <Text variant="label-default-s" as="h3" style={{ marginBottom: "8px" }}>
               Color
             </Text>
             <label htmlFor="color-picker" className="visually-hidden">
@@ -1538,11 +1467,7 @@ export default function DrawingPanel() {
           </div>
 
           <div className={styles.toolSection}>
-            <Text
-              variant="label-default-s"
-              as="h3"
-              style={{ marginBottom: "8px" }}
-            >
+            <Text variant="label-default-s" as="h3" style={{ marginBottom: "8px" }}>
               Line Width: {lineWidth}px
             </Text>
             <label htmlFor="line-width-slider" className="visually-hidden">
@@ -1576,11 +1501,7 @@ export default function DrawingPanel() {
           </div>
 
           <div className={styles.toolSection}>
-            <Text
-              variant="label-default-s"
-              as="h3"
-              style={{ marginBottom: "8px" }}
-            >
+            <Text variant="label-default-s" as="h3" style={{ marginBottom: "8px" }}>
               Background
             </Text>
             <Column gap="xs">
@@ -1605,9 +1526,7 @@ export default function DrawingPanel() {
                 Dark Grey
               </Button>
               <Button
-                variant={
-                  backgroundType === "transparent" ? "primary" : "secondary"
-                }
+                variant={backgroundType === "transparent" ? "primary" : "secondary"}
                 size="s"
                 fillWidth
                 onClick={() => setBackgroundType("transparent")}
@@ -1629,12 +1548,7 @@ export default function DrawingPanel() {
             </Column>
 
             {showBackgroundMenu && (
-              <Column
-                gap="xs"
-                paddingTop="s"
-                role="region"
-                aria-label="Custom background settings"
-              >
+              <Column gap="xs" paddingTop="s" role="region" aria-label="Custom background settings">
                 <Text variant="label-default-xs" style={{ marginTop: "8px" }}>
                   Custom Color
                 </Text>
@@ -1676,11 +1590,7 @@ export default function DrawingPanel() {
                 <Column gap="xs">
                   <Row gap="xs">
                     <Button
-                      variant={
-                        gradientConfig.type === "linear"
-                          ? "primary"
-                          : "secondary"
-                      }
+                      variant={gradientConfig.type === "linear" ? "primary" : "secondary"}
                       size="s"
                       fillWidth
                       onClick={() => {
@@ -1696,11 +1606,7 @@ export default function DrawingPanel() {
                       Linear
                     </Button>
                     <Button
-                      variant={
-                        gradientConfig.type === "radial"
-                          ? "primary"
-                          : "secondary"
-                      }
+                      variant={gradientConfig.type === "radial" ? "primary" : "secondary"}
                       size="s"
                       fillWidth
                       onClick={() => {
@@ -1717,10 +1623,7 @@ export default function DrawingPanel() {
                     </Button>
                   </Row>
                   <Row gap="xs">
-                    <label
-                      htmlFor="gradient-color-1"
-                      className="visually-hidden"
-                    >
+                    <label htmlFor="gradient-color-1" className="visually-hidden">
                       Gradient first color
                     </label>
                     <input
@@ -1740,10 +1643,7 @@ export default function DrawingPanel() {
                       style={{ height: "32px", flex: 1 }}
                       aria-label="First gradient color"
                     />
-                    <label
-                      htmlFor="gradient-color-2"
-                      className="visually-hidden"
-                    >
+                    <label htmlFor="gradient-color-2" className="visually-hidden">
                       Gradient second color
                     </label>
                     <input
@@ -1766,13 +1666,8 @@ export default function DrawingPanel() {
                   </Row>
                   {gradientConfig.type === "linear" && (
                     <>
-                      <Text variant="label-default-xs">
-                        Angle: {gradientConfig.angle}°
-                      </Text>
-                      <label
-                        htmlFor="gradient-angle"
-                        className="visually-hidden"
-                      >
+                      <Text variant="label-default-xs">Angle: {gradientConfig.angle}°</Text>
+                      <label htmlFor="gradient-angle" className="visually-hidden">
                         Gradient angle slider
                       </label>
                       <input
@@ -1802,11 +1697,7 @@ export default function DrawingPanel() {
           </div>
 
           <div className={styles.toolSection}>
-            <Text
-              variant="label-default-s"
-              as="h3"
-              style={{ marginBottom: "8px" }}
-            >
+            <Text variant="label-default-s" as="h3" style={{ marginBottom: "8px" }}>
               Upload Image
             </Text>
             <label htmlFor="image-upload" className="visually-hidden">
@@ -1873,8 +1764,7 @@ export default function DrawingPanel() {
                                 : hoverHandle === "e" || hoverHandle === "w"
                                   ? "ew-resize"
                                   : "default"
-                        : currentTool === "rectangle" ||
-                            currentTool === "circle"
+                        : currentTool === "rectangle" || currentTool === "circle"
                           ? "crosshair"
                           : "default",
             }}
@@ -1891,11 +1781,7 @@ export default function DrawingPanel() {
           role="region"
           aria-label="Layers panel"
         >
-          <Text
-            variant="label-default-s"
-            as="h3"
-            style={{ marginBottom: "8px" }}
-          >
+          <Text variant="label-default-s" as="h3" style={{ marginBottom: "8px" }}>
             Layers ({objects.length})
           </Text>
 
@@ -1910,9 +1796,7 @@ export default function DrawingPanel() {
                 aria-label={`Layer ${index + 1}: ${obj.type}`}
                 style={{
                   background:
-                    selection.objectId === obj.id
-                      ? "var(--accent-alpha-weak)"
-                      : "var(--surface)",
+                    selection.objectId === obj.id ? "var(--accent-alpha-weak)" : "var(--surface)",
                   cursor: "pointer",
                 }}
                 onClick={() => {
@@ -1957,15 +1841,10 @@ export default function DrawingPanel() {
       </Row>
 
       {/* Keyboard shortcuts info */}
-      <Column
-        gap="xs"
-        paddingTop="s"
-        style={{ fontSize: "12px", opacity: 0.7 }}
-      >
+      <Column gap="xs" paddingTop="s" style={{ fontSize: "12px", opacity: 0.7 }}>
         <Text variant="label-default-xs" as="p">
-          <strong>Keyboard Shortcuts:</strong> Ctrl+Z (Undo), Ctrl+Shift+Z
-          (Redo), Ctrl+S (Download), P (Pen), E (Eraser), R (Rectangle), C
-          (Circle), T (Text), V (Select)
+          <strong>Keyboard Shortcuts:</strong> Ctrl+Z (Undo), Ctrl+Shift+Z (Redo), Ctrl+S
+          (Download), P (Pen), E (Eraser), R (Rectangle), C (Circle), T (Text), V (Select)
         </Text>
       </Column>
       <Dialog
@@ -2004,11 +1883,7 @@ export default function DrawingPanel() {
       >
         <Row>
           <div className={styles.toolSection}>
-            <Text
-              variant="label-default-s"
-              as="h3"
-              style={{ marginBottom: "8px" }}
-            >
+            <Text variant="label-default-s" as="h3" style={{ marginBottom: "8px" }}>
               Color
             </Text>
             <label htmlFor="color-picker" className="visually-hidden">
