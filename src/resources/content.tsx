@@ -148,9 +148,10 @@ const about: About = {
     title: "Introduction",
     description: (
       <>
-        Selene is a Jakarta-based design engineer with a passion for transforming complex challenges
-        into simple, elegant design solutions. Her work spans digital interfaces, interactive
-        experiences, and the convergence of design and technology.
+        Selene is a Jakarta-based design engineer with a passion for
+        transforming complex challenges into simple, elegant design solutions.
+        Her work spans digital interfaces, interactive experiences, and the
+        convergence of design and technology.
       </>
     ),
   },
@@ -164,12 +165,12 @@ const about: About = {
         role: "Senior Design Engineer",
         achievements: [
           <>
-            Redesigned the UI/UX for the FLY platform, resulting in a 20% increase in user
-            engagement and 30% faster load times.
+            Redesigned the UI/UX for the FLY platform, resulting in a 20%
+            increase in user engagement and 30% faster load times.
           </>,
           <>
-            Spearheaded the integration of AI tools into design workflows, enabling designers to
-            iterate 50% faster.
+            Spearheaded the integration of AI tools into design workflows,
+            enabling designers to iterate 50% faster.
           </>,
         ],
         images: [
@@ -188,12 +189,12 @@ const about: About = {
         role: "Lead Designer",
         achievements: [
           <>
-            Developed a design system that unified the brand across multiple platforms, improving
-            design consistency by 40%.
+            Developed a design system that unified the brand across multiple
+            platforms, improving design consistency by 40%.
           </>,
           <>
-            Led a cross-functional team to launch a new product line, contributing to a 15% increase
-            in overall company revenue.
+            Led a cross-functional team to launch a new product line,
+            contributing to a 15% increase in overall company revenue.
           </>,
         ],
         images: [],
@@ -220,7 +221,9 @@ const about: About = {
     skills: [
       {
         title: "Figma",
-        description: <>Able to prototype in Figma with Once UI with unnatural speed.</>,
+        description: (
+          <>Able to prototype in Figma with Once UI with unnatural speed.</>
+        ),
         tags: [
           {
             name: "Figma",
@@ -245,7 +248,9 @@ const about: About = {
       },
       {
         title: "Next.js",
-        description: <>Building next gen apps with Next.js + Once UI + Supabase.</>,
+        description: (
+          <>Building next gen apps with Next.js + Once UI + Supabase.</>
+        ),
         tags: [
           {
             name: "JavaScript",
@@ -382,7 +387,8 @@ const achievementsList: Array<Achievement> = [
   {
     id: 19,
     title: "Sand Mandala",
-    description: "Reset all achievements while already having unlocked all but 5 achievements",
+    description:
+      "Reset all achievements while already having unlocked all but 5 achievements",
     noOfAchievementsRequiredToUnlock: 99,
     rarity: "rare",
     isUnlocked: false,
@@ -394,15 +400,16 @@ const achievementsList: Array<Achievement> = [
     rarity: "legendary",
     isUnlocked: false,
   },
-  //NOTE: This is a negative achievement, a secret one not counted in
-  {
-    id: -21,
-    title: "Speedophile",
-    description: "Unlocked all achievements in less than 67 seconds",
-    rarity: "mythic",
-    isUnlocked: false,
-  },
 ];
+
+const negativeAchievement: Achievement = {
+  //NOTE: This is a negative achievement, a secret one not counted in 100% completion
+  id: -1,
+  title: "Speedophile",
+  description: "Unlocked all achievements in less than 67 seconds",
+  rarity: "mythic",
+  isUnlocked: false,
+};
 
 //NOTE: Have to reassign noOfAchievementsRequiredToUnlock for Sand Mandala, as "achievementList" cannot be called in itself
 achievementsList.find(
@@ -420,4 +427,5 @@ export {
   work,
   gallery,
   achievementsList,
+  negativeAchievement,
 };

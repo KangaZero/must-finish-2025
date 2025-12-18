@@ -258,7 +258,9 @@ type AchievementTitle =
   | "Go Touch Grass"
   | "Speedophile";
 
-export type Achievement =
+export type Achievement<
+  TAchievementTitle extends AchievementTitle = AchievementTitle,
+> =
   | {
       id: number;
       title: AchievementTitle;
@@ -274,6 +276,7 @@ export type Achievement =
       };
       description: string;
       rarity: "common" | "uncommon" | "rare" | "legendary" | "mythic";
+      split?: TAchievementTitle extends "Speedophile" ? number : never;
       isUnlocked: true;
       UnlockedAt: Date;
       noOfAchievementsRequiredToUnlock?: number;
