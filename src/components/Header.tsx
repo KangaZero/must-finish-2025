@@ -29,7 +29,15 @@ import {
   MapLocateControl,
 } from "@/components/ui/map";
 
-import { routes, display, person, about, blog, work, gallery } from "@/resources";
+import {
+  routes,
+  display,
+  person,
+  about,
+  blog,
+  work,
+  gallery,
+} from "@/resources";
 import { ThemeToggle } from "./ThemeToggle";
 import styles from "./Header.module.scss";
 import React from "react";
@@ -41,7 +49,10 @@ type TimeDisplayProps = {
   locale?: string; // Optionally allow locale, defaulting to 'en-GB'
 };
 
-const TimeDisplay: React.FC<TimeDisplayProps> = ({ timeZone, locale = "en-GB" }) => {
+const TimeDisplay: React.FC<TimeDisplayProps> = ({
+  timeZone,
+  locale = "en-GB",
+}) => {
   const [currentTime, setCurrentTime] = useState("");
 
   useEffect(() => {
@@ -75,7 +86,13 @@ export const Header = () => {
   const [hideMenu, setHideMenu] = useState(false);
   return (
     <>
-      <Fade s={{ hide: true }} fillWidth position="fixed" height="80" zIndex={9} />
+      <Fade
+        s={{ hide: true }}
+        fillWidth
+        position="fixed"
+        height="80"
+        zIndex={9}
+      />
       <Fade
         hide
         s={{ hide: false }}
@@ -100,7 +117,12 @@ export const Header = () => {
           position: "fixed",
         }}
       >
-        <Row paddingLeft="12" fillWidth vertical="center" textVariant="body-default-s">
+        <Row
+          paddingLeft="12"
+          fillWidth
+          vertical="center"
+          textVariant="body-default-s"
+        >
           {display.location && (
             <Row s={{ hide: true }}>
               <HoverCard
@@ -116,7 +138,7 @@ export const Header = () => {
                     }}
                     style={{ cursor: "pointer" }}
                   >
-                    Based in <b>{person.location}</b>
+                    Based in <b>Asia/Tokyo</b>
                   </span>
                 }
               >
@@ -138,7 +160,10 @@ export const Header = () => {
                     />
                     <Column gap="4">
                       <Text variant="heading-strong-m">Accenture Japan</Text>
-                      <Text variant="body-default-s" onBackground="neutral-weak">
+                      <Text
+                        variant="body-default-s"
+                        onBackground="neutral-weak"
+                      >
                         Software Engineer
                       </Text>
                     </Column>
@@ -156,7 +181,10 @@ export const Header = () => {
                       zIndex={1}
                       darkUrl="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}"
                     />
-                    <MapCircle center={person.locationCoordinates} radius={200} />
+                    <MapCircle
+                      center={person.locationCoordinates}
+                      radius={200}
+                    />
                     <MapMarker
                       key={person.location.split("/")[1]}
                       position={person.locationCoordinates}
@@ -181,17 +209,33 @@ export const Header = () => {
             horizontal="center"
             zIndex={1}
           >
-            <Row gap="4" vertical="center" textVariant="body-default-s" suppressHydrationWarning>
+            <Row
+              gap="4"
+              vertical="center"
+              textVariant="body-default-s"
+              suppressHydrationWarning
+            >
               {routes["/"] && (
                 <Animation
                   blur={8}
                   triggerType="hover"
                   center
                   duration={400}
-                  trigger={<ToggleButton prefixIcon="home" href="/" selected={pathname === "/"} />}
+                  trigger={
+                    <ToggleButton
+                      prefixIcon="home"
+                      href="/"
+                      selected={pathname === "/"}
+                    />
+                  }
                 >
                   <ToggleButton href="/" selected={pathname === "/"}>
-                    <Icon name="home" size="s" tooltip="Home" tooltipPosition="top" />
+                    <Icon
+                      name="home"
+                      size="s"
+                      tooltip="Home"
+                      tooltipPosition="top"
+                    />
                   </ToggleButton>
                 </Animation>
               )}
@@ -303,7 +347,11 @@ export const Header = () => {
               )}
               <Line background="neutral-alpha-medium" vert maxHeight="24" />
               <StyleOverlay minHeight={25} overflowY="auto">
-                <IconButton tooltip="Open style settings" icon="sun" variant="ghost" />
+                <IconButton
+                  tooltip="Open style settings"
+                  icon="sun"
+                  variant="ghost"
+                />
               </StyleOverlay>
               {display.menuAccordion && (
                 <>

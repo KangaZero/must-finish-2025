@@ -8,6 +8,17 @@
     }
 }
 
+.ruby {
+    font-size: 2.25rem;
+    line-height: calc(2.5 / 2.25);
+    margin-left: 0.25rem;
+}
+
+.rt {
+    font-size: 1.125rem;
+    line-height: calc(1.75 / 1.125);
+}
+
 @media (max-width: breakpoints.$s) {
     .textAlign {
         text-align: center;

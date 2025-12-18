@@ -10,6 +10,7 @@ import type {
   UserSettings,
   Achievement,
 } from "@/types";
+import { getLocalTimeZone } from "@/utils/getLocalTimeZone";
 import { Line, Logo, Row, Text, TypeFx } from "@once-ui-system/core";
 
 const userSettings: UserSettings = {
@@ -20,13 +21,50 @@ const person: Person = {
   firstName: "Samuel Wai Weng",
   lastName: "Yong",
   name: `Samuel Wai Weng Yong`,
+  rubyName: [
+    { romaji: "Samuel", furigana: "サムエル", kanji: "" },
+    { romaji: "Wai Weng", furigana: "ワイウエング", kanji: "偉栄" },
+    { romaji: "Yong", furigana: "ヨング", kanji: "楊" },
+  ],
   role: "Frontend Developer",
   avatar: "/images/avatar.jpg",
   email: "samuelyongw@gmail.com",
   githubUsername: "KangaZero",
-  location: "Asia/Tokyo", // Expecting the IANA time zone identifier, e.g., 'Europe/Vienna'
+  location: getLocalTimeZone() || "Asia/Tokyo", // Expecting the IANA time zone identifier, e.g., 'Europe/Vienna'
   locationCoordinates: [35.660504, 139.724981], // Latitude, Longitude for Tokyo
   languages: ["English", "Japanese"], // optional: Leave the array empty if you don't want to display languages
+  technologies: [
+    {
+      name: "React",
+      icon: "react",
+      category: "professional",
+    },
+    {
+      name: "TypeScript",
+      icon: "typescript",
+      category: "professional",
+    },
+    {
+      name: "Rust",
+      icon: "rust",
+      category: "hobby",
+    },
+    {
+      name: "GoLang",
+      icon: "goLang",
+      category: "hobby",
+    },
+    {
+      name: "NIXOS",
+      icon: "nixOs",
+      category: "hobby",
+    },
+    {
+      name: "Vim",
+      icon: "vim",
+      category: "hobby",
+    },
+  ],
 };
 
 const newsletter: Newsletter = {
@@ -148,10 +186,8 @@ const about: About = {
     title: "Introduction",
     description: (
       <>
-        Selene is a Jakarta-based design engineer with a passion for
-        transforming complex challenges into simple, elegant design solutions.
-        Her work spans digital interfaces, interactive experiences, and the
-        convergence of design and technology.
+        Professional Frontend Developer specialized in React and TypeScript.
+        Hobbyist Backend Developer and Rust, Golang, NIXOS enjoyer.
       </>
     ),
   },

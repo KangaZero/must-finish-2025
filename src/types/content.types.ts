@@ -21,12 +21,18 @@ export type Person = {
   lastName: string;
   /** The name you want to display, allows variations like nicknames */
   name: string;
+  /** Ruby name of the person */
+  rubyName: {
+    romaji: string;
+    furigana: string;
+    kanji: string;
+  }[];
   /** Role or job title */
   role: string;
   /** Path to avatar image */
   avatar: string;
   /** Email address */
-  email: string;
+  email: `${string}@${string}.${"com" | "net" | "org" | "edu"}`;
   /** GitHub username */
   githubUsername: string;
   /** IANA time zone location */
@@ -34,7 +40,13 @@ export type Person = {
   /** Geographic coordinates for the location */
   locationCoordinates: [number, number]; // [latitude, longitude]
   /** Languages spoken */
-  languages?: string[];
+  languages: string[];
+  /** Technologies you dabble with */
+  technologies: {
+    name: string;
+    icon: IconName;
+    category: "hobby" | "professional";
+  }[];
 };
 
 /**

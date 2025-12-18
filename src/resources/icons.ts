@@ -22,7 +22,15 @@ import {
   PiImageDuotone,
 } from "react-icons/pi";
 
-import { SiJavascript, SiNextdotjs, SiFigma, SiSupabase } from "react-icons/si";
+import {
+  SiJavascript,
+  SiTypescript,
+  SiNextdotjs,
+  SiFigma,
+  SiSupabase,
+  SiVim,
+  SiNixos,
+} from "react-icons/si";
 
 import {
   FaDiscord,
@@ -38,6 +46,9 @@ import {
   FaReddit,
   FaTelegram,
   FaRegSun,
+  FaReact,
+  FaRust,
+  FaGolang,
 } from "react-icons/fa6";
 
 export const iconLibrary = {
@@ -64,6 +75,11 @@ export const iconLibrary = {
   document: HiOutlineDocument,
   rocket: HiOutlineRocketLaunch,
   javascript: SiJavascript,
+  typescript: SiTypescript,
+  rust: FaRust,
+  goLang: FaGolang,
+  vim: SiVim,
+  nixOs: SiNixos,
   nextjs: SiNextdotjs,
   supabase: SiSupabase,
   figma: SiFigma,
@@ -74,6 +90,7 @@ export const iconLibrary = {
   telegram: FaTelegram,
   instagram: FaInstagram,
   sun: FaRegSun,
+  react: FaReact,
 } as const satisfies Record<string, IconType>;
 
 export type IconLibrary = typeof iconLibrary;
