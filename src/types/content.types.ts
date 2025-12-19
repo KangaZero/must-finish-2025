@@ -197,6 +197,18 @@ export interface About extends BasePageConfig {
       name: string;
       /** Description of studies */
       description: React.ReactNode;
+      /** Logo path (SVG) */
+      logoWordmark: `${string}.svg`;
+    }>;
+    images?: Array<{
+      /** Image source path */
+      src: string;
+      /** Image alt text */
+      alt: string;
+      /** Image width ratio */
+      width: number;
+      /** Image height ratio */
+      height: number;
     }>;
   };
   /** Technical skills section */

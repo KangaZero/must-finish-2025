@@ -11,6 +11,7 @@ import {
   Meta,
   Schema,
   Row,
+  Logo,
 } from "@once-ui-system/core";
 import { baseURL, about, person, social } from "@/resources";
 import TableOfContents from "@/components/about/TableOfContents";
@@ -324,9 +325,15 @@ export default function About() {
                     fillWidth
                     gap="4"
                   >
-                    <Text id={institution.name} variant="heading-strong-l">
-                      {institution.name}
-                    </Text>
+                    <Row>
+                      <Text id={institution.name} variant="heading-strong-l">
+                        {institution.name}
+                      </Text>
+                      <Logo
+                        style={{ marginLeft: "1rem" }}
+                        wordmark={institution.logoWordmark}
+                      />
+                    </Row>
                     <Text
                       variant="heading-default-xs"
                       onBackground="neutral-weak"

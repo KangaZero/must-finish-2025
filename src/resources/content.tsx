@@ -12,6 +12,7 @@ import type {
 } from "@/types";
 import { getLocalTimeZone } from "@/utils/getLocalTimeZone";
 import { Line, Logo, Row, Text, TypeFx } from "@once-ui-system/core";
+import { ReactNode } from "react";
 
 const userSettings: UserSettings = {
   isEffectsEnabled: true,
@@ -193,20 +194,35 @@ const about: About = {
   },
   work: {
     display: true, // set to false to hide this section
-    title: "Work Experience",
+    title: "Frontend Developer & DX Architect",
     experiences: [
       {
-        company: "FLY",
-        timeframe: "2022 - Present",
-        role: "Senior Design Engineer",
+        company: "Accenture",
+        timeframe: "2023 - Present",
+        role: "Frontend Developer",
         achievements: [
           <>
-            Redesigned the UI/UX for the FLY platform, resulting in a 20%
-            increase in user engagement and 30% faster load times.
+            <b>Unified a fragmented ecosystem</b> of legacy tools (Excel,
+            PowerPoint, and siloed docs) into a single, standardized platform,
+            creating a <q>single source of truth</q> for enterprise workflows.
           </>,
           <>
-            Spearheaded the integration of AI tools into design workflows,
-            enabling designers to iterate 50% faster.
+            <b>Developed interactive visual builders</b>, including an SAP
+            component canvas and a design-flow engine, allowing users to build
+            and test enterprise applications through a drag-and-drop interface.
+          </>,
+          <>
+            <b>
+              Engineered an <q>App-Wide Intelligence</q> layer
+            </b>{" "}
+            that enables the platform to automatically read, update, and
+            refactor data across the entire web application to ensure
+            consistency.
+          </>,
+          <>
+            <b>Transformed the Developer Experience (DX)</b> by replacing slow,
+            manual documentation processes with automated tools, significantly
+            reducing project delivery times and operational costs.
           </>,
         ],
         images: [
@@ -220,17 +236,13 @@ const about: About = {
         ],
       },
       {
-        company: "Creativ3",
-        timeframe: "2018 - 2022",
-        role: "Lead Designer",
+        company: "Timewitch",
+        timeframe: "2023",
+        role: "Fullstack intern",
         achievements: [
           <>
             Developed a design system that unified the brand across multiple
             platforms, improving design consistency by 40%.
-          </>,
-          <>
-            Led a cross-functional team to launch a new product line,
-            contributing to a 15% increase in overall company revenue.
           </>,
         ],
         images: [],
@@ -239,17 +251,15 @@ const about: About = {
   },
   studies: {
     display: true, // set to false to hide this section
-    title: "Studies",
+    title: "Education",
     institutions: [
       {
-        name: "University of Jakarta",
+        name: "University of Sydney",
         description: <>Studied software engineering.</>,
-      },
-      {
-        name: "Build the Future",
-        description: <>Studied online marketing and personal branding.</>,
+        logoWordmark: "/trademarks/university-of-sydney-logo.svg",
       },
     ],
+    images: [],
   },
   technical: {
     display: true, // set to false to hide this section
