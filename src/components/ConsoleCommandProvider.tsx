@@ -1,16 +1,25 @@
 "use client";
 
-import React, { createContext, useContext, useMemo, useEffect, useCallback } from "react";
+import React, {
+  createContext,
+  useContext,
+  useMemo,
+  useEffect,
+  useCallback,
+} from "react";
 import { useAchievements } from "./AchievementsProvider";
 import { useRouter } from "next/navigation";
 import { Achievement, Achievements } from "@/types";
 import { achievementsList } from "@/resources";
+import { LOCAL_STORAGE_KEY } from "@/resources";
 
 type ConsoleCommandContextType = {
   registerCommands: () => void;
 };
 
-const ConsoleCommandContext = createContext<ConsoleCommandContextType | undefined>(undefined);
+const ConsoleCommandContext = createContext<
+  ConsoleCommandContextType | undefined
+>(undefined);
 
 export const ConsoleCommandProvider = ({
   children,
@@ -29,7 +38,10 @@ export const ConsoleCommandProvider = ({
           "%c🚀 Portfolio Console Commands 🚀",
           "color: #8e44ad; font-size: 1.5em; font-weight: bold;",
         );
-        console.log("%cAvailable commands:", "color: #3498db; font-size: 1.2em;");
+        console.log(
+          "%cAvailable commands:",
+          "color: #3498db; font-size: 1.2em;",
+        );
         console.table([
           ["portfolio.help()", "Display this help message"],
           ["portfolio.list()", "List all achievements"],
@@ -38,7 +50,10 @@ export const ConsoleCommandProvider = ({
           ["portfolio.clear()", "Clear the console"],
           ["portfolio.reset()", "Reset all achievements"],
           ["portfolio.about()", "Learn about this portfolio"],
-          ["portfolio.masterLogin(secretPassword)", "//TODO remove this\npassword: 'password123'"],
+          [
+            "portfolio.masterLogin(secretPassword)",
+            "//TODO remove this\npassword: 'password123'",
+          ],
         ]);
         console.log(
           "%cTip: Try unlocking an achievement using the console! 👀",
@@ -80,31 +95,38 @@ export const ConsoleCommandProvider = ({
       reset: () => {
         if (typeof window !== "undefined") {
           let isAllowedToUnlockSandMandalaAchievement = false;
-          const currentAchievementsLocalStorage = localStorage.getItem("achievements");
+          const currentAchievementsLocalStorage =
+            localStorage.getItem(LOCAL_STORAGE_KEY);
           if (currentAchievementsLocalStorage) {
+            if (currentAchievementsLocalStorage === "e1eda57b") {
+              return console.log(
+                "Refresh the page! You have a pending achievement to unlock",
+              );
+            }
             const parsedAchievementsLocalStorage = JSON.parse(
               currentAchievementsLocalStorage,
             ) as Achievement[];
-            const currentUnlockedAchievements = parsedAchievementsLocalStorage.map(
-              (obj) => obj.isUnlocked,
-            );
-            const noOfAchievementsRequiredToUnlockSandMandala = achievementsList.find(
-              (achievement) => achievement.title === "Sand Mandala",
-            )!.noOfAchievementsRequiredToUnlock;
+            const currentUnlockedAchievements =
+              parsedAchievementsLocalStorage.map((obj) => obj.isUnlocked);
+            const noOfAchievementsRequiredToUnlockSandMandala =
+              achievementsList.find(
+                (achievement) => achievement.title === "Sand Mandala",
+              )!.noOfAchievementsRequiredToUnlock;
             if (
-              currentUnlockedAchievements.length >= noOfAchievementsRequiredToUnlockSandMandala!
+              currentUnlockedAchievements.length >=
+              noOfAchievementsRequiredToUnlockSandMandala!
             ) {
               console.log(
                 "You who fears nothing, you have unlocked the secret achievement!",
-                "style: color: #3498db; font-size: 1.2em; font-weight: bold; font-style: italic;",
+                "color: #3498db; font-size: 1.2em; font-weight: bold; font-style: italic;",
               );
               isAllowedToUnlockSandMandalaAchievement = true;
             }
           }
           if (isAllowedToUnlockSandMandalaAchievement) {
-            localStorage.setItem("achievements", "e1eda57b");
+            localStorage.setItem(LOCAL_STORAGE_KEY, "e1eda57b");
           } else {
-            localStorage.removeItem("achievements");
+            localStorage.removeItem(LOCAL_STORAGE_KEY);
           }
           console.log(
             "%c🔄 Achievements reset! Refresh the page to see changes.",
@@ -127,16 +149,22 @@ export const ConsoleCommandProvider = ({
           "color: #34495e;",
         );
         console.log(
-          "%cCreated with ❤️ using Next.js and Once UI",
+          "%cCreated with human intelligence using Next.js and Once UI",
           "color: #e74c3c; font-style: italic;",
         );
       },
       masterLogin: (secretPassword: string) => {
         const correctPassword = "password123";
         if (secretPassword !== correctPassword) {
-          console.log("%cIncorrect password. Try again!", "color: #e74c3c; font-weight: bold;");
+          console.log(
+            "%cIncorrect password. Try again!",
+            "color: #e74c3c; font-weight: bold;",
+          );
         } else {
-          console.log("%cMaster login successful! 🎉", "color: #2ecc71; font-weight: bold;");
+          console.log(
+            "%cMaster login successful! 🎉",
+            "color: #2ecc71; font-weight: bold;",
+          );
           console.log(
             `
             _  _  _ _ _ _  _                                                       _   _       _          _______       _
@@ -170,11 +198,16 @@ export const ConsoleCommandProvider = ({
 
   const value = useMemo(() => ({ registerCommands }), [registerCommands]);
 
-  return <ConsoleCommandContext.Provider value={value}>{children}</ConsoleCommandContext.Provider>;
+  return (
+    <ConsoleCommandContext.Provider value={value}>
+      {children}
+    </ConsoleCommandContext.Provider>
+  );
 };
 
 export const useConsole = () => {
   const context = useContext(ConsoleCommandContext);
-  if (!context) throw new Error("useConsole must be used within ConsoleCommandProvider");
+  if (!context)
+    throw new Error("useConsole must be used within ConsoleCommandProvider");
   return context;
 };

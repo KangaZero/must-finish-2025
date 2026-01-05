@@ -277,6 +277,7 @@ type AchievementTitle =
   | "Fashion Police"
   | "Snoopy Detective"
   | "Social Stalker"
+  | "Test"
   | "Woah! Hacker"
   | "Sand Mandala"
   | "Go Touch Grass"

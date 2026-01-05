@@ -11,7 +11,7 @@ import type {
   Achievement,
 } from "@/types";
 import { getLocalTimeZone } from "@/utils/getLocalTimeZone";
-import { Line, Logo, Row, Text, TypeFx } from "@once-ui-system/core";
+import { LetterFx, Line, Logo, Row, Text, TypeFx } from "@once-ui-system/core";
 import { ReactNode } from "react";
 
 const userSettings: UserSettings = {
@@ -121,12 +121,19 @@ const home: Home = {
       New year
       <br />
       new{" "}
-      <TypeFx
+      <LetterFx
+        speed="slow"
+        trigger="instant"
+        charset={"30459uirohe".split("")}
+      >
+        buzz techs
+      </LetterFx>
+      {/*<TypeFx
         words={["portfolio", "framework", "trends", "ways to suffer"]}
         speed={80}
         hold={2000}
         trigger="instant"
-      />
+      />*/}
     </Text>
   ),
   featured: {
@@ -394,6 +401,8 @@ const gallery: Gallery = {
   ],
 };
 
+const LOCAL_STORAGE_KEY = "achievements";
+
 const achievementsList: Array<Achievement> = [
   {
     id: 1,
@@ -427,6 +436,13 @@ const achievementsList: Array<Achievement> = [
     id: 5,
     title: "Social Stalker",
     description: "Looked at all of the creator's socials",
+    rarity: "uncommon",
+    isUnlocked: false,
+  },
+  {
+    id: 6,
+    title: "Test",
+    description: "Test achievement for development purposes",
     rarity: "uncommon",
     isUnlocked: false,
   },
@@ -474,4 +490,5 @@ export {
   gallery,
   achievementsList,
   negativeAchievement,
+  LOCAL_STORAGE_KEY,
 };

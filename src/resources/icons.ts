@@ -32,6 +32,8 @@ import {
   SiNixos,
 } from "react-icons/si";
 
+import { MdOutlineCancel } from "react-icons/md";
+
 import {
   FaDiscord,
   FaGithub,
@@ -91,6 +93,7 @@ export const iconLibrary = {
   instagram: FaInstagram,
   sun: FaRegSun,
   react: FaReact,
+  outlineCancel: MdOutlineCancel,
 } as const satisfies Record<string, IconType>;
 
 export type IconLibrary = typeof iconLibrary;

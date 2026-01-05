@@ -54,7 +54,6 @@ const TimeDisplay: React.FC<TimeDisplayProps> = ({
   locale = "en-GB",
 }) => {
   const [currentTime, setCurrentTime] = useState("");
-
   useEffect(() => {
     const updateTime = () => {
       const now = new Date();
@@ -163,6 +162,9 @@ export const Header = () => {
                       <Text
                         variant="body-default-s"
                         onBackground="neutral-weak"
+                        onClick={() => {
+                          unlockAchievement("Test");
+                        }}
                       >
                         Software Engineer
                       </Text>
@@ -351,6 +353,8 @@ export const Header = () => {
                   tooltip="Open style settings"
                   icon="sun"
                   variant="ghost"
+                  //NOTE: full menu needs to be shown else the screen size is too small to access the style settings
+                  onClick={() => setHideMenu(false)}
                 />
               </StyleOverlay>
               {display.menuAccordion && (

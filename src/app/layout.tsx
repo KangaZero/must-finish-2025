@@ -1,6 +1,7 @@
 import "@once-ui-system/core/css/styles.css";
 import "@once-ui-system/core/css/tokens.css";
 import "@/resources/custom.css";
+// import "@/app/globals.css";
 import classNames from "classnames";
 
 import {
@@ -17,6 +18,7 @@ import { baseURL, effects, fonts, style, dataStyle, home } from "@/resources";
 
 import styles from "./layout.module.scss";
 import { Metadata } from "next";
+import { AchievementToast } from "@/components/ui/achievement-toast";
 
 export async function generateMetadata(): Promise<Metadata> {
   return Meta.generate({
@@ -190,6 +192,7 @@ export default async function RootLayout({
           </RevealFx>
           <Flex fillWidth minHeight="16" s={{ hide: true }} />
           <Header />
+          <AchievementToast position="top-right" />
           <Flex zIndex={0} fillWidth padding="l" horizontal="center" flex={1}>
             <Flex horizontal="center" fillWidth minHeight="0">
               <RouteGuard>{children}</RouteGuard>

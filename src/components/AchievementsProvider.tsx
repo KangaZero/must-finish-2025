@@ -8,10 +8,12 @@ import React, {
   useEffect,
   useCallback,
 } from "react";
-import { Button, Row, useToast } from "@once-ui-system/core";
-import { achievementsList, negativeAchievement } from "@/resources/content";
+import {
+  achievementsList,
+  negativeAchievement,
+  LOCAL_STORAGE_KEY,
+} from "@/resources/content";
 import type { Achievement } from "@/types/content.types";
-import Link from "next/link";
 
 type AchievementsContextType = {
   achievements: Achievement[];
@@ -20,6 +22,10 @@ type AchievementsContextType = {
       | [title: "Speedophile", split: number]
       | [title: Exclude<Achievement["title"], "Speedophile">]
   ) => void;
+  currentAchievementUnlocked: null | Achievement;
+  setCurrentAchievementUnlocked: React.Dispatch<
+    React.SetStateAction<null | Achievement>
+  >;
 };
 
 const AchievementsContext = createContext<AchievementsContextType | undefined>(
@@ -31,10 +37,17 @@ export const AchievementsProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const LOCAL_STORAGE_KEY = "achievements";
-  const { addToast } = useToast();
-  const [achievements, setAchievements] =
-    useState<Achievement[]>(achievementsList);
+  const LOCAL_STORAGE_ACHIEVEMENTS: string | "e1eda57b" | null =
+    localStorage?.getItem(LOCAL_STORAGE_KEY);
+  const [achievements, setAchievements] = useState<Achievement[]>(
+    JSON.parse(
+      LOCAL_STORAGE_ACHIEVEMENTS && LOCAL_STORAGE_ACHIEVEMENTS !== "e1eda57b"
+        ? LOCAL_STORAGE_ACHIEVEMENTS
+        : JSON.stringify(achievementsList),
+    ),
+  );
+  const [currentAchievementUnlocked, setCurrentAchievementUnlocked] =
+    useState<null | Achievement>(null);
   const [unlockSandMandala, setUnlockSandMandala] = useState(false);
 
   const unlockAchievement = useCallback(
@@ -73,18 +86,22 @@ export const AchievementsProvider = ({
           return updated;
         }),
       );
+      setCurrentAchievementUnlocked(
+        achievements.find((a) => a.title === title) || null,
+      );
 
-      addToast({
-        variant: "success",
-        message: `Achievement "${title}" unlocked!`,
-        action: (
-          <Link href="/achievements">
-            <Button size="s">View Achievements</Button>
-          </Link>
-        ),
-      });
+      //Next achievement-toast component will handle the rest
+      // addToast({
+      //   variant: "success",
+      //   message: `Achievement "${title}" unlocked!`,
+      //   action: (
+      //     <Link href="/achievements">
+      //       <Button size="s">View Achievements</Button>
+      //     </Link>
+      //   ),
+      // });
     },
-    [achievements, addToast],
+    [achievements],
   );
 
   useEffect(() => {
@@ -148,8 +165,13 @@ export const AchievementsProvider = ({
   }, [achievements, unlockSandMandala]);
 
   const value = useMemo(
-    () => ({ achievements, unlockAchievement }),
-    [achievements, unlockAchievement],
+    () => ({
+      achievements,
+      unlockAchievement,
+      currentAchievementUnlocked,
+      setCurrentAchievementUnlocked,
+    }),
+    [achievements, currentAchievementUnlocked, unlockAchievement],
   );
 
   return (
