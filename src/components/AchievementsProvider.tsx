@@ -38,8 +38,8 @@ export const AchievementsProvider = ({
   children: React.ReactNode;
 }) => {
   const LOCAL_STORAGE_ACHIEVEMENTS: string | "e1eda57b" | null =
-    typeof window !== undefined
-      ? localStorage?.getItem(LOCAL_STORAGE_KEY)
+    typeof window !== "undefined"
+      ? localStorage.getItem(LOCAL_STORAGE_KEY)
       : null;
   const [achievements, setAchievements] = useState<Achievement[]>(
     JSON.parse(
@@ -111,7 +111,6 @@ export const AchievementsProvider = ({
       const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
       // could be in .env, but nothing to hide so yeah. also this is just a random git commit
       const keyToUnlockSandMandala = "e1eda57b";
-      console.log("stored", stored);
       if (stored && stored !== keyToUnlockSandMandala) {
         setAchievements(JSON.parse(stored));
       } else if (stored === keyToUnlockSandMandala) {
