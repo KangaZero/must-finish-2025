@@ -4,13 +4,15 @@ import { baseURL, person } from "@/resources";
 export const runtime = "nodejs";
 
 export async function GET(request: Request) {
-  let url = new URL(request.url);
-  let title = url.searchParams.get("title") || "Portfolio";
+  const url = new URL(request.url);
+  const title = url.searchParams.get("title") || "Portfolio";
 
   async function loadGoogleFont(font: string) {
     const url = `https://fonts.googleapis.com/css2?family=${font}`;
     const css = await (await fetch(url)).text();
-    const resource = css.match(/src: url\((.+)\) format\('(opentype|truetype)'\)/);
+    const resource = css.match(
+      /src: url\((.+)\) format\('(opentype|truetype)'\)/,
+    );
 
     if (resource) {
       const response = await fetch(resource[1]);

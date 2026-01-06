@@ -19,6 +19,7 @@ import { baseURL, effects, fonts, style, dataStyle, home } from "@/resources";
 import styles from "./layout.module.scss";
 import { Metadata } from "next";
 import { AchievementToast } from "@/components/ui/achievement-toast";
+import RippleGrid from "@/components/RippleGrid";
 
 export async function generateMetadata(): Promise<Metadata> {
   return Meta.generate({
@@ -148,6 +149,20 @@ export default async function RootLayout({
             ))}
           </div>
           <RevealFx fill position="absolute">
+            <RippleGrid
+              enableRainbow
+              gridColor="#4f37ae"
+              rippleIntensity={0.01}
+              gridSize={17}
+              gridThickness={12}
+              fadeDistance={1.5}
+              vignetteStrength={1}
+              glowIntensity={0.25}
+              opacity={0.7}
+              gridRotation={55}
+              mouseInteraction
+              mouseInteractionRadius={0.4}
+            />
             <Background
               zIndex={0}
               mask={{

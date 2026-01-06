@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import Image from "next/image";
 import { useAchievements } from "../AchievementsProvider";
 import { Sparkles } from "lucide-react";
@@ -118,6 +118,7 @@ export const AchievementToast: React.FC<AchievementToastProps> = ({
           <div className={styles.header}>
             <h3 className={styles.title}>{title}</h3>
             <ShineFx
+              baseOpacity={0.6}
               speed={5}
               variant="heading-default-xs"
               className={styles.badge}

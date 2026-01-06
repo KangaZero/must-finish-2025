@@ -3,6 +3,7 @@
 ## 🎨 Complete Feature List
 
 ### Core Drawing Tools
+
 - ✅ **Pen Tool (Keyboard: P)** - Freehand drawing with smooth lines
 - ✅ **Eraser Tool (Keyboard: E)** - Remove elements with 3x line width
 - ✅ **Rectangle Tool (Keyboard: R)** - Click and drag to create rectangles
@@ -13,47 +14,56 @@
 ### Canvas Background Options
 
 #### 1. Auto (Theme-Aware) - Default
+
 - Light mode: White (#ffffff)
 - Dark mode: Dark grey (#1a1a1a)
 - Automatically switches with system theme using `useTheme()`
 
 #### 2. Dark Grey Mode
+
 - Light mode: Dark grey (#2d2d2d)
 - Dark mode: White (#ffffff)
 - Inverse of Auto mode
 
 #### 3. Transparent Background
+
 - No fill color
 - Displays checkerboard pattern for visibility
 - Perfect for overlays, stickers, and transparent PNGs
 - Eraser uses white when background is transparent
 
 #### 4. Custom Color
+
 - **Visual Picker**: Click color swatch to choose visually
 - **Hex Input**: Enter hex codes (#ffffff, #000000)
 - **RGBA Support**: Full transparency support (rgba(255, 255, 255, 0.5))
 - Real-time preview on canvas
 
 #### 5. Gradient Backgrounds
+
 **Linear Gradient:**
+
 - Two-color gradient support
 - Adjustable angle (0-360°)
 - Visual color pickers for both colors
 - Real-time angle slider
 
 **Radial Gradient:**
+
 - Circular gradient from center
 - Two-color support
 - Visual color pickers
 - Radiates from canvas center
 
 ### Customization Options
+
 - ✅ **Color Picker**: HTML5 color input for drawing color
 - ✅ **Hex/RGBA Manual Entry**: Type exact color codes
 - ✅ **Line Width Slider**: 1-20px range with live preview
 - ✅ **Real-time Preview**: All changes visible immediately
 
 ### Layer Management
+
 - ✅ View all layers in scrollable panel
 - ✅ Layer type indicators (line, rectangle, circle, text, image)
 - ✅ Layer numbering (1, 2, 3, etc.)
@@ -62,6 +72,7 @@
 - ✅ Empty state message when no layers exist
 
 ### History & Actions
+
 - ✅ **Undo** (Ctrl+Z) - Unlimited undo steps
 - ✅ **Redo** (Ctrl+Shift+Z or Ctrl+Y) - Restore undone changes
 - ✅ **Clear** (Shift+Delete) - Remove all objects
@@ -69,6 +80,7 @@
 - ✅ Disabled states for unavailable actions
 
 ### Image Upload
+
 - ✅ Accepts all image formats (PNG, JPG, GIF, SVG, etc.)
 - ✅ Automatic scaling to 50% of canvas size
 - ✅ Maintains aspect ratio
@@ -78,16 +90,18 @@
 ## 📱 Mobile Responsiveness
 
 ### Breakpoint Behavior
-| Screen Size | Layout | Canvas Height | Notes |
-|------------|--------|---------------|-------|
-| 1200px+ | 3-column (Toolbar \| Canvas \| Layers) | 600px min | Full desktop experience |
-| 1024-1200px | 3-column compressed | 600px min | Narrower sidebars (220px) |
-| 768-1024px | Stacked vertical | 500px min | Toolbar → Canvas → Layers |
-| 640-768px | Compact vertical | 400px min | Smaller buttons and spacing |
-| 480-640px | Single column | 300px min | Touch-optimized controls |
-| <480px | Minimal | 250px min | Essential features only |
+
+| Screen Size | Layout                                 | Canvas Height | Notes                       |
+| ----------- | -------------------------------------- | ------------- | --------------------------- |
+| 1200px+     | 3-column (Toolbar \| Canvas \| Layers) | 600px min     | Full desktop experience     |
+| 1024-1200px | 3-column compressed                    | 600px min     | Narrower sidebars (220px)   |
+| 768-1024px  | Stacked vertical                       | 500px min     | Toolbar → Canvas → Layers   |
+| 640-768px   | Compact vertical                       | 400px min     | Smaller buttons and spacing |
+| 480-640px   | Single column                          | 300px min     | Touch-optimized controls    |
+| <480px      | Minimal                                | 250px min     | Essential features only     |
 
 ### Touch Support
+
 - ✅ **Full touch drawing** - Pen and eraser work perfectly
 - ✅ **Touch move prevention** - `touch-action: none` prevents scrolling
 - ✅ **Multi-touch support** - Handles touch events properly
@@ -96,6 +110,7 @@
 - ✅ **No tap highlight** - Cleaner mobile experience
 
 ### Responsive Layout Features
+
 - ✅ Toolbar width: 240px → 220px → 100% (responsive)
 - ✅ Layers panel: Same responsive behavior
 - ✅ Flexible canvas sizing
@@ -106,22 +121,24 @@
 ## ♿ Accessibility Features
 
 ### Keyboard Navigation
-| Key | Action |
-|-----|--------|
-| `P` | Switch to Pen tool |
-| `E` | Switch to Eraser tool |
-| `R` | Switch to Rectangle tool |
-| `C` | Switch to Circle tool |
-| `T` | Switch to Text tool |
-| `V` | Switch to Select tool |
-| `Ctrl+Z` | Undo |
-| `Ctrl+Shift+Z` or `Ctrl+Y` | Redo |
-| `Ctrl+S` | Download canvas |
-| `Shift+Delete` | Clear canvas |
-| `Tab` | Navigate controls |
-| `Enter` | Activate buttons / Submit text |
+
+| Key                        | Action                         |
+| -------------------------- | ------------------------------ |
+| `P`                        | Switch to Pen tool             |
+| `E`                        | Switch to Eraser tool          |
+| `R`                        | Switch to Rectangle tool       |
+| `C`                        | Switch to Circle tool          |
+| `T`                        | Switch to Text tool            |
+| `V`                        | Switch to Select tool          |
+| `Ctrl+Z`                   | Undo                           |
+| `Ctrl+Shift+Z` or `Ctrl+Y` | Redo                           |
+| `Ctrl+S`                   | Download canvas                |
+| `Shift+Delete`             | Clear canvas                   |
+| `Tab`                      | Navigate controls              |
+| `Enter`                    | Activate buttons / Submit text |
 
 ### ARIA Implementation
+
 - ✅ **role="application"** - Defines drawing panel as app
 - ✅ **role="toolbar"** - Marks tool selection area
 - ✅ **role="region"** - Defines layers and custom background sections
@@ -129,6 +146,7 @@
 - ✅ **role="list"** and **role="listitem"** - Proper layer list structure
 
 ### ARIA Labels & Properties
+
 - ✅ `aria-label` on all interactive elements
 - ✅ `aria-pressed` for toggle buttons (shows active state)
 - ✅ `aria-expanded` for collapsible sections
@@ -137,6 +155,7 @@
 - ✅ `aria-valuemin`, `aria-valuemax`, `aria-valuenow` for sliders
 
 ### Visual Accessibility
+
 - ✅ **Focus indicators**: 2px solid outline with 2px offset
 - ✅ **High contrast mode**: Thicker borders (2px → 4px)
 - ✅ **Color contrast**: Meets WCAG AA standards
@@ -144,6 +163,7 @@
 - ✅ **Visible labels**: All controls clearly labeled
 
 ### Screen Reader Support
+
 - ✅ Visually hidden labels for color pickers and sliders
 - ✅ Descriptive button text with shortcuts (e.g., "Pen (P)")
 - ✅ Tool state announcements
@@ -151,6 +171,7 @@
 - ✅ Empty state messages
 
 ### Motion & Preferences
+
 - ✅ **Reduced motion**: Respects `prefers-reduced-motion`
 - ✅ **High contrast**: Supports `prefers-contrast: high`
 - ✅ **Color scheme**: Adapts to `prefers-color-scheme`
@@ -158,6 +179,7 @@
 ## 🎯 Technical Implementation
 
 ### React Hooks Used
+
 - `useState` - 15+ state variables for comprehensive control
 - `useRef` - Canvas and file input references
 - `useEffect` - Canvas rendering, keyboard shortcuts, theme detection
@@ -165,6 +187,7 @@
 - `useTheme` - once-ui theme detection and auto-switching
 
 ### Performance Optimizations
+
 - ✅ Memoized event handlers prevent re-renders
 - ✅ Canvas redraws only on necessary state changes
 - ✅ Efficient history with object references (not deep copies)
@@ -172,6 +195,7 @@
 - ✅ Passive event listeners where possible
 
 ### Browser APIs Used
+
 - Canvas API (2D context)
 - FileReader API (image upload)
 - Touch Events API (mobile support)
@@ -181,6 +205,7 @@
 ## 🎨 Styling & Theming
 
 ### once-ui Design Tokens
+
 ```scss
 --neutral-alpha-weak      // Backgrounds
 --neutral-alpha-medium    // Borders, dividers
@@ -193,12 +218,14 @@
 ```
 
 ### Theme Integration
+
 - Auto-detects light/dark mode
 - Background options respect theme
 - All colors use CSS variables
 - Smooth transitions between themes
 
 ### CSS Features
+
 - Custom scrollbars (webkit)
 - Flexbox layouts
 - CSS Grid (where appropriate)
@@ -242,6 +269,7 @@ Visual Feedback
 - ⚠️ **Level AAA**: Partially (canvas content not fully accessible to screen readers)
 
 ### Compliance Checklist
+
 - ✅ 1.1.1 Non-text Content (A)
 - ✅ 1.4.3 Contrast (AA)
 - ✅ 2.1.1 Keyboard (A)
@@ -255,6 +283,7 @@ Visual Feedback
 ## 🚀 Performance Metrics
 
 ### Estimated Performance
+
 - **First Paint**: <100ms
 - **Interactive**: <200ms
 - **Canvas Redraw**: <16ms (60fps)
@@ -262,6 +291,7 @@ Visual Feedback
 - **Memory**: Efficient (object references)
 
 ### Optimization Strategies
+
 1. Memoized callbacks prevent unnecessary re-renders
 2. Canvas only redraws when dependencies change
 3. Image scaling reduces memory footprint
@@ -279,6 +309,7 @@ Visual Feedback
 ## 🔮 Future Roadmap
 
 ### Phase 2 (Planned)
+
 - [ ] Object selection and manipulation
 - [ ] Layer drag-and-drop reordering
 - [ ] More shapes (triangle, line, arrow, star)
@@ -286,6 +317,7 @@ Visual Feedback
 - [ ] Fill colors for shapes
 
 ### Phase 3 (Vision)
+
 - [ ] Multi-select with Shift
 - [ ] Copy/paste (Ctrl+C, Ctrl+V)
 - [ ] Grid and snap-to-grid
@@ -293,6 +325,7 @@ Visual Feedback
 - [ ] Save/load canvas state (JSON)
 
 ### Phase 4 (Advanced)
+
 - [ ] Real-time collaboration
 - [ ] Image filters and effects
 - [ ] Custom brush shapes

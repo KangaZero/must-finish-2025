@@ -9,7 +9,7 @@ type Team = {
   linkedIn: string;
 };
 
-type Metadata = {
+export type CustomMetadata = {
   title: string;
   subtitle?: string;
   publishedAt: string;
@@ -39,7 +39,7 @@ function readMDXFile(filePath: string) {
   const rawContent = fs.readFileSync(filePath, "utf-8");
   const { data, content } = matter(rawContent);
 
-  const metadata: Metadata = {
+  const metadata: CustomMetadata = {
     title: data.title || "",
     subtitle: data.subtitle || "",
     publishedAt: data.publishedAt,

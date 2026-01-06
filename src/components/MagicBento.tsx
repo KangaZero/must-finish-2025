@@ -15,13 +15,10 @@ import {
   SortableContext,
   rectSortingStrategy,
   useSortable,
-  rectSwappingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import "./MagicBento.css";
-import { Flex, Kbd } from "@once-ui-system/core";
-import { useTheme } from "next-themes";
-import { Item } from "@radix-ui/react-dropdown-menu";
+import { Kbd } from "@once-ui-system/core";
 
 export interface BentoCardProps {
   correctIndex: number;
@@ -198,7 +195,11 @@ const ParticleCard: React.FC<{
 
     const { width, height } = cardRef.current.getBoundingClientRect();
     memoizedParticles.current = Array.from({ length: particleCount }, () =>
-      createParticleElement(Math.random() * width, Math.random() * height, glowColor),
+      createParticleElement(
+        Math.random() * width,
+        Math.random() * height,
+        glowColor,
+      ),
     );
     particlesInitialized.current = true;
   }, [particleCount, glowColor]);
@@ -493,7 +494,8 @@ const GlobalSpotlight: React.FC<{
         return;
       }
 
-      const { proximity, fadeDistance } = calculateSpotlightValues(spotlightRadius);
+      const { proximity, fadeDistance } =
+        calculateSpotlightValues(spotlightRadius);
       let minDistance = Infinity;
 
       cards.forEach((card) => {
@@ -512,10 +514,17 @@ const GlobalSpotlight: React.FC<{
         if (effectiveDistance <= proximity) {
           glowIntensity = 1;
         } else if (effectiveDistance <= fadeDistance) {
-          glowIntensity = (fadeDistance - effectiveDistance) / (fadeDistance - proximity);
+          glowIntensity =
+            (fadeDistance - effectiveDistance) / (fadeDistance - proximity);
         }
 
-        updateCardGlowProperties(cardElement, e.clientX, e.clientY, glowIntensity, spotlightRadius);
+        updateCardGlowProperties(
+          cardElement,
+          e.clientX,
+          e.clientY,
+          glowIntensity,
+          spotlightRadius,
+        );
       });
 
       gsap.to(spotlightRef.current, {
@@ -571,7 +580,9 @@ const SortableCard: React.FC<{
   card: (typeof cardData)[0];
   index: number;
   baseClassName: string;
-  cardProps: any;
+  cardProps: {
+    className: string;
+  };
   enableStars: boolean;
   shouldDisableAnimations: boolean;
   particleCount: number;
@@ -584,7 +595,7 @@ const SortableCard: React.FC<{
 }> = ({
   id,
   card,
-  index,
+  // index,
   // baseClassName,
   cardProps,
   enableStars,
@@ -595,7 +606,14 @@ const SortableCard: React.FC<{
   clickEffect,
   enableMagnetism,
 }) => {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
     id,
   });
 
@@ -765,7 +783,11 @@ const BentoCardGrid: React.FC<{
   children: React.ReactNode;
   gridRef?: React.RefObject<HTMLDivElement | null>;
 }> = ({ children, gridRef }) => (
-  <div className="card-grid bento-section" style={{ position: "relative" }} ref={gridRef}>
+  <div
+    className="card-grid bento-section"
+    style={{ position: "relative" }}
+    ref={gridRef}
+  >
     {children}
   </div>
 );
@@ -774,7 +796,8 @@ const useMobileDetection = () => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth <= MOBILE_BREAKPOINT);
+    const checkMobile = () =>
+      setIsMobile(window.innerWidth <= MOBILE_BREAKPOINT);
 
     checkMobile();
     window.addEventListener("resize", checkMobile);
@@ -820,6 +843,7 @@ const MagicBento: React.FC<BentoProps> = ({
     return [];
   });
   const initialItems = items;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isPuzzleSolved, setIsPuzzleSolved] = useState(false);
   const [isCardsCombined, setIsCardsCombined] = useState(false);
 
@@ -905,7 +929,9 @@ const MagicBento: React.FC<BentoProps> = ({
       id: string;
     })[],
   ) => {
-    const isCorrectIndex = !items.some((item, index) => item.correctIndex !== index);
+    const isCorrectIndex = !items.some(
+      (item, index) => item.correctIndex !== index,
+    );
     if (!isCorrectIndex) return;
     setIsPuzzleSolved(true);
     transitionToSolvedCard();
@@ -929,7 +955,9 @@ const MagicBento: React.FC<BentoProps> = ({
         const oldIndex = items.findIndex((item) => item.id === active.id);
         const newIndex = items.findIndex((item) => item.id === over.id);
 
-        checkIfPuzzleIsSolvedAndExecuteFollowingTransition(arrayMove(items, oldIndex, newIndex));
+        checkIfPuzzleIsSolvedAndExecuteFollowingTransition(
+          arrayMove(items, oldIndex, newIndex),
+        );
         return arrayMove(items, oldIndex, newIndex);
       });
     }
@@ -960,7 +988,10 @@ const MagicBento: React.FC<BentoProps> = ({
           handleDragEnd(e);
         }}
       >
-        <SortableContext items={items.map((item) => item.id)} strategy={rectSortingStrategy}>
+        <SortableContext
+          items={items.map((item) => item.id)}
+          strategy={rectSortingStrategy}
+        >
           <BentoCardGrid gridRef={gridRef}>
             <div
               ref={combinedCardRef}
@@ -974,14 +1005,19 @@ const MagicBento: React.FC<BentoProps> = ({
               }}
             >
               <div className="magic-bento-card__header">
-                <span className="magic-bento-card__label">🎉 Puzzle Solved!</span>
+                <span className="magic-bento-card__label">
+                  🎉 Puzzle Solved!
+                </span>
               </div>
               <div className="magic-bento-card__content">
                 <h3 className="magic-bento-card__title">Congratulations!</h3>
                 <p className="magic-bento-card__description">
                   You&apos;ve successfully arranged all the pieces.
                 </p>
-                <button className="magic-bento-card__button" onClick={handleReset}>
+                <button
+                  className="magic-bento-card__button"
+                  onClick={handleReset}
+                >
                   Reset Puzzle
                 </button>
               </div>

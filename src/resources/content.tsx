@@ -11,8 +11,7 @@ import type {
   Achievement,
 } from "@/types";
 import { getLocalTimeZone } from "@/utils/getLocalTimeZone";
-import { LetterFx, Line, Logo, Row, Text, TypeFx } from "@once-ui-system/core";
-import { ReactNode } from "react";
+import { LetterFx, Logo, Row, Text } from "@once-ui-system/core";
 
 const userSettings: UserSettings = {
   isEffectsEnabled: true,
@@ -474,13 +473,13 @@ const negativeAchievement: Achievement = {
 };
 
 //NOTE: Have to reassign noOfAchievementsRequiredToUnlock for Sand Mandala, as "achievementList" cannot be called in itself
-const sandMandalaAchievement = achievementsList.find(
+
+const sandMandalaIndex = achievementsList.findIndex(
   (achievement) => achievement.title === "Sand Mandala",
 );
-if (sandMandalaAchievement) {
-  achievementsList.find(
-    (achievement) => achievement.title === "Sand Mandala",
-  )!.noOfAchievementsRequiredToUnlock = achievementsList.length - 6;
+if (sandMandalaIndex !== -1) {
+  achievementsList[sandMandalaIndex].noOfAchievementsRequiredToUnlock =
+    achievementsList.length - 6;
 } else {
   achievementsList.push({
     id: 19,

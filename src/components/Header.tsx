@@ -13,7 +13,6 @@ import {
   Icon,
   IconButton,
   HoverCard,
-  HeadingNav,
   Avatar,
   Column,
   Text,
