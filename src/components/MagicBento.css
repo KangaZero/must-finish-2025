@@ -38,6 +38,15 @@
     font-size: clamp(1rem, 0.9rem + 0.5vw, 1.5rem);
 }
 
+.test-card {
+    display: flex;
+    width: 200px;
+    height: 200px;
+    background: orange;
+    padding: 1em;
+    border-radius: 15px;
+}
+
 .magic-bento-card {
     display: flex;
     flex-direction: column;
@@ -247,12 +256,13 @@
 
 .magic-bento-card--combined {
     position: absolute;
-    top: 50%;
+    top: 30%;
     left: 50%;
     transform: translate(-50%, -50%);
     display: flex;
     width: 100%;
     min-width: 330px;
+    max-width: 330px;
     aspect-ratio: 16/9;
     background: linear-gradient(90deg, #5a9669 0%, #4c165f 50%, #c65385 100%);
     border: 2px solid var(--purple-border);

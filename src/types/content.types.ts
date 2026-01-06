@@ -285,6 +285,8 @@ type AchievementTitle =
   | "Woah! Hacker"
   | "Sand Mandala"
   | "Go Touch Grass"
+  | "Puzzle Master"
+  | "Night Owl"
   | "Speedophile";
 
 export type Achievement<

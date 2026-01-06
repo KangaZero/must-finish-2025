@@ -446,6 +446,13 @@ const achievementsList: Array<Achievement> = [
     isUnlocked: false,
   },
   {
+    id: 7,
+    title: "Puzzle Master",
+    description: "Solved the most difficult puzzle ever created",
+    rarity: "rare",
+    isUnlocked: false,
+  },
+  {
     id: 19,
     title: "Sand Mandala",
     description:

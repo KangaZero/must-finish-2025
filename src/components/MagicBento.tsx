@@ -19,6 +19,7 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import "./MagicBento.css";
 import { Kbd, Button, Row } from "@once-ui-system/core";
+import { useAchievements } from "./AchievementsProvider";
 
 export interface BentoCardProps {
   correctIndex: number;
@@ -828,8 +829,12 @@ const MagicBento: React.FC<BentoProps> = ({
   clickEffect = true,
   enableMagnetism = true,
 }) => {
+  const { unlockAchievement } = useAchievements();
   const gridRef = useRef<HTMLDivElement>(null);
   const combinedCardRef = useRef<HTMLDivElement>(null);
+  const testRef = useRef<HTMLDivElement>(null);
+  const testRef2 = useRef<HTMLDivElement>(null);
+  const testRef3 = useRef<HTMLDivElement>(null);
   const isMobile = useMobileDetection();
   const shouldDisableAnimations = disableAnimations || isMobile;
   const [items, setItems] = useState(() => {
@@ -838,7 +843,7 @@ const MagicBento: React.FC<BentoProps> = ({
     }
     return [];
   });
-  const initialItems = items;
+  const initialItems = cardData;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isPuzzleSolved, setIsPuzzleSolved] = useState(false);
   const [isCardsCombined, setIsCardsCombined] = useState(false);
@@ -847,7 +852,12 @@ const MagicBento: React.FC<BentoProps> = ({
   const transitionToSolvedCard = () => {
     if (!gridRef.current) return;
     const grid = gridRef.current as HTMLElement;
-    const cards = grid.querySelectorAll<HTMLElement>(".magic-bento-card");
+    const puzzleCards = grid.querySelectorAll<HTMLElement>(
+      ".magic-bento-card:not(.magic-bento-card--combined)",
+    );
+    const solvedCard = grid.querySelector<HTMLElement>(
+      ".magic-bento-card--combined",
+    );
     const gridRect = grid.getBoundingClientRect();
 
     // Calculate the center of the grid
@@ -862,7 +872,7 @@ const MagicBento: React.FC<BentoProps> = ({
     });
 
     // Animate each card to the center
-    cards.forEach((card, index) => {
+    puzzleCards.forEach((card, index) => {
       const cardRect = card.getBoundingClientRect();
       const cardCenterX = cardRect.left - gridRect.left + cardRect.width / 2;
       const cardCenterY = cardRect.top - gridRect.top + cardRect.height / 2;
@@ -888,7 +898,7 @@ const MagicBento: React.FC<BentoProps> = ({
 
     // After cards converge, scale them down and fade out
     tl.to(
-      cards,
+      puzzleCards,
       {
         scale: 0,
         opacity: 0,
@@ -902,18 +912,34 @@ const MagicBento: React.FC<BentoProps> = ({
     tl.fromTo(
       combinedCardRef.current,
       {
-        scale: 0,
+        scale: 0.8,
         opacity: 0,
+        rotate: 0,
+        x: "-100vw",
+        y: 0,
       },
       {
-        scale: 1,
         opacity: 1,
-        duration: 0.5,
-        ease: "back.out(1.7)",
+        scale: 1,
+        rotate: 360,
+        x: 0,
+        keyframes: [
+          { y: -60, duration: 0.25, ease: "power1.out" }, // big bounce up
+          { y: 0, duration: 0.18, ease: "bounce.out" }, // land
+          { y: -35, duration: 0.18, ease: "power1.out" }, // medium bounce
+          { y: 0, duration: 0.13, ease: "bounce.out" }, // land
+          { y: -18, duration: 0.13, ease: "power1.out" }, // small bounce
+          { y: 0, duration: 0.09, ease: "bounce.out" }, // land
+          { y: -8, duration: 0.09, ease: "power1.out" }, // tiny bounce
+          { y: 0, duration: 0.07, ease: "bounce.out" }, // land
+          { y: -3, duration: 0.07, ease: "power1.out" }, // micro bounce
+          { y: 0, duration: 0.05, ease: "bounce.out" }, // final settle
+        ],
+        duration: 1.5,
+        ease: "power1.inOut",
       },
-      0.8, // Start after cards fade out
+      0.2,
     );
-
     return () => {
       tl.kill();
     };
@@ -930,6 +956,7 @@ const MagicBento: React.FC<BentoProps> = ({
     );
     if (!isCorrectIndex) return;
     setIsPuzzleSolved(true);
+    unlockAchievement("Puzzle Master");
     transitionToSolvedCard();
   };
 
@@ -960,11 +987,42 @@ const MagicBento: React.FC<BentoProps> = ({
   };
 
   const handleReset = () => {
-    setItems(initialItems);
-    setIsPuzzleSolved(false);
-    setIsCardsCombined(false);
+    const tl = gsap.timeline({
+      onComplete: () => {
+        setItems(initialItems);
+        setIsPuzzleSolved(false);
+        setIsCardsCombined(false);
+      },
+    });
+    tl.progress(1).reverse();
   };
 
+  const handleTestTransition = () => {
+    if (!testRef.current || !testRef2.current || !testRef3.current) return;
+    const timeline = gsap.timeline();
+    timeline
+      .to(testRef.current, {
+        inertia: { x: 500, y: -300 },
+        rotation: 15,
+        x: 200,
+        ease: "bounce.in",
+        duration: 1.5,
+      })
+      .to(testRef.current, { rotation: -15, x: -200, duration: 1.5 })
+      .to(testRef2.current, { rotation: 10, y: 200, duration: 1.5 }, "-=3")
+      .to(testRef2.current, { rotation: 30, y: -200, duration: 1.5 }, "-=1.5")
+      .to(
+        testRef3.current,
+        { rotation: 10, y: 100, x: -100, duration: 0.5 },
+        "-=3",
+      )
+      .to(
+        testRef3.current,
+        { rotation: 30, y: 20, x: 40, duration: 1 },
+        "-=2.5",
+      );
+    timeline.yoyo(true);
+  };
   return (
     <>
       {enableSpotlight && (
@@ -976,7 +1034,16 @@ const MagicBento: React.FC<BentoProps> = ({
           glowColor={glowColor}
         />
       )}
-
+      {/*HACK Only for test purposes only*/}
+      {/*<div onClick={handleTestTransition} className="test-card" ref={testRef}>
+        <p>Test test</p>
+      </div>
+      <div onClick={handleTestTransition} className="test-card" ref={testRef2}>
+        <p>Test test</p>
+      </div>
+      <div onClick={handleTestTransition} className="test-card" ref={testRef3}>
+        <p>Test test</p>
+      </div>*/}
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
@@ -989,33 +1056,28 @@ const MagicBento: React.FC<BentoProps> = ({
           strategy={rectSortingStrategy}
         >
           <BentoCardGrid gridRef={gridRef}>
-            {isCardsCombined && (
-              <div
-                ref={combinedCardRef}
-                className="magic-bento-card magic-bento-card--combined"
-              >
-                <div className="magic-bento-card__header">
-                  <span className="magic-bento-card__label">
-                    🎉 Puzzle Solved!
-                  </span>
-                </div>
-                <div className="magic-bento-card__content">
-                  <h3 className="magic-bento-card__title">Congratulations!</h3>
-                  <p className="magic-bento-card__description">
-                    You&apos;ve successfully arranged all the pieces.
-                  </p>
-                  <Row center marginTop="12">
-                    <Button
-                      data-border="rounded"
-                      onClick={handleReset}
-                      size="s"
-                    >
-                      Reset
-                    </Button>
-                  </Row>
-                </div>
+            <div
+              style={{ opacity: isCardsCombined ? 1 : 0 }}
+              ref={combinedCardRef}
+              className="magic-bento-card magic-bento-card--combined"
+            >
+              <div className="magic-bento-card__header">
+                <span className="magic-bento-card__label">
+                  🎉 Puzzle Solved!
+                </span>
               </div>
-            )}
+              <div className="magic-bento-card__content">
+                <h3 className="magic-bento-card__title">Congratulations!</h3>
+                <p className="magic-bento-card__description">
+                  You&apos;ve successfully arranged all the pieces.
+                </p>
+                <Row center marginTop="12">
+                  <Button data-border="rounded" onClick={handleReset} size="s">
+                    Reset
+                  </Button>
+                </Row>
+              </div>
+            </div>
             {!isCardsCombined && (
               <>
                 {items.map((card, index) => {
