@@ -18,7 +18,7 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import "./MagicBento.css";
-import { Kbd } from "@once-ui-system/core";
+import { Kbd, Button, Row } from "@once-ui-system/core";
 
 export interface BentoCardProps {
   correctIndex: number;
@@ -178,7 +178,7 @@ const ParticleCard: React.FC<{
   style,
   particleCount = DEFAULT_PARTICLE_COUNT,
   glowColor = DEFAULT_GLOW_COLOR,
-  enableTilt = true,
+  enableTilt = false,
   clickEffect = false,
   enableMagnetism = false,
 }) => {
@@ -783,11 +783,7 @@ const BentoCardGrid: React.FC<{
   children: React.ReactNode;
   gridRef?: React.RefObject<HTMLDivElement | null>;
 }> = ({ children, gridRef }) => (
-  <div
-    className="card-grid bento-section"
-    style={{ position: "relative" }}
-    ref={gridRef}
-  >
+  <div className="card-grid bento-section" ref={gridRef}>
     {children}
   </div>
 );
@@ -993,35 +989,33 @@ const MagicBento: React.FC<BentoProps> = ({
           strategy={rectSortingStrategy}
         >
           <BentoCardGrid gridRef={gridRef}>
-            <div
-              ref={combinedCardRef}
-              className="magic-bento-card magic-bento-card--combined"
-              style={{
-                display: isCardsCombined ? "flex" : "none",
-                width: "100%",
-                maxWidth: "600px",
-                aspectRatio: "16/9",
-                zIndex: 100,
-              }}
-            >
-              <div className="magic-bento-card__header">
-                <span className="magic-bento-card__label">
-                  🎉 Puzzle Solved!
-                </span>
+            {isCardsCombined && (
+              <div
+                ref={combinedCardRef}
+                className="magic-bento-card magic-bento-card--combined"
+              >
+                <div className="magic-bento-card__header">
+                  <span className="magic-bento-card__label">
+                    🎉 Puzzle Solved!
+                  </span>
+                </div>
+                <div className="magic-bento-card__content">
+                  <h3 className="magic-bento-card__title">Congratulations!</h3>
+                  <p className="magic-bento-card__description">
+                    You&apos;ve successfully arranged all the pieces.
+                  </p>
+                  <Row center marginTop="12">
+                    <Button
+                      data-border="rounded"
+                      onClick={handleReset}
+                      size="s"
+                    >
+                      Reset
+                    </Button>
+                  </Row>
+                </div>
               </div>
-              <div className="magic-bento-card__content">
-                <h3 className="magic-bento-card__title">Congratulations!</h3>
-                <p className="magic-bento-card__description">
-                  You&apos;ve successfully arranged all the pieces.
-                </p>
-                <button
-                  className="magic-bento-card__button"
-                  onClick={handleReset}
-                >
-                  Reset Puzzle
-                </button>
-              </div>
-            </div>
+            )}
             {!isCardsCombined && (
               <>
                 {items.map((card, index) => {
