@@ -50,12 +50,13 @@ jobs:
           cache: ${{ steps.detect-package-manager.outputs.manager }}
       - name: Setup Pages
         uses: actions/configure-pages@v5
-        with:
-          # Automatically inject basePath in your Next.js configuration file and disable
-          # server side image optimization (https://nextjs.org/docs/api-reference/next/image#unoptimized).
-          #
-          # You may remove this line if you want to manage the configuration yourself.
-          static_site_generator: next
+        # https://stackoverflow.com/questions/78491434/cant-build-deploy-to-github-pages-my-nextjs-app-after-implementing-next-intl
+        # with:
+        #   # Automatically inject basePath in your Next.js configuration file and disable
+        #   # server side image optimization (https://nextjs.org/docs/api-reference/next/image#unoptimized).
+        #   #
+        #   # You may remove this line if you want to manage the configuration yourself.
+        #   static_site_generator: next
       - name: Restore cache
         uses: actions/cache@v4
         with:
