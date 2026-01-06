@@ -132,6 +132,10 @@ export const ConsoleCommandProvider = ({
             "%c🔄 Achievements reset! Refresh the page to see changes.",
             "color: #e67e22; font-weight: bold;",
           );
+        } else {
+          console.warn(
+            "You don't have any achievements to reset. Refresh the page",
+          );
         }
       },
 

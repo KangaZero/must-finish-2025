@@ -118,15 +118,15 @@ const home: Home = {
   description: `Portfolio website showcasing my work as a ${person.role}`,
   headline: (
     <Text>
-      New year
+      Generic Portfolio
       <br />
-      new{" "}
+      Generic{" "}
       <LetterFx
         speed="slow"
         trigger="instant"
         charset={"30459uirohe".split("")}
       >
-        buzz techs
+        Effect
       </LetterFx>
       {/*<TypeFx
         words={["portfolio", "framework", "trends", "ways to suffer"]}
@@ -451,7 +451,7 @@ const achievementsList: Array<Achievement> = [
     title: "Sand Mandala",
     description:
       "Reset all achievements while already having unlocked all but 5 achievements",
-    noOfAchievementsRequiredToUnlock: 99,
+    noOfAchievementsRequiredToUnlock: 99, // Note: Not the actual number, see below for its reassignment
     rarity: "rare",
     isUnlocked: false,
   },
@@ -474,9 +474,24 @@ const negativeAchievement: Achievement = {
 };
 
 //NOTE: Have to reassign noOfAchievementsRequiredToUnlock for Sand Mandala, as "achievementList" cannot be called in itself
-achievementsList.find(
+const sandMandalaAchievement = achievementsList.find(
   (achievement) => achievement.title === "Sand Mandala",
-)!.noOfAchievementsRequiredToUnlock = achievementsList.length - 6;
+);
+if (sandMandalaAchievement) {
+  achievementsList.find(
+    (achievement) => achievement.title === "Sand Mandala",
+  )!.noOfAchievementsRequiredToUnlock = achievementsList.length - 6;
+} else {
+  achievementsList.push({
+    id: 19,
+    title: "Sand Mandala",
+    description:
+      "Reset all achievements while already having unlocked all but 5 achievements",
+    noOfAchievementsRequiredToUnlock: achievementsList.length - 6, // Total achievements minus the 5 left to unlock and itself
+    rarity: "rare",
+    isUnlocked: false,
+  });
+}
 
 export {
   userSettings,

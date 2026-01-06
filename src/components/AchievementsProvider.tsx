@@ -38,7 +38,9 @@ export const AchievementsProvider = ({
   children: React.ReactNode;
 }) => {
   const LOCAL_STORAGE_ACHIEVEMENTS: string | "e1eda57b" | null =
-    localStorage?.getItem(LOCAL_STORAGE_KEY);
+    typeof window !== undefined
+      ? localStorage?.getItem(LOCAL_STORAGE_KEY)
+      : null;
   const [achievements, setAchievements] = useState<Achievement[]>(
     JSON.parse(
       LOCAL_STORAGE_ACHIEVEMENTS && LOCAL_STORAGE_ACHIEVEMENTS !== "e1eda57b"

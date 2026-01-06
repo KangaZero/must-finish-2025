@@ -5,12 +5,7 @@ import Image from "next/image";
 import { useAchievements } from "../AchievementsProvider";
 import { Sparkles } from "lucide-react";
 import styles from "./achievement-toast.module.scss";
-import {
-  HoloFx,
-  IconButton,
-  ShineFx,
-  ToggleButton,
-} from "@once-ui-system/core/components";
+import { HoloFx, IconButton, ShineFx } from "@once-ui-system/core/components";
 import StarBorder from "../StarBorder";
 
 export interface AchievementToastProps {
@@ -41,17 +36,18 @@ export const AchievementToast: React.FC<AchievementToastProps> = ({
   //   return () => clearTimeout(timer);
   // }, [currentAchievementUnlocked, setCurrentAchievementUnlocked]);
 
-  if (!currentAchievementUnlocked) {
-    //TODO replace this when test is done
-    setCurrentAchievementUnlocked({
-      id: 6,
-      title: "Test",
-      description: "Test achievement for development purposes",
-      rarity: "uncommon",
-      isUnlocked: false,
-    });
-    return null;
-  }
+  // if (!currentAchievementUnlocked) {
+  //   //TODO replace this when test is done
+  //   setCurrentAchievementUnlocked({
+  //     id: 6,
+  //     title: "Test",
+  //     description: "Test achievement for development purposes",
+  //     rarity: "uncommon",
+  //     isUnlocked: false,
+  //   });
+  //   return null;
+  // }
+  if (!currentAchievementUnlocked) return null;
   const { title, image, description, rarity, isUnlocked } =
     currentAchievementUnlocked;
 
