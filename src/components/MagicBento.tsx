@@ -22,6 +22,7 @@ import "./MagicBento.css";
 import { Kbd, Button, Row } from "@once-ui-system/core";
 import { useAchievements } from "./AchievementsProvider";
 import { projectCardData } from "@/resources";
+import Image from "next/image";
 
 export interface BentoCardProps {
   correctIndex: number;
@@ -580,7 +581,7 @@ const SortableCard: React.FC<{
               {card.label}
             </div>
             <div className="magic-bento-card__image">
-              <img src={card.image} alt={card.title} />
+              <Image src={card.image || ""} alt={card.title || ""} />
             </div>
           </div>
           <div className="magic-bento-card__content">
@@ -770,7 +771,7 @@ const MagicBento: React.FC<BentoProps> = ({
   const detailRef = useRef<HTMLDivElement>(null);
   const detailContentRef = useRef<HTMLDivElement>(null);
   const detailImageRef = useRef<HTMLImageElement>(null);
-  const cardRefs = useRef<Map<string, HTMLElement>>(new Map());
+  // const cardRefs = useRef<Map<string, HTMLElement>>(new Map());
   const isMobile = useMobileDetection();
   const shouldDisableAnimations = disableAnimations || isMobile;
   const [items, setItems] = useState(() => {
@@ -783,7 +784,7 @@ const MagicBento: React.FC<BentoProps> = ({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isPuzzleSolved, setIsPuzzleSolved] = useState(false);
   const [isCardsCombined, setIsCardsCombined] = useState(false);
-  const [activeCard, setActiveCard] = useState<string | null>(null);
+  // const [activeCard, setActiveCard] = useState<string | null>(null);
 
   useEffect(() => {
     if (!gridRef.current) return;
@@ -831,9 +832,6 @@ const MagicBento: React.FC<BentoProps> = ({
     const puzzleCards = grid.querySelectorAll<HTMLElement>(
       ".magic-bento-card:not(.magic-bento-card--combined)",
     );
-    const solvedCard = grid.querySelector<HTMLElement>(
-      ".magic-bento-card--combined",
-    );
     const gridRect = grid.getBoundingClientRect();
 
     // Calculate the center of the grid
@@ -844,6 +842,7 @@ const MagicBento: React.FC<BentoProps> = ({
     const tl = gsap.timeline({
       onComplete: () => {
         setIsCardsCombined(true);
+        unlockAchievement("Puzzle Master");
       },
     });
 
@@ -932,7 +931,6 @@ const MagicBento: React.FC<BentoProps> = ({
     );
     if (!isCorrectIndex) return;
     setIsPuzzleSolved(true);
-    unlockAchievement("Puzzle Master");
     transitionToSolvedCard();
   };
 
@@ -1066,9 +1064,9 @@ const MagicBento: React.FC<BentoProps> = ({
                           ref={detailContentRef}
                           style={{ transform: "translateY(-100%)" }}
                         >
-                          <img
-                            src={card.image}
-                            alt={card.title}
+                          <Image
+                            src={card.image || ""}
+                            alt={card.title || ""}
                             ref={detailImageRef}
                             style={{ width: 200, height: 200 }}
                           />

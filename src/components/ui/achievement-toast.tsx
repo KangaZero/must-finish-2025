@@ -1,6 +1,7 @@
 "use client";
 
-import React from "react";
+import React, { FragmentInstance, useEffect } from "react";
+import { gsap } from "gsap";
 import Image from "next/image";
 import { useAchievements } from "../AchievementsProvider";
 import { Sparkles } from "lucide-react";
@@ -25,28 +26,21 @@ export const AchievementToast: React.FC<AchievementToastProps> = ({
 }) => {
   const { currentAchievementUnlocked, setCurrentAchievementUnlocked } =
     useAchievements();
-
-  // useEffect(() => {
-  //   if (!currentAchievementUnlocked) return;
-
-  //   const timer = setTimeout(() => {
-  //     setCurrentAchievementUnlocked(null);
-  //   }, 6000);
-
-  //   return () => clearTimeout(timer);
-  // }, [currentAchievementUnlocked, setCurrentAchievementUnlocked]);
-
-  // if (!currentAchievementUnlocked) {
-  //   //TODO replace this when test is done
-  //   setCurrentAchievementUnlocked({
-  //     id: 6,
-  //     title: "Test",
-  //     description: "Test achievement for development purposes",
-  //     rarity: "uncommon",
-  //     isUnlocked: false,
-  //   });
-  //   return null;
-  // }
+  const toastRef = React.useRef<FragmentInstance>(null);
+  useEffect(() => {
+    if (!currentAchievementUnlocked || !toastRef.current) return;
+    gsap.to(toastRef.current, {
+      delay: 6,
+      duration: 1,
+      opacity: 0,
+      y: -50,
+      ease: "power3.out",
+      onComplete: () => {
+        setCurrentAchievementUnlocked(null);
+      },
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   if (!currentAchievementUnlocked) return null;
   const { title, image, description, rarity, isUnlocked } =
     currentAchievementUnlocked;
@@ -72,74 +66,76 @@ export const AchievementToast: React.FC<AchievementToastProps> = ({
   ].join(" ");
 
   return (
-    <StarBorder as="div">
-      <div className={toastClasses}>
-        <div className={styles.cancelButton}>
-          <IconButton
-            onClick={() => setCurrentAchievementUnlocked(null)}
-            tooltip="Close"
-            icon="outlineCancel"
-            variant="primary"
-            className={styles.cancelButton}
-          />
-        </div>
-        <HoloFx
-          border="brand-alpha-weak"
-          aspectRatio={1}
-          radius="l"
-          shine={{
-            opacity: 30,
-            blending: "color-dodge",
-          }}
-          burn={{
-            opacity: 30,
-            blending: "color-dodge",
-          }}
-          texture={{
-            opacity: 10,
-            image: "/images/textures/foil.jpg",
-            blending: "color-dodge",
-          }}
-        >
-          {/* Image */}
-          {image ? (
-            <div className={styles.imageContainer}>
-              <Image src={image.src} alt={image.alt} width={64} height={64} />
-            </div>
-          ) : (
-            <div className={styles.placeholder}>
-              <Sparkles />
-            </div>
-          )}
-        </HoloFx>
-        {/* Content */}
-        <div className={styles.content}>
-          {/* Header with badge */}
-          <div className={styles.header}>
-            <h3 className={styles.title}>{title}</h3>
-            <ShineFx
-              baseOpacity={0.7}
-              speed={3.5}
-              variant="heading-default-xs"
-              className={styles.badge}
-            >
-              {rarity}
-              {/*<span className={styles.badge}>{rarity}</span>*/}
-            </ShineFx>
+    <React.Fragment ref={toastRef}>
+      <StarBorder as="div">
+        <div className={toastClasses}>
+          <div className={styles.cancelButton}>
+            <IconButton
+              onClick={() => setCurrentAchievementUnlocked(null)}
+              tooltip="Close"
+              icon="outlineCancel"
+              variant="primary"
+              className={styles.cancelButton}
+            />
           </div>
-
-          {/* Description */}
-          <p className={styles.description}>{description}</p>
-
-          {/* Metadata */}
-          {unlockedAt && (
-            <div className={styles.metadata}>
-              <Sparkles />
-              <span>Unlocked: {unlockedAt}</span>
+          <HoloFx
+            border="brand-alpha-weak"
+            aspectRatio={1}
+            radius="l"
+            shine={{
+              opacity: 30,
+              blending: "color-dodge",
+            }}
+            burn={{
+              opacity: 30,
+              blending: "color-dodge",
+            }}
+            texture={{
+              opacity: 10,
+              image: "/images/textures/foil.jpg",
+              blending: "color-dodge",
+            }}
+          >
+            {/* Image */}
+            {image ? (
+              <div className={styles.imageContainer}>
+                <Image src={image.src} alt={image.alt} width={64} height={64} />
+              </div>
+            ) : (
+              <div className={styles.placeholder}>
+                <Sparkles />
+              </div>
+            )}
+          </HoloFx>
+          {/* Content */}
+          <div className={styles.content}>
+            {/* Header with badge */}
+            <div className={styles.header}>
+              <h3 className={styles.title}>{title}</h3>
+              <ShineFx
+                baseOpacity={0.7}
+                speed={3.5}
+                variant="heading-default-xs"
+                className={styles.badge}
+              >
+                {rarity}
+                {/*<span className={styles.badge}>{rarity}</span>*/}
+              </ShineFx>
             </div>
-          )}
+
+            {/* Description */}
+            <p className={styles.description}>{description}</p>
+
+            {/* Metadata */}
+            {unlockedAt && (
+              <div className={styles.metadata}>
+                <Sparkles />
+                <span>Unlocked: {unlockedAt}</span>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-    </StarBorder>
+      </StarBorder>
+    </React.Fragment>
   );
 };

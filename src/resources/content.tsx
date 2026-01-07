@@ -603,6 +603,14 @@ if (sandMandalaIndex !== -1) {
   });
 }
 
+const achievementTrophyMapping = {
+  common: "🏆",
+  uncommon: "🎖️",
+  rare: "🥇",
+  legendary: "🌟",
+  mythic: "💎",
+} as const;
+
 export {
   userSettings,
   person,
@@ -618,5 +626,6 @@ export {
   achievementsList,
   achievements,
   negativeAchievement,
+  achievementTrophyMapping,
   LOCAL_STORAGE_KEY,
 };

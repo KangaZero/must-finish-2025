@@ -19,6 +19,7 @@ import {
   Column,
   Text,
   StyleOverlay,
+  Badge,
 } from "@once-ui-system/core";
 import {
   Map,
@@ -40,12 +41,14 @@ import {
   work,
   gallery,
   achievements,
+  achievementTrophyMapping,
 } from "@/resources";
 import { ThemeToggle } from "./ThemeToggle";
 import styles from "./Header.module.scss";
 import React from "react";
 import { CustomHeadingNav } from "./CustomHeadingNav";
 import { useAchievements } from "./AchievementsProvider";
+import { Achievement } from "@/types";
 
 type TimeDisplayProps = {
   timeZone: string;
@@ -82,9 +85,47 @@ const TimeDisplay: React.FC<TimeDisplayProps> = ({
 
 export default TimeDisplay;
 
+const TrophiesDisplay = ({
+  achievementsCount,
+  summarize = true,
+}: {
+  achievementsCount: Record<Achievement["rarity"], number>;
+  summarize?: boolean;
+}) => {
+  const rarity: Achievement["rarity"][] = [
+    "common",
+    "uncommon",
+    "rare",
+    "legendary",
+    "mythic",
+  ];
+  return (
+    <>
+      {summarize ? (
+        <Badge href="/achievements" icon="trophy" textVariant="label-default-s">
+          {Object.values(achievementsCount).reduce((a, b) => a + b, 0)}
+        </Badge>
+      ) : (
+        <>
+          {/*TODO change to badge*/}
+          {rarity.map((tier) => (
+            <span key={tier}>
+              {achievementTrophyMapping[tier]}: {achievementsCount[tier]}
+            </span>
+          ))}
+        </>
+      )}
+    </>
+  );
+};
+
 export const Header = () => {
   const hoverCardDescriptionRef = useRef<HTMLDivElement>(null);
-  const { unlockAchievement } = useAchievements();
+  const {
+    // achievements: achievementsFromProvider,
+    unlockAchievement,
+    achievementsCount,
+  } = useAchievements();
   const pathname = usePathname() ?? "";
   const [hideMenu, setHideMenu] = useState(false);
   useEffect(() => {
@@ -403,9 +444,26 @@ export const Header = () => {
             </Row>
           </Row>
         </Row>
+
         <Flex fillWidth horizontal="end" vertical="center">
+          <Flex s={{ hide: true }}>
+            {display.trophies && (
+              <>
+                <TrophiesDisplay achievementsCount={achievementsCount} />
+                {/*<Column>
+                             Completion Rate:{" "}
+                             {achievementsFromProvider.reduce(
+                               (a, b) => a + (b.isUnlocked ? 1 : 0),
+                               0,
+                             )}
+                             /{achievementsFromProvider.length}
+                           </Column>*/}
+              </>
+            )}
+          </Flex>
           <Flex
             paddingRight="12"
+            paddingLeft="24"
             horizontal="end"
             vertical="center"
             textVariant="body-default-s"

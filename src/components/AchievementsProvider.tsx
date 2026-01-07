@@ -18,6 +18,7 @@ import { timeDiffInMilliseconds } from "@/utils/timeDiffInMilliseconds";
 
 type AchievementsContextType = {
   achievements: Achievement[];
+  achievementsCount: Record<Achievement["rarity"], number>;
   unlockAchievement: (
     ...args:
       | [title: "Speedophile", split: number]
@@ -48,6 +49,31 @@ export const AchievementsProvider = ({
         ? LOCAL_STORAGE_ACHIEVEMENTS
         : JSON.stringify(achievementsList),
     ),
+  );
+  const achievementsCount = useMemo<Record<Achievement["rarity"], number>>(
+    () => ({
+      common: achievements.filter(
+        (achievement) =>
+          achievement.isUnlocked && achievement.rarity === "common",
+      ).length,
+      uncommon: achievements.filter(
+        (achievement) =>
+          achievement.isUnlocked && achievement.rarity === "uncommon",
+      ).length,
+      rare: achievements.filter(
+        (achievement) =>
+          achievement.isUnlocked && achievement.rarity === "rare",
+      ).length,
+      legendary: achievements.filter(
+        (achievement) =>
+          achievement.isUnlocked && achievement.rarity === "legendary",
+      ).length,
+      mythic: achievements.filter(
+        (achievement) =>
+          achievement.isUnlocked && achievement.rarity === "mythic",
+      ).length,
+    }),
+    [achievements],
   );
   const [currentAchievementUnlocked, setCurrentAchievementUnlocked] =
     useState<null | Achievement>(null);
@@ -169,11 +195,17 @@ export const AchievementsProvider = ({
   const value = useMemo(
     () => ({
       achievements,
+      achievementsCount,
       unlockAchievement,
       currentAchievementUnlocked,
       setCurrentAchievementUnlocked,
     }),
-    [achievements, currentAchievementUnlocked, unlockAchievement],
+    [
+      achievements,
+      achievementsCount,
+      currentAchievementUnlocked,
+      unlockAchievement,
+    ],
   );
 
   return (

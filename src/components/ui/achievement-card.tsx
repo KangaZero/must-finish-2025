@@ -1,6 +1,6 @@
 import { Achievement } from "@/types";
 import Image from "next/image";
-import React from "react";
+import { achievementTrophyMapping } from "@/resources";
 
 const rarityColors = {
   common: "var(--border-color)",
@@ -11,16 +11,14 @@ const rarityColors = {
 };
 
 export const AchievementCard = ({
-  key,
   achievement,
 }: {
-  key: Achievement["id"];
   achievement: Achievement;
 }) => {
   const { title, description, rarity, isUnlocked, image } = achievement;
   return (
     <div
-      key={key}
+      key={achievement.id}
       className="achievement-card"
       style={{
         border: `2px solid ${isUnlocked ? "var(--primary-border)" : "var(--border-color)"}`,
@@ -50,7 +48,7 @@ export const AchievementCard = ({
             style={{ width: 48, height: 48 }}
           />
         ) : (
-          "🏆"
+          achievementTrophyMapping[rarity]
         )}
       </div>
       <div style={{ flex: 1 }}>

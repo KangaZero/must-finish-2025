@@ -286,7 +286,7 @@ export interface Gallery extends BasePageConfig {
   }>;
 }
 
-type AchievementTitle =
+export type AchievementTitle =
   | "New Beginnings"
   | "Eos"
   | "Fashion Police"
