@@ -30,6 +30,7 @@ export interface BentoCardProps {
   description?: string;
   label?: string;
   image?: string;
+  alt?: string;
   textAutoHide?: boolean;
   disableAnimations?: boolean;
 }

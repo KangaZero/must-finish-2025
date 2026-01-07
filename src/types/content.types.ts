@@ -21,6 +21,8 @@ export type Person = {
   lastName: string;
   /** The name you want to display, allows variations like nicknames */
   name: string;
+  /** Company name */
+  workplace: string;
   /** Ruby name of the person */
   rubyName: {
     romaji: string;
@@ -47,6 +49,8 @@ export type Person = {
     icon: IconName;
     category: "hobby" | "professional";
   }[];
+  /** Current thing I am probably doing */
+  currentStatus: "sleeping" | "coding" | "running" | "gaming" | "relaxing";
 };
 
 /**

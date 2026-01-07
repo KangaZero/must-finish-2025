@@ -12,15 +12,19 @@ import type {
   Achievement,
 } from "@/types";
 import { getLocalTimeZone } from "@/utils/getLocalTimeZone";
+import { getPersonsCurrentStatus } from "@/utils/getPersonsCurrentStatus";
 import { LetterFx, Logo, Row, Text } from "@once-ui-system/core";
 
 const userSettings: UserSettings = {
   isEffectsEnabled: true,
 };
 
+const userLocation = getLocalTimeZone() || "Asia/Tokyo";
+
 const person: Person = {
   firstName: "Samuel Wai Weng",
   lastName: "Yong",
+  workplace: "Accenture",
   name: `Samuel Wai Weng Yong`,
   rubyName: [
     { romaji: "Samuel", furigana: "サムエル", kanji: "" },
@@ -31,7 +35,7 @@ const person: Person = {
   avatar: "/images/avatar.jpg",
   email: "samuelyongw@gmail.com",
   githubUsername: "KangaZero",
-  location: getLocalTimeZone() || "Asia/Tokyo", // Expecting the IANA time zone identifier, e.g., 'Europe/Vienna'
+  location: userLocation, // Expecting the IANA time zone identifier, e.g., 'Europe/Vienna'
   locationCoordinates: [35.660504, 139.724981], // Latitude, Longitude for Tokyo
   languages: ["English", "Japanese"], // optional: Leave the array empty if you don't want to display languages
   technologies: [
@@ -66,9 +70,14 @@ const person: Person = {
       category: "hobby",
     },
   ],
+  currentStatus: getPersonsCurrentStatus(userLocation),
 };
 
-const headerHoverCardDetails = [`Based in ${(<b>Asia/Tokyo</b>)}`];
+const headerHoverCardDetails = [
+  `Based in ${userLocation}`,
+  `Working at ${person.workplace}`,
+  `Currently ${person.currentStatus}`,
+];
 
 const newsletter: Newsletter = {
   display: true,
@@ -295,8 +304,9 @@ const about: About = {
         achievements: [
           <>
             <b>Unified a fragmented ecosystem</b> of legacy tools (Excel,
-            PowerPoint, and siloed docs) into a single, standardized platform,
-            creating a <q>single source of truth</q> for enterprise workflows.
+            PowerPoint, and Sharepoint docs) into a single, standardized
+            platform, creating a <q>single source of truth</q> for enterprise
+            workflows.
           </>,
           <>
             <b>Developed interactive visual builders</b>, including an SAP
@@ -588,6 +598,7 @@ if (sandMandalaIndex !== -1) {
 export {
   userSettings,
   person,
+  headerHoverCardDetails,
   social,
   newsletter,
   home,

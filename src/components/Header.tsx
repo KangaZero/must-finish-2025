@@ -2,7 +2,9 @@
 
 import { usePathname } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
-
+import { gsap } from "gsap";
+import TextPlugin from "gsap/TextPlugin";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   Fade,
   Flex,
@@ -32,6 +34,7 @@ import {
   routes,
   display,
   person,
+  headerHoverCardDetails,
   about,
   blog,
   work,
@@ -79,10 +82,38 @@ const TimeDisplay: React.FC<TimeDisplayProps> = ({
 export default TimeDisplay;
 
 export const Header = () => {
-  const hoverCardRef = useRef<HTMLDivElement>(null);
+  const hoverCardDescriptionRef = useRef<HTMLDivElement>(null);
   const { unlockAchievement } = useAchievements();
   const pathname = usePathname() ?? "";
   const [hideMenu, setHideMenu] = useState(false);
+  useEffect(() => {
+    if (!hoverCardDescriptionRef.current) return;
+    function cycleText(
+      ref: React.RefObject<HTMLDivElement>,
+      texts: string[],
+      duration = 3,
+      delay = 2,
+    ) {
+      let index = 0;
+      gsap.registerPlugin(ScrollTrigger, TextPlugin);
+      const animate = () => {
+        gsap.to(ref.current, {
+          text: texts[index],
+          duration,
+          delay,
+          onComplete: () => {
+            index = (index + 1) % texts.length;
+            animate();
+          },
+        });
+      };
+      animate();
+    }
+    cycleText(
+      hoverCardDescriptionRef as React.RefObject<HTMLDivElement>,
+      headerHoverCardDetails,
+    );
+  }, []);
   return (
     <>
       <Fade
@@ -125,11 +156,11 @@ export const Header = () => {
           {display.location && (
             <Row s={{ hide: true }}>
               <HoverCard
-                ref={hoverCardRef}
                 tabIndex={0}
                 placement="bottom"
                 trigger={
                   <span
+                    ref={hoverCardDescriptionRef}
                     onTouchStart={() => {
                       unlockAchievement("Snoopy Detective");
                     }}
@@ -138,7 +169,7 @@ export const Header = () => {
                     }}
                     style={{ cursor: "pointer" }}
                   >
-                    Based in <b>Asia/Tokyo</b>
+                    {headerHoverCardDetails[0]}
                   </span>
                 }
               >
