@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 import {
   Fade,
@@ -79,6 +79,7 @@ const TimeDisplay: React.FC<TimeDisplayProps> = ({
 export default TimeDisplay;
 
 export const Header = () => {
+  const hoverCardRef = useRef<HTMLDivElement>(null);
   const { unlockAchievement } = useAchievements();
   const pathname = usePathname() ?? "";
   const [hideMenu, setHideMenu] = useState(false);
@@ -124,6 +125,7 @@ export const Header = () => {
           {display.location && (
             <Row s={{ hide: true }}>
               <HoverCard
+                ref={hoverCardRef}
                 tabIndex={0}
                 placement="bottom"
                 trigger={

@@ -1,3 +1,4 @@
+import { BentoCardProps } from "@/components/MagicBento";
 import type {
   About,
   Blog,
@@ -66,6 +67,8 @@ const person: Person = {
     },
   ],
 };
+
+const headerHoverCardDetails = [`Based in ${(<b>Asia/Tokyo</b>)}`];
 
 const newsletter: Newsletter = {
   display: true,
@@ -142,7 +145,7 @@ const home: Home = {
         {/* <strong className="ml-4">Once UI</strong>{" "} */}
         {/* <Line background="brand-alpha-strong" vert height="20" /> */}
         <Text marginRight="4" onBackground="brand-medium">
-          2025
+          {new Date().getFullYear()}
         </Text>
       </Row>
     ),
@@ -171,6 +174,89 @@ const home: Home = {
     </Row>
   ),
 };
+
+const projectCardData: Array<BentoCardProps & { id: string }> = [
+  {
+    correctIndex: 4,
+    id: "card-1",
+    color: "#060010",
+    title: "Analytics",
+    description: "Track user behavior",
+    label: "Insights",
+    image: "https://picsum.photos/id/1011/400/240", // Stock image
+    alt: "Analytics dashboard stock image",
+  },
+  {
+    correctIndex: 7,
+    id: "card-2",
+    color: "#060010",
+    title: "Dashboard",
+    description: "Centralized data view",
+    label: "Overview",
+    image: "https://picsum.photos/id/1025/400/240",
+    alt: "Dashboard overview stock image",
+  },
+  {
+    correctIndex: 0,
+    id: "card-3",
+    color: "#060010",
+    title: "Collaboration",
+    description: "Work together seamlessly",
+    label: "Teamwork",
+    image: "https://picsum.photos/id/1005/400/240",
+    alt: "Collaboration teamwork stock image",
+  },
+  {
+    correctIndex: 1,
+    id: "card-4",
+    color: "#060010",
+    title: "Automation",
+    description: "Streamline workflows",
+    label: "Efficiency",
+    image: "https://picsum.photos/id/1041/400/240",
+    alt: "Automation efficiency stock image",
+  },
+  {
+    correctIndex: 3,
+    id: "card-5",
+    color: "#060010",
+    title: "Integration",
+    description: "Connect favorite tools",
+    label: "Connectivity",
+    image: "https://picsum.photos/id/1033/400/240",
+    alt: "Integration connectivity stock image",
+  },
+  {
+    correctIndex: 5,
+    id: "card-6",
+    color: "#060010",
+    title: "Security",
+    description: "Enterprise-grade protection",
+    label: "Protection",
+    image: "https://picsum.photos/id/1027/400/240",
+    alt: "Security protection stock image",
+  },
+  {
+    correctIndex: 2,
+    id: "card-7",
+    color: "#060010",
+    title: "Test",
+    description: "Amazing",
+    label: "Testing",
+    image: "https://picsum.photos/id/1050/400/240",
+    alt: "Test amazing stock image",
+  },
+  {
+    correctIndex: 6,
+    id: "card-8",
+    color: "#060010",
+    title: "Security",
+    description: "Enterprise-grade protection",
+    label: "Protection",
+    image: "https://picsum.photos/id/1062/400/240",
+    alt: "Security protection stock image",
+  },
+];
 
 const about: About = {
   path: "/about",
@@ -505,6 +591,7 @@ export {
   social,
   newsletter,
   home,
+  projectCardData,
   about,
   blog,
   work,

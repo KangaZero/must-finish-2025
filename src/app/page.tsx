@@ -75,7 +75,7 @@ export default function Home() {
         </Column>
       }
     >
-      <Column maxWidth="m" gap="xl" paddingY="12" horizontal="center">
+      <Column maxWidth="m" gap="xl" paddingY="4" horizontal="center">
         <Schema
           as="webPage"
           baseURL={baseURL}
@@ -105,6 +105,7 @@ export default function Home() {
                 paddingLeft="12"
               >
                 <Badge
+                  className="home-page-featured-badge"
                   background="brand-alpha-weak"
                   paddingX="12"
                   paddingY="4"
@@ -215,7 +216,7 @@ export default function Home() {
           )
         } */}
         <RevealFx fillWidth horizontal="center">
-          <Heading wrap="balance" variant="display-strong-m">
+          <Heading as="h1" wrap="balance" variant="display-strong-m">
             Projects
           </Heading>
         </RevealFx>
@@ -224,7 +225,7 @@ export default function Home() {
           disableAnimations={!userSettings.isEffectsEnabled}
         />
         {/*<Projects range={[2]} />*/}
-        <Column fillWidth gap="xl">
+        {/*<Column fillWidth gap="xl">
           <Column fillWidth horizontal="center" gap="m" paddingBottom="m">
             <Heading variant="display-strong-m" wrap="balance">
               Creative Drawing Panel
@@ -242,7 +243,7 @@ export default function Home() {
             </Column>
           </Column>
           <DrawingPanel />
-        </Column>
+        </Column>*/}
         {/* <Mailchimp />  */}
       </Column>
       <ReactQueryDevtools initialIsOpen={false} />

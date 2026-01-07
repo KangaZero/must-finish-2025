@@ -118,8 +118,8 @@ export const AchievementToast: React.FC<AchievementToastProps> = ({
           <div className={styles.header}>
             <h3 className={styles.title}>{title}</h3>
             <ShineFx
-              baseOpacity={0.6}
-              speed={5}
+              baseOpacity={0.7}
+              speed={3.5}
               variant="heading-default-xs"
               className={styles.badge}
             >

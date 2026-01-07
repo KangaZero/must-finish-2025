@@ -1,5 +1,6 @@
 "use client";
 import { useRef, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { Renderer, Program, Triangle, Mesh } from "ogl";
 import "./RippleGrid.css";
 
@@ -56,6 +57,7 @@ const RippleGrid: React.FC<Props> = ({
   const targetMouseRef = useRef({ x: 0.5, y: 0.5 });
   const mouseInfluenceRef = useRef(0);
   const uniformsRef = useRef<null | Uniforms>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -326,7 +328,11 @@ void main() {
     mouseInteractionRadius,
   ]);
 
-  return <div ref={containerRef} className="ripple-grid-container" />;
+  if (pathname === "/") {
+    return <div ref={containerRef} className="ripple-grid-container" />;
+  } else {
+    return null;
+  }
 };
 
 export default RippleGrid;

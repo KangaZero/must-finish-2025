@@ -1,6 +1,7 @@
 "use client";
 import React, { useRef, useEffect, useCallback, useState } from "react";
 import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   DndContext,
   closestCenter,
@@ -20,6 +21,7 @@ import { CSS } from "@dnd-kit/utilities";
 import "./MagicBento.css";
 import { Kbd, Button, Row } from "@once-ui-system/core";
 import { useAchievements } from "./AchievementsProvider";
+import { projectCardData } from "@/resources";
 
 export interface BentoCardProps {
   correctIndex: number;
@@ -50,73 +52,6 @@ const DEFAULT_PARTICLE_COUNT = 12;
 const DEFAULT_SPOTLIGHT_RADIUS = 300;
 const DEFAULT_GLOW_COLOR = "132, 0, 255";
 const MOBILE_BREAKPOINT = 768;
-
-const cardData: Array<BentoCardProps & { id: string }> = [
-  {
-    correctIndex: 4,
-    id: "card-1",
-    color: "#060010",
-    title: "Analytics",
-    description: "Track user behavior",
-    label: "Insights",
-  },
-  {
-    correctIndex: 7,
-    id: "card-2",
-    color: "#060010",
-    title: "Dashboard",
-    description: "Centralized data view",
-    label: "Overview",
-  },
-  {
-    correctIndex: 0,
-    id: "card-3",
-    color: "#060010",
-    title: "Collaboration",
-    description: "Work together seamlessly",
-    label: "Teamwork",
-  },
-  {
-    correctIndex: 1,
-    id: "card-4",
-    color: "#060010",
-    title: "Automation",
-    description: "Streamline workflows",
-    label: "Efficiency",
-  },
-  {
-    correctIndex: 3,
-    id: "card-5",
-    color: "#060010",
-    title: "Integration",
-    description: "Connect favorite tools",
-    label: "Connectivity",
-  },
-  {
-    correctIndex: 5,
-    id: "card-6",
-    color: "#060010",
-    title: "Security",
-    description: "Enterprise-grade protection",
-    label: "Protection",
-  },
-  {
-    correctIndex: 2,
-    id: "card-7",
-    color: "#060010",
-    title: "Test",
-    description: "Amazing",
-    label: "Protection",
-  },
-  {
-    correctIndex: 6,
-    id: "card-8",
-    color: "#060010",
-    title: "Security",
-    description: "Enterprise-grade protection",
-    label: "Protection",
-  },
-];
 
 const createParticleElement = (
   x: number,
@@ -179,9 +114,9 @@ const ParticleCard: React.FC<{
   style,
   particleCount = DEFAULT_PARTICLE_COUNT,
   glowColor = DEFAULT_GLOW_COLOR,
-  enableTilt = false,
-  clickEffect = false,
-  enableMagnetism = false,
+  enableTilt = true,
+  clickEffect = true,
+  enableMagnetism = true,
 }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const particlesRef = useRef<HTMLDivElement[]>([]);
@@ -578,7 +513,7 @@ const GlobalSpotlight: React.FC<{
 
 const SortableCard: React.FC<{
   id: string;
-  card: (typeof cardData)[0];
+  card: (typeof projectCardData)[0];
   index: number;
   baseClassName: string;
   cardProps: {
@@ -624,7 +559,6 @@ const SortableCard: React.FC<{
     opacity: isDragging ? 0.5 : 1,
     cursor: "grab",
   };
-
   if (enableStars) {
     return (
       <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
@@ -832,21 +766,62 @@ const MagicBento: React.FC<BentoProps> = ({
   const { unlockAchievement } = useAchievements();
   const gridRef = useRef<HTMLDivElement>(null);
   const combinedCardRef = useRef<HTMLDivElement>(null);
-  const testRef = useRef<HTMLDivElement>(null);
-  const testRef2 = useRef<HTMLDivElement>(null);
-  const testRef3 = useRef<HTMLDivElement>(null);
+  const detailRef = useRef<HTMLDivElement>(null);
+  const detailContentRef = useRef<HTMLDivElement>(null);
+  const detailImageRef = useRef<HTMLImageElement>(null);
+  const cardRefs = useRef<Map<string, HTMLElement>>(new Map());
   const isMobile = useMobileDetection();
   const shouldDisableAnimations = disableAnimations || isMobile;
   const [items, setItems] = useState(() => {
-    if (validateUniqueIds(cardData)) {
-      return cardData;
+    if (validateUniqueIds(projectCardData)) {
+      return projectCardData;
     }
     return [];
   });
-  const initialItems = cardData;
+  const initialItems = projectCardData;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isPuzzleSolved, setIsPuzzleSolved] = useState(false);
   const [isCardsCombined, setIsCardsCombined] = useState(false);
+  const [activeCard, setActiveCard] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!gridRef.current) return;
+    gsap.registerPlugin(ScrollTrigger);
+    const grid = gridRef.current;
+    const puzzleCards = grid.querySelectorAll<HTMLElement>(
+      ".magic-bento-card:not(.magic-bento-card--combined)",
+    );
+    puzzleCards.forEach((card, index) => {
+      gsap.fromTo(
+        card,
+        {
+          scrollTrigger: {
+            trigger: grid,
+            start: "top 80%",
+            end: "bottom 10%",
+            toggleActions: "play none none none",
+          },
+          opacity: 0.1,
+          scale: 0.2,
+          rotation: index % 2 === 0 ? -15 : 15,
+        },
+        {
+          scrollTrigger: {
+            trigger: grid,
+            start: "top 80%",
+            end: "bottom 10%",
+            toggleActions: "play pause reverse pause",
+          },
+          opacity: 1,
+          scale: 1,
+          rotation: 0,
+          duration: 0.6,
+          delay: index * 0.4,
+          ease: "power1.out",
+        },
+      );
+    });
+  }, []);
 
   //NOTE: Only run this in checkIfPuzzleIsSolvedAndExecuteFollowingTransition
   const transitionToSolvedCard = () => {
@@ -960,7 +935,7 @@ const MagicBento: React.FC<BentoProps> = ({
     transitionToSolvedCard();
   };
 
-  // Usage (call this once after cardData is defined):
+  // Usage (call this once after projectCardData is defined):
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -997,34 +972,8 @@ const MagicBento: React.FC<BentoProps> = ({
     tl.progress(1).reverse();
   };
 
-  const handleTestTransition = () => {
-    if (!testRef.current || !testRef2.current || !testRef3.current) return;
-    const timeline = gsap.timeline();
-    timeline
-      .to(testRef.current, {
-        inertia: { x: 500, y: -300 },
-        rotation: 15,
-        x: 200,
-        ease: "bounce.in",
-        duration: 1.5,
-      })
-      .to(testRef.current, { rotation: -15, x: -200, duration: 1.5 })
-      .to(testRef2.current, { rotation: 10, y: 200, duration: 1.5 }, "-=3")
-      .to(testRef2.current, { rotation: 30, y: -200, duration: 1.5 }, "-=1.5")
-      .to(
-        testRef3.current,
-        { rotation: 10, y: 100, x: -100, duration: 0.5 },
-        "-=3",
-      )
-      .to(
-        testRef3.current,
-        { rotation: 30, y: 20, x: 40, duration: 1 },
-        "-=2.5",
-      );
-    timeline.yoyo(true);
-  };
   return (
-    <>
+    <React.Fragment>
       {enableSpotlight && (
         <GlobalSpotlight
           gridRef={gridRef}
@@ -1034,16 +983,6 @@ const MagicBento: React.FC<BentoProps> = ({
           glowColor={glowColor}
         />
       )}
-      {/*HACK Only for test purposes only*/}
-      {/*<div onClick={handleTestTransition} className="test-card" ref={testRef}>
-        <p>Test test</p>
-      </div>
-      <div onClick={handleTestTransition} className="test-card" ref={testRef2}>
-        <p>Test test</p>
-      </div>
-      <div onClick={handleTestTransition} className="test-card" ref={testRef3}>
-        <p>Test test</p>
-      </div>*/}
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
@@ -1087,23 +1026,57 @@ const MagicBento: React.FC<BentoProps> = ({
                   };
 
                   return (
-                    <SortableCard
-                      key={card.id}
-                      id={card.id}
-                      card={card}
-                      index={index}
-                      baseClassName={baseClassName}
-                      cardProps={cardProps}
-                      enableStars={enableStars}
-                      shouldDisableAnimations={shouldDisableAnimations}
-                      particleCount={particleCount}
-                      glowColor={glowColor}
-                      enableTilt={enableTilt}
-                      clickEffect={clickEffect}
-                      enableMagnetism={enableMagnetism}
-                      enableBorderGlow={enableBorderGlow}
-                      textAutoHide={textAutoHide}
-                    />
+                    <React.Fragment key={card.id}>
+                      <SortableCard
+                        key={card.id}
+                        id={card.id}
+                        card={card}
+                        index={index}
+                        baseClassName={baseClassName}
+                        cardProps={cardProps}
+                        enableStars={enableStars}
+                        shouldDisableAnimations={shouldDisableAnimations}
+                        particleCount={particleCount}
+                        glowColor={glowColor}
+                        enableTilt={enableTilt}
+                        clickEffect={clickEffect}
+                        enableMagnetism={enableMagnetism}
+                        enableBorderGlow={enableBorderGlow}
+                        textAutoHide={textAutoHide}
+                      />
+                      <div
+                        className="detail"
+                        ref={detailRef}
+                        style={{
+                          position: "absolute",
+                          left: "50%",
+                          top: "50%",
+                          transform: "translate(-50%, -50%)",
+                          visibility: "hidden",
+                          background: "#fff",
+                          borderRadius: "1rem",
+                          boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
+                          padding: "2rem",
+                          zIndex: 100,
+                        }}
+                      >
+                        <div
+                          className="content"
+                          ref={detailContentRef}
+                          style={{ transform: "translateY(-100%)" }}
+                        >
+                          <img
+                            src={card.image}
+                            alt={card.title}
+                            ref={detailImageRef}
+                            style={{ width: 200, height: 200 }}
+                          />
+                          <div className="title">{card.title}</div>
+                          <div className="secondary">{card.label}</div>
+                          <div className="description">{card.description}</div>
+                        </div>
+                      </div>
+                    </React.Fragment>
                   );
                 })}
               </>
@@ -1111,7 +1084,7 @@ const MagicBento: React.FC<BentoProps> = ({
           </BentoCardGrid>
         </SortableContext>
       </DndContext>
-    </>
+    </React.Fragment>
   );
 };
 

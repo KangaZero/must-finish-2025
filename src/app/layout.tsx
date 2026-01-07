@@ -3,7 +3,6 @@ import "@once-ui-system/core/css/tokens.css";
 import "@/resources/custom.css";
 // import "@/app/globals.css";
 import classNames from "classnames";
-
 import {
   Background,
   Column,
@@ -15,7 +14,6 @@ import {
 } from "@once-ui-system/core";
 import { Footer, Header, RouteGuard, Providers } from "@/components";
 import { baseURL, effects, fonts, style, dataStyle, home } from "@/resources";
-
 import styles from "./layout.module.scss";
 import { Metadata } from "next";
 import { AchievementToast } from "@/components/ui/achievement-toast";
@@ -154,11 +152,11 @@ export default async function RootLayout({
               gridColor="#4f37ae"
               rippleIntensity={0.01}
               gridSize={17}
-              gridThickness={12}
+              gridThickness={8}
               fadeDistance={1.5}
               vignetteStrength={1}
-              glowIntensity={0.25}
-              opacity={0.7}
+              glowIntensity={0.1}
+              opacity={0.5}
               gridRotation={55}
               mouseInteraction
               mouseInteractionRadius={0.4}
