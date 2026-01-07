@@ -74,7 +74,7 @@ export const ConsoleCommandProvider = ({
               Title: a.title,
               Description: a.description,
               Rarity: a.rarity,
-              UnlockedAt: a.UnlockedAt || "N/A",
+              UnlockedAt: a.unlockedAt || "N/A",
             })),
         );
       },

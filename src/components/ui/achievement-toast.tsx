@@ -53,7 +53,7 @@ export const AchievementToast: React.FC<AchievementToastProps> = ({
 
   const unlockedAt =
     isUnlocked && "UnlockedAt" in currentAchievementUnlocked
-      ? new Date(currentAchievementUnlocked.UnlockedAt).toLocaleString(
+      ? new Date(currentAchievementUnlocked.unlockedAt).toLocaleString(
           "en-US",
           {
             month: "short",

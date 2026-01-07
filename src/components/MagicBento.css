@@ -15,7 +15,7 @@
     --background-light: #f8fafc;
     --background-dark: #d2f2f2;
     --purple-primary: #7c3aed;
-    --purple-glow: rgba(124, 58, 237, 0.15);
+    --purple-glow: rgba(124, 58, 237, 0.9);
     --purple-border: #7c3aed;
 }
 
@@ -36,15 +36,6 @@
     padding: 0.75em;
     max-width: 54em;
     font-size: clamp(1rem, 0.9rem + 0.5vw, 1.5rem);
-}
-
-.test-card {
-    display: flex;
-    width: 200px;
-    height: 200px;
-    background: orange;
-    padding: 1em;
-    border-radius: 15px;
 }
 
 .magic-bento-card {

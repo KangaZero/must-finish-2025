@@ -264,6 +264,13 @@ export interface Work extends BasePageConfig {
 }
 
 /**
+ * Achievements page configuration.
+ * @description Configuration for the Work/Projects page, including metadata and navigation label.
+ */
+export interface AchievementPage extends BasePageConfig {
+  custom?: unknown;
+}
+/**
  * Gallery page configuration.
  * @description Configuration for the Gallery page, including metadata, navigation label, and image list.
  */
@@ -313,7 +320,7 @@ export type Achievement<
       rarity: "common" | "uncommon" | "rare" | "legendary" | "mythic";
       split?: TAchievementTitle extends "Speedophile" ? number : never;
       isUnlocked: true;
-      UnlockedAt: Date;
+      unlockedAt: Date;
       noOfAchievementsRequiredToUnlock?: number;
     }
   | {

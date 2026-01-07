@@ -74,7 +74,7 @@ export const AchievementsProvider = ({
           const updated = {
             ...achievement,
             isUnlocked: true,
-            UnlockedAt: new Date(),
+            unlockedAt: new Date(),
           };
 
           // Add split only if it's the Speedophile achievement
@@ -146,7 +146,7 @@ export const AchievementsProvider = ({
       unlockAchievement("Go Touch Grass");
       achievements.push(negativeAchievement);
       const unlockedAtList: Date[] = achievements
-        .map((achievement) => achievement.isUnlocked && achievement.UnlockedAt)
+        .map((achievement) => achievement.isUnlocked && achievement.unlockedAt)
         .filter((item) => item !== false)
         .map((unlockedAt) => new Date(unlockedAt));
       const oldestDate = unlockedAtList.reduce((oldest, current) =>

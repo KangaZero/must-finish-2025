@@ -18,19 +18,12 @@ import {
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { type Metadata } from "next";
 
-import {
-  home,
-  about,
-  person,
-  baseURL,
-  userSettings,
-  routes,
-} from "@/resources";
+import { home, about, person, baseURL, userSettings } from "@/resources";
 
-import { Mailchimp } from "@/components";
-import { Projects } from "@/components/work/Projects";
-import { Posts } from "@/components/blog/Posts";
-import DrawingPanel from "@/components/DrawingPanel";
+// import { Mailchimp } from "@/components";
+// import { Projects } from "@/components/work/Projects";
+// import { Posts } from "@/components/blog/Posts";
+// import DrawingPanel from "@/components/DrawingPanel";
 import MagicBento from "@/components/MagicBento";
 
 export async function generateMetadata(): Promise<Metadata> {

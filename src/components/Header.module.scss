@@ -3,8 +3,12 @@
 .mask {
     pointer-events: none;
     backdrop-filter: blur(0.5rem);
-    background: linear-gradient(to bottom, var(--page-background), var(--static-transparent));
-    mask-image: linear-gradient(rgba(0,0,0) 25%, rgba(0, 0, 0, 0) 100%);
+    background: linear-gradient(
+        to bottom,
+        var(--page-background),
+        var(--static-transparent)
+    );
+    mask-image: linear-gradient(rgba(0, 0, 0) 25%, rgba(0, 0, 0, 0) 100%);
     mask-size: 100% 100%;
 }
 
@@ -21,21 +25,23 @@
 }
 
 .menuItems {
-  transition: width 0.3s ease, opacity 0.3s ease;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  width: 350px; // or your desired expanded width
-  opacity: 1;
+    transition:
+        width 0.3s ease,
+        opacity 0.3s ease;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    width: 465px; // or your desired expanded width
+    opacity: 1;
 }
 .menuVisible {
-  opacity: 1;
-  transform: translateX(0px);
-  pointer-events: auto;
+    opacity: 1;
+    transform: translateX(0px);
+    pointer-events: auto;
 }
 .menuHidden {
-  opacity: 0;
-  width: 0;
-  transform: translateX(-20px);
-  pointer-events: none;
+    opacity: 0;
+    width: 0;
+    transform: translateX(-20px);
+    pointer-events: none;
 }

@@ -39,6 +39,7 @@ import {
   blog,
   work,
   gallery,
+  achievements,
 } from "@/resources";
 import { ThemeToggle } from "./ThemeToggle";
 import styles from "./Header.module.scss";
@@ -338,15 +339,15 @@ export const Header = () => {
                   <>
                     <Row s={{ hide: true }}>
                       <ToggleButton
-                        prefixIcon="book"
+                        prefixIcon="trophy"
                         href="/achievements"
-                        label={blog.label}
+                        label={achievements.label}
                         selected={pathname.startsWith("/achievements")}
                       />
                     </Row>
                     <Row hide s={{ hide: false }}>
                       <ToggleButton
-                        prefixIcon="book"
+                        prefixIcon="trophy"
                         href="/achievements"
                         selected={pathname.startsWith("/achievements")}
                       />

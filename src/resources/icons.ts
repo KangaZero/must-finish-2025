@@ -51,6 +51,7 @@ import {
   FaReact,
   FaRust,
   FaGolang,
+  FaTrophy,
 } from "react-icons/fa6";
 
 export const iconLibrary = {
@@ -71,6 +72,7 @@ export const iconLibrary = {
   github: FaGithub,
   linkedin: FaLinkedin,
   x: FaX,
+  trophy: FaTrophy,
   twitter: FaXTwitter,
   threads: FaThreads,
   arrowUpRightFromSquare: HiArrowTopRightOnSquare,

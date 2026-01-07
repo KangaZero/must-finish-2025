@@ -327,8 +327,7 @@ void main() {
     mouseInteraction,
     mouseInteractionRadius,
   ]);
-
-  if (pathname === "/") {
+  if (pathname.length === 1) {
     return <div ref={containerRef} className="ripple-grid-container" />;
   } else {
     return null;

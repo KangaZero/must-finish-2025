@@ -10,6 +10,7 @@ import type {
   Work,
   UserSettings,
   Achievement,
+  AchievementPage,
 } from "@/types";
 import { getLocalTimeZone } from "@/utils/getLocalTimeZone";
 import { getPersonsCurrentStatus } from "@/utils/getPersonsCurrentStatus";
@@ -445,6 +446,13 @@ const work: Work = {
   // All projects will be listed on the /home and /work routes
 };
 
+const achievements: AchievementPage = {
+  path: "/achievements",
+  label: "Achievements",
+  title: "Achievements",
+  description: `Unlockable achievements from this portfolio`,
+};
+
 const gallery: Gallery = {
   path: "/gallery",
   label: "Gallery",
@@ -608,6 +616,7 @@ export {
   work,
   gallery,
   achievementsList,
+  achievements,
   negativeAchievement,
   LOCAL_STORAGE_KEY,
 };
