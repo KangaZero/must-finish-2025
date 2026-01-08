@@ -5,5 +5,6 @@ export {};
 declare global {
   interface Window {
     portfolio: Console;
+    __portfolioConsoleWelcomeLogged: boolean;
   }
 }

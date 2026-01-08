@@ -72,11 +72,6 @@
     position: relative;
 }
 
-.magic-bento-card__header {
-    gap: 0.2em;
-    justify-content: space-between;
-}
-
 .magic-bento-card__content {
     flex-direction: column;
 }
@@ -135,20 +130,28 @@
 @media (max-width: 599px) {
     .card-grid {
         grid-template-columns: 1fr;
-        width: 90%;
         margin: 0 auto;
         padding: 0.5em;
     }
-
+    .magic-bento-card__header {
+        gap: 0.2em;
+        flex-direction: column-reverse;
+        align-items: center;
+    }
     .magic-bento-card {
-        width: 100%;
-        min-height: 180px;
+        aspect-ratio: auto;
+        text-align: center;
+        /*width: 100%;*/
     }
 }
 
 @media (min-width: 600px) {
     .card-grid {
         grid-template-columns: repeat(2, 1fr);
+    }
+    .magic-bento-card__header {
+        gap: 0.2em;
+        justify-content: space-between;
     }
 }
 

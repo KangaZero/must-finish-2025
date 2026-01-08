@@ -144,19 +144,21 @@ export default function Home() {
               horizontal="center"
               paddingLeft="12"
             >
-              <CodeBlock
-                lineNumbers={true}
-                copyButton={true}
-                codes={[
-                  {
-                    code: `// To visit the About page, type this in your browser console:\nwindow.location.href = '/about';`,
-                    language: "typescript",
-                    startLineNumber: 1,
-                    highlight: "2",
-                    label: "aboutMe.ts",
-                  },
-                ]}
-              />
+              <Row s={{ hide: true }}>
+                <CodeBlock
+                  lineNumbers={true}
+                  copyButton={true}
+                  codes={[
+                    {
+                      code: `// To visit the About page, type this in your browser console:\nwindow.location.href = '/about';`,
+                      language: "typescript",
+                      startLineNumber: 1,
+                      highlight: "2",
+                      label: "aboutMe.ts",
+                    },
+                  ]}
+                />
+              </Row>
             </RevealFx>
           </Column>
           <Row>

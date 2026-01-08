@@ -54,6 +54,8 @@ import {
   FaTrophy,
 } from "react-icons/fa6";
 
+import { FaShareAlt } from "react-icons/fa";
+
 export const iconLibrary = {
   arrowUpRight: HiArrowUpRight,
   arrowRight: HiArrowRight,
@@ -95,6 +97,7 @@ export const iconLibrary = {
   instagram: FaInstagram,
   sun: FaRegSun,
   react: FaReact,
+  share: FaShareAlt,
   outlineCancel: MdOutlineCancel,
 } as const satisfies Record<string, IconType>;
 

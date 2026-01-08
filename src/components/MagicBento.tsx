@@ -581,7 +581,12 @@ const SortableCard: React.FC<{
               {card.label}
             </div>
             <div className="magic-bento-card__image">
-              <Image src={card.image || ""} alt={card.title || ""} />
+              <Image
+                src={card.image || ""}
+                alt={card.title || ""}
+                width={200}
+                height={200}
+              />
             </div>
           </div>
           <div className="magic-bento-card__content">
@@ -1068,7 +1073,8 @@ const MagicBento: React.FC<BentoProps> = ({
                             src={card.image || ""}
                             alt={card.title || ""}
                             ref={detailImageRef}
-                            style={{ width: 200, height: 200 }}
+                            width={200}
+                            height={200}
                           />
                           <div className="title">{card.title}</div>
                           <div className="secondary">{card.label}</div>

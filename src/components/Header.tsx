@@ -12,14 +12,12 @@ import {
   Row,
   ToggleButton,
   Animation,
-  Icon,
   IconButton,
   HoverCard,
   Avatar,
   Column,
   Text,
   StyleOverlay,
-  Badge,
 } from "@once-ui-system/core";
 import {
   Map,
@@ -41,14 +39,13 @@ import {
   work,
   gallery,
   achievements,
-  achievementTrophyMapping,
 } from "@/resources";
 import { ThemeToggle } from "./ThemeToggle";
 import styles from "./Header.module.scss";
 import React from "react";
 import { CustomHeadingNav } from "./CustomHeadingNav";
 import { useAchievements } from "./AchievementsProvider";
-import { Achievement } from "@/types";
+import TrophiesDisplay from "./ui/trophies-display";
 
 type TimeDisplayProps = {
   timeZone: string;
@@ -84,40 +81,6 @@ const TimeDisplay: React.FC<TimeDisplayProps> = ({
 };
 
 export default TimeDisplay;
-
-const TrophiesDisplay = ({
-  achievementsCount,
-  summarize = true,
-}: {
-  achievementsCount: Record<Achievement["rarity"], number>;
-  summarize?: boolean;
-}) => {
-  const rarity: Achievement["rarity"][] = [
-    "common",
-    "uncommon",
-    "rare",
-    "legendary",
-    "mythic",
-  ];
-  return (
-    <>
-      {summarize ? (
-        <Badge href="/achievements" icon="trophy" textVariant="label-default-s">
-          {Object.values(achievementsCount).reduce((a, b) => a + b, 0)}
-        </Badge>
-      ) : (
-        <>
-          {/*TODO change to badge*/}
-          {rarity.map((tier) => (
-            <span key={tier}>
-              {achievementTrophyMapping[tier]}: {achievementsCount[tier]}
-            </span>
-          ))}
-        </>
-      )}
-    </>
-  );
-};
 
 export const Header = () => {
   const hoverCardDescriptionRef = useRef<HTMLDivElement>(null);
@@ -292,33 +255,46 @@ export const Header = () => {
               suppressHydrationWarning
             >
               {routes["/"] && (
-                <Animation
-                  blur={8}
-                  triggerType="hover"
-                  center
-                  duration={400}
-                  trigger={
+                <>
+                  <Row s={{ hide: true }}>
+                    <Animation
+                      blur={8}
+                      triggerType="hover"
+                      center
+                      duration={400}
+                      trigger={
+                        <ToggleButton
+                          prefixIcon="home"
+                          href="/"
+                          selected={pathname === "/"}
+                        />
+                      }
+                    >
+                      <ToggleButton
+                        prefixIcon="home"
+                        href="/"
+                        selected={pathname === "/"}
+                      />
+                    </Animation>
+                  </Row>
+                  <Row hide s={{ hide: false }}>
                     <ToggleButton
                       prefixIcon="home"
                       href="/"
                       selected={pathname === "/"}
                     />
-                  }
-                >
-                  <ToggleButton href="/" selected={pathname === "/"}>
-                    <Icon
-                      name="home"
-                      size="s"
-                      tooltip="Home"
-                      tooltipPosition="top"
-                    />
-                  </ToggleButton>
-                </Animation>
+                  </Row>
+                </>
               )}
               <Row
                 className={`${styles.menuItems} ${hideMenu ? styles.menuHidden : styles.menuVisible}`}
               >
-                <Line background="neutral-alpha-medium" vert maxHeight="24" />
+                <Line
+                  background="neutral-alpha-medium"
+                  vert
+                  maxHeight="24"
+                  s={{ hide: true }}
+                />
                 {routes["/about"] && (
                   <>
                     <Row s={{ hide: true }}>

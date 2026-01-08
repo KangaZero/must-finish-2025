@@ -1,3 +1,4 @@
+/** eslint-disable no-useless-escape */
 "use client";
 
 import React, {
@@ -9,7 +10,7 @@ import React, {
 } from "react";
 import { useAchievements } from "./AchievementsProvider";
 import { useRouter } from "next/navigation";
-import { Achievement, Achievements } from "@/types";
+import { Achievement } from "@/types";
 import { achievementsList } from "@/resources";
 import { LOCAL_STORAGE_KEY } from "@/resources";
 
@@ -108,13 +109,22 @@ export const ConsoleCommandProvider = ({
             ) as Achievement[];
             const currentUnlockedAchievements =
               parsedAchievementsLocalStorage.map((obj) => obj.isUnlocked);
+            const sandMandalaAchievement = achievementsList.find(
+              (achievement) => achievement.title === "Sand Mandala",
+            );
+            if (!sandMandalaAchievement)
+              return console.warn(
+                "There seems to be an unlock-able achievement missing",
+              );
             const noOfAchievementsRequiredToUnlockSandMandala =
-              achievementsList.find(
-                (achievement) => achievement.title === "Sand Mandala",
-              )!.noOfAchievementsRequiredToUnlock;
+              sandMandalaAchievement.noOfAchievementsRequiredToUnlock;
+            if (!noOfAchievementsRequiredToUnlockSandMandala)
+              return console.warn(
+                "Sand Mandala achievement requirement is missing",
+              );
             if (
               currentUnlockedAchievements.length >=
-              noOfAchievementsRequiredToUnlockSandMandala!
+              noOfAchievementsRequiredToUnlockSandMandala
             ) {
               console.log(
                 "You who fears nothing, you have unlocked the secret achievement!",
@@ -185,15 +195,17 @@ export const ConsoleCommandProvider = ({
       },
     };
 
-    // Welcome message
-    console.log(
-      "%c🎉 Welcome to the Portfolio Console! 🎉",
-      "color: #8e44ad; font-size: 1.5em; font-weight: bold;",
-    );
-    console.log(
-      "%cType portfolio.help() to see available commands.",
-      "color: #3498db; font-size: 1.1em;",
-    );
+    if (!window.__portfolioConsoleWelcomeLogged) {
+      console.log(
+        "%c🎉 Welcome to the Portfolio Console! 🎉",
+        "color: #8e44ad; font-size: 1.5em; font-weight: bold;",
+      );
+      console.log(
+        "%cType portfolio.help() to see available commands.",
+        "color: #3498db; font-size: 1.1em;",
+      );
+      window.__portfolioConsoleWelcomeLogged = true;
+    }
   }, [achievements, router, unlockAchievement]);
 
   useEffect(() => {

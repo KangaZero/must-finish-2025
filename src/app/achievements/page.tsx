@@ -1,4 +1,4 @@
-import { Column, Heading, Meta, Schema } from "@once-ui-system/core";
+import { Flex, Heading, Meta, Schema } from "@once-ui-system/core";
 import { achievements, baseURL, person, about } from "@/resources";
 import { Metadata } from "next";
 import AchievementsWrapper from "./components/AchievementsWrapper";
@@ -14,7 +14,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default function Achievements() {
   return (
-    <Column maxWidth="m" paddingTop="24">
+    <Flex direction="column" maxWidth="l">
       <Schema
         as="webPage"
         baseURL={baseURL}
@@ -32,6 +32,6 @@ export default function Achievements() {
         {achievements.title}
       </Heading>
       <AchievementsWrapper />
-    </Column>
+    </Flex>
   );
 }
