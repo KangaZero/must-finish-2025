@@ -559,8 +559,7 @@ const achievementsList: Array<Achievement> = [
   {
     id: 19,
     title: "Sand Mandala",
-    description:
-      "Reset all achievements while already having unlocked all but 5 achievements",
+    description: "Reset achievements under mysterious conditions",
     noOfAchievementsRequiredToUnlock: 99, // Note: Not the actual number, see below for its reassignment
     rarity: "rare",
     isUnlocked: false,
@@ -595,8 +594,7 @@ if (sandMandalaIndex !== -1) {
   achievementsList.push({
     id: 19,
     title: "Sand Mandala",
-    description:
-      "Reset all achievements while already having unlocked all but 5 achievements",
+    description: "Reset achievements under mysterious conditions",
     noOfAchievementsRequiredToUnlock: achievementsList.length - 6, // Total achievements minus the 5 left to unlock and itself
     rarity: "rare",
     isUnlocked: false,

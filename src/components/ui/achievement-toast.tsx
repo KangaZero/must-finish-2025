@@ -30,7 +30,7 @@ export const AchievementToast: React.FC<AchievementToastProps> = ({
   useEffect(() => {
     if (!currentAchievementUnlocked || !toastRef.current) return;
     gsap.to(toastRef.current, {
-      delay: 6,
+      delay: 8,
       duration: 1,
       opacity: 0,
       y: -50,
@@ -40,7 +40,7 @@ export const AchievementToast: React.FC<AchievementToastProps> = ({
       },
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [currentAchievementUnlocked]);
   if (!currentAchievementUnlocked) return null;
   const { title, image, description, rarity, isUnlocked } =
     currentAchievementUnlocked;
@@ -71,7 +71,17 @@ export const AchievementToast: React.FC<AchievementToastProps> = ({
         <div className={toastClasses}>
           <div className={styles.cancelButton}>
             <IconButton
-              onClick={() => setCurrentAchievementUnlocked(null)}
+              onPointerDownCapture={() => {
+                gsap.to(toastRef.current, {
+                  duration: 1,
+                  opacity: 0,
+                  y: -50,
+                  ease: "power3.out",
+                  onComplete: () => {
+                    setCurrentAchievementUnlocked(null);
+                  },
+                });
+              }}
               tooltip="Close"
               icon="outlineCancel"
               variant="primary"

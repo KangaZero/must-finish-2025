@@ -1,4 +1,4 @@
-import { Flex, Heading, Meta, Schema } from "@once-ui-system/core";
+import { Flex, Row, Heading, Meta, Schema } from "@once-ui-system/core";
 import { achievements, baseURL, person, about } from "@/resources";
 import { Metadata } from "next";
 import AchievementsWrapper from "./components/AchievementsWrapper";
@@ -31,6 +31,7 @@ export default function Achievements() {
       <Heading marginBottom="l" variant="heading-strong-xl" align="center">
         {achievements.title}
       </Heading>
+      <Row></Row>
       <AchievementsWrapper />
     </Flex>
   );

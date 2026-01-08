@@ -791,8 +791,7 @@ const MagicBento: React.FC<BentoProps> = ({
   const [isCardsCombined, setIsCardsCombined] = useState(false);
   // const [activeCard, setActiveCard] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (!gridRef.current) return;
+  const appearOneByOneCardAnimation = () => {
     gsap.registerPlugin(ScrollTrigger);
     const grid = gridRef.current;
     const puzzleCards = grid.querySelectorAll<HTMLElement>(
@@ -828,6 +827,10 @@ const MagicBento: React.FC<BentoProps> = ({
         },
       );
     });
+  };
+  useEffect(() => {
+    if (!gridRef.current) return;
+    appearOneByOneCardAnimation();
   }, []);
 
   //NOTE: Only run this in checkIfPuzzleIsSolvedAndExecuteFollowingTransition
@@ -965,15 +968,22 @@ const MagicBento: React.FC<BentoProps> = ({
     }
   };
 
-  const handleReset = () => {
-    const tl = gsap.timeline({
+  const handleResetPuzzle = () => {
+    const combinedCard = combinedCardRef.current;
+    if (!combinedCard) return;
+    gsap.to(combinedCard, {
+      opacity: 0,
+      scale: 0.2,
+      duration: 0.5,
+      ease: "power2.in",
+      y: "-100vh",
       onComplete: () => {
-        setItems(initialItems);
-        setIsPuzzleSolved(false);
         setIsCardsCombined(false);
+        setIsPuzzleSolved(false);
+        setItems(initialItems);
+        appearOneByOneCardAnimation();
       },
     });
-    tl.progress(1).reverse();
   };
 
   return (
@@ -1015,7 +1025,11 @@ const MagicBento: React.FC<BentoProps> = ({
                   You&apos;ve successfully arranged all the pieces.
                 </p>
                 <Row center marginTop="12">
-                  <Button data-border="rounded" onClick={handleReset} size="s">
+                  <Button
+                    data-border="rounded"
+                    onClick={handleResetPuzzle}
+                    size="s"
+                  >
                     Reset
                   </Button>
                 </Row>

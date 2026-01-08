@@ -17,6 +17,7 @@ import {
   Avatar,
   Column,
   Text,
+  StatusIndicator,
   StyleOverlay,
 } from "@once-ui-system/core";
 import {
@@ -404,7 +405,9 @@ export const Header = () => {
                   icon="sun"
                   variant="ghost"
                   //NOTE: full menu needs to be shown else the screen size is too small to access the style settings
-                  onClick={() => setHideMenu(false)}
+                  onPointerDown={() => {
+                    setHideMenu(false);
+                  }}
                 />
               </StyleOverlay>
               {display.menuAccordion && (
@@ -412,7 +415,7 @@ export const Header = () => {
                   <Line background="neutral-alpha-medium" vert maxHeight="24" />
                   <ToggleButton
                     prefixIcon={hideMenu ? "chevronRight" : "chevronLeft"}
-                    onClick={() => setHideMenu(!hideMenu)}
+                    onPointerDown={() => setHideMenu(!hideMenu)}
                     aria-label="Toggle menu"
                   />
                 </>
@@ -422,6 +425,16 @@ export const Header = () => {
         </Row>
 
         <Flex fillWidth horizontal="end" vertical="center">
+          {window.location.pathname === "/achievements" && (
+            <Flex s={{ hide: true }}>
+              <ToggleButton variant="outline">
+                <Row vertical="center" gap="8">
+                  Toggle Cards
+                  <StatusIndicator color="aqua" size="s" />
+                </Row>
+              </ToggleButton>
+            </Flex>
+          )}
           <Flex s={{ hide: true }}>
             {display.trophies && (
               <>

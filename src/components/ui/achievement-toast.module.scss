@@ -1,6 +1,6 @@
 .toast {
     position: fixed;
-    top: 4rem;
+    top: 6rem;
     left: 50%;
     transform: translateX(-50%);
     z-index: 9999;
@@ -11,28 +11,27 @@
     border-radius: 0.5rem;
     border-width: 2px;
     border-style: solid;
-    min-width: 320px;
-    max-width: 420px;
-    animation: slideInFade 300ms ease-out;
+    opacity: 0.75;
+    /* animation: slideInFade 300ms ease-out; */
 
     &.topLeft {
-        top: 3rem;
-        left: 3rem;
+        top: 6rem;
+        left: 5rem;
     }
 
     &.topRight {
-        top: 3rem;
-        right: 3rem;
+        top: 6rem;
+        right: 5rem;
     }
 
     &.bottomLeft {
-        bottom: 3rem;
-        left: 3rem;
+        bottom: 6rem;
+        left: 5rem;
     }
 
     &.bottomRight {
-        bottom: 3rem;
-        right: 3rem;
+        bottom: 6rem;
+        right: 5rem;
     }
 
     // Rarity: Common

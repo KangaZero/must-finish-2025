@@ -15,6 +15,7 @@ import {
 } from "@/resources/content";
 import type { Achievement } from "@/types/content.types";
 import { timeDiffInMilliseconds } from "@/utils/timeDiffInMilliseconds";
+import { useTheme } from "@once-ui-system/core";
 
 type AchievementsContextType = {
   achievements: Achievement[];
@@ -39,6 +40,8 @@ export const AchievementsProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
+  const { theme } = useTheme();
+  const initialTheme = document.documentElement.getAttribute("data-theme");
   const LOCAL_STORAGE_ACHIEVEMENTS: string | "e1eda57b" | null =
     typeof window !== "undefined"
       ? localStorage.getItem(LOCAL_STORAGE_KEY)
@@ -191,6 +194,13 @@ export const AchievementsProvider = ({
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [achievements, unlockSandMandala]);
+
+  //NOTE: A special useEffect just for unlocking the theme "Eos" achievement
+  useEffect(() => {
+    if (!theme || !initialTheme) return;
+    if (theme !== initialTheme) unlockAchievement("Eos");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [theme]);
 
   const value = useMemo(
     () => ({

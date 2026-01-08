@@ -36,6 +36,7 @@ import { MdOutlineCancel } from "react-icons/md";
 
 import {
   FaDiscord,
+  FaFilter,
   FaGithub,
   FaLinkedin,
   FaX,
@@ -66,6 +67,7 @@ export const iconLibrary = {
   book: PiBookBookmarkDuotone,
   openLink: HiOutlineLink,
   calendar: HiCalendarDays,
+  filter: FaFilter,
   home: PiHouseDuotone,
   gallery: PiImageDuotone,
   discord: FaDiscord,
