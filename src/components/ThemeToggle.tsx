@@ -8,7 +8,7 @@ import { useAchievements } from "./AchievementsProvider";
 export const ThemeToggle: React.FC = () => {
   const { theme, setTheme } = useTheme();
   const { unlockAchievement } = useAchievements();
-  const [mounted, setMounted] = useState(false);
+  const [, setMounted] = useState(false);
   const [currentTheme, setCurrentTheme] = useState<"light" | "dark">("light");
   const toggleIconRef = React.useRef<HTMLDivElement>(null);
 

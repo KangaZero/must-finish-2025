@@ -19,6 +19,7 @@ import {
   Text,
   StatusIndicator,
   StyleOverlay,
+  useTheme,
 } from "@once-ui-system/core";
 import {
   Map,
@@ -91,6 +92,51 @@ export const Header = () => {
     achievementsCount,
   } = useAchievements();
   const pathname = usePathname() ?? "";
+  const { theme } = useTheme();
+  useEffect(() => {
+    const lightThemeBtnElement = document.querySelector(
+      '[aria-label="Light theme"]',
+    );
+    const darkThemeBtnElement = document.querySelector(
+      '[aria-label="Dark theme"]',
+    );
+    const systemThemeBtnElement = document.querySelector(
+      '[aria-label="System theme"]',
+    );
+
+    const toUnlockOrNotEosAchievement = (mode: "light" | "dark" | "system") => {
+      // console.trace("theme from useTheme", theme);
+      // console.trace("mode", mode);
+      const documentTheme = document.documentElement.getAttribute("data-theme");
+      // console.trace("document theme", documentTheme);
+      if (theme === mode) return;
+      if (mode !== documentTheme) unlockAchievement("Eos");
+    };
+
+    lightThemeBtnElement?.addEventListener("pointerdown", () =>
+      toUnlockOrNotEosAchievement("light"),
+    );
+    darkThemeBtnElement?.addEventListener("pointerdown", () =>
+      toUnlockOrNotEosAchievement("dark"),
+    );
+    systemThemeBtnElement?.addEventListener("pointerdown", () =>
+      toUnlockOrNotEosAchievement("system"),
+    );
+    //Clean up event listeners on unmount
+    return () => {
+      lightThemeBtnElement?.removeEventListener("pointerdown", () =>
+        toUnlockOrNotEosAchievement("light"),
+      );
+      darkThemeBtnElement?.removeEventListener("pointerdown", () =>
+        toUnlockOrNotEosAchievement("dark"),
+      );
+      systemThemeBtnElement?.removeEventListener("pointerdown", () =>
+        toUnlockOrNotEosAchievement("system"),
+      );
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const [hideMenu, setHideMenu] = useState(false);
   useEffect(() => {
     if (!hoverCardDescriptionRef.current) return;
@@ -425,7 +471,7 @@ export const Header = () => {
         </Row>
 
         <Flex fillWidth horizontal="end" vertical="center">
-          {window.location.pathname === "/achievements" && (
+          {pathname === "/achievements" && (
             <Flex s={{ hide: true }}>
               <ToggleButton variant="outline">
                 <Row vertical="center" gap="8">

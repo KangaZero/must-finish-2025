@@ -2,7 +2,7 @@
 import "./AchievementsWrapper.css";
 import { useAchievements } from "@/components/AchievementsProvider";
 import { gsap } from "gsap";
-import { Flip } from "gsap/all";
+// import { Flip } from "gsap/all";
 import { AchievementCard } from "@/components/ui/achievement-card";
 import { Grid, Flex, Row, Tag } from "@once-ui-system/core";
 import SearchBar from "./SearchBar";

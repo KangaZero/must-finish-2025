@@ -794,6 +794,7 @@ const MagicBento: React.FC<BentoProps> = ({
   const appearOneByOneCardAnimation = () => {
     gsap.registerPlugin(ScrollTrigger);
     const grid = gridRef.current;
+    if (!grid) return;
     const puzzleCards = grid.querySelectorAll<HTMLElement>(
       ".magic-bento-card:not(.magic-bento-card--combined)",
     );
