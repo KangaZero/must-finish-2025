@@ -25,6 +25,7 @@ import { home, about, person, baseURL, userSettings } from "@/resources";
 // import { Posts } from "@/components/blog/Posts";
 // import DrawingPanel from "@/components/DrawingPanel";
 import MagicBento from "@/components/MagicBento";
+import { HomeHeading } from "@/components/home/HomeHeading";
 
 export async function generateMetadata(): Promise<Metadata> {
   return Meta.generate({
@@ -82,109 +83,7 @@ export default function Home() {
             image: `${baseURL}${person.avatar}`,
           }}
         />
-        <Column paddingY="40" fillWidth horizontal="center" gap="m">
-          <Column
-            maxWidth="s"
-            horizontal="center"
-            align="center"
-            position="relative"
-          >
-            {home.featured.display && (
-              <RevealFx
-                fillWidth
-                horizontal="center"
-                paddingTop="16"
-                paddingBottom="32"
-                paddingLeft="12"
-              >
-                <Badge
-                  className="home-page-featured-badge"
-                  background="brand-alpha-weak"
-                  paddingX="12"
-                  paddingY="4"
-                  onBackground="neutral-alpha-medium"
-                  textVariant="label-default-s"
-                  arrow={false}
-                  href={home.featured.href}
-                >
-                  <Row paddingY="2">{home.featured.title}</Row>
-                </Badge>
-              </RevealFx>
-            )}
-            <RevealFx
-              translateY="4"
-              fillWidth
-              horizontal="center"
-              paddingBottom="16"
-            >
-              <Heading wrap="balance" variant="display-strong-l">
-                {home.headline}
-              </Heading>
-            </RevealFx>
-            <RevealFx
-              translateY="8"
-              delay={0.2}
-              fillWidth
-              horizontal="center"
-              paddingBottom="32"
-            >
-              <Text
-                wrap="balance"
-                onBackground="neutral-weak"
-                variant="heading-default-xl"
-              >
-                {home.subline}
-              </Text>
-            </RevealFx>
-          </Column>
-          <Column horizontal="center" align="center" gap="16">
-            <RevealFx
-              paddingTop="12"
-              delay={0.4}
-              horizontal="center"
-              paddingLeft="12"
-            >
-              <Row s={{ hide: true }}>
-                <CodeBlock
-                  lineNumbers={true}
-                  copyButton={true}
-                  codes={[
-                    {
-                      code: `// To visit the About page, type this in your browser console:\nwindow.location.href = '/about';`,
-                      language: "typescript",
-                      startLineNumber: 1,
-                      highlight: "2",
-                      label: "aboutMe.ts",
-                    },
-                  ]}
-                />
-              </Row>
-            </RevealFx>
-          </Column>
-          <Row>
-            <Button
-              id="about"
-              data-border="rounded"
-              href={about.path}
-              variant="secondary"
-              size="m"
-              weight="default"
-              arrowIcon
-            >
-              <Row gap="8" vertical="center" paddingRight="4">
-                {about.avatar.display && (
-                  <Avatar
-                    marginRight="8"
-                    style={{ marginLeft: "-0.75rem" }}
-                    src={person.avatar}
-                    size="m"
-                  />
-                )}
-                {about.title}
-              </Row>
-            </Button>
-          </Row>
-        </Column>
+        <HomeHeading />
         {/* <RevealFx translateY="16" delay={0.6}>
             <Projects range={[1, 1]} />
           </RevealFx> */}

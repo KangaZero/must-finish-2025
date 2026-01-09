@@ -22,6 +22,8 @@ const userSettings: UserSettings = {
 
 const userLocation = getLocalTimeZone() || "Asia/Tokyo";
 
+const useI18nIndicator = "USE I18N!";
+
 const person: Person = {
   firstName: "Samuel Wai Weng",
   lastName: "Yong",
@@ -32,13 +34,13 @@ const person: Person = {
     { romaji: "Wai Weng", furigana: "ワイウエング", kanji: "偉栄" },
     { romaji: "Yong", furigana: "ヨング", kanji: "楊" },
   ],
-  role: "Frontend Developer",
+  role: useI18nIndicator,
   avatar: "/images/avatar.jpg",
   email: "samuelyongw@gmail.com",
   githubUsername: "KangaZero",
   location: userLocation, // Expecting the IANA time zone identifier, e.g., 'Europe/Vienna'
   locationCoordinates: [35.660504, 139.724981], // Latitude, Longitude for Tokyo
-  languages: ["English", "Japanese"], // optional: Leave the array empty if you don't want to display languages
+  languages: [useI18nIndicator], // optional: Leave the array empty if you don't want to display languages
   technologies: [
     {
       name: "React",
@@ -76,11 +78,7 @@ const person: Person = {
   ) as string as Person["currentStatus"],
 };
 
-const headerHoverCardDetails = [
-  `Based in ${userLocation}`,
-  `Working at ${person.workplace}`,
-  `Currently ${person.currentStatus}`,
-];
+const headerHoverCardDetails = [useI18nIndicator];
 
 const newsletter: Newsletter = {
   display: true,
@@ -128,26 +126,25 @@ const home: Home = {
   path: "/",
   image: "/images/og/home.jpg",
   label: "Home",
-  title: `${person.name}'s Portfolio`,
-  description: `Portfolio website showcasing my work as a ${person.role}`,
+  title: "Samuel Wai Weng Yong's Portfolio",
+  description:
+    "Welcome to the portfolio of Samuel Wai Weng Yong, a frontend developer specializing in React and TypeScript. Explore projects, skills, and contact information.",
   headline: (
+    text1 = useI18nIndicator,
+    text2 = useI18nIndicator,
+    text3 = useI18nIndicator,
+  ) => (
     <Text>
-      Generic Portfolio
+      {text1}
       <br />
-      Generic{" "}
+      {text2}{" "}
       <LetterFx
         speed="slow"
         trigger="instant"
         charset={"30459uirohe".split("")}
       >
-        Effect
+        {text3}
       </LetterFx>
-      {/*<TypeFx
-        words={["portfolio", "framework", "trends", "ways to suffer"]}
-        speed={80}
-        hold={2000}
-        trigger="instant"
-      />*/}
     </Text>
   ),
   featured: {
@@ -163,9 +160,9 @@ const home: Home = {
     ),
     href: "/work/building-once-ui-a-customizable-design-system",
   },
-  subline: (
+  subline: (text1 = useI18nIndicator) => (
     <Row>
-      Created by{" "}
+      {text1}{" "}
       <Logo
         wordmark="/trademarks/kanga-zero.svg"
         brand={{
@@ -628,4 +625,5 @@ export {
   negativeAchievement,
   achievementTrophyMapping,
   LOCAL_STORAGE_KEY,
+  useI18nIndicator,
 };

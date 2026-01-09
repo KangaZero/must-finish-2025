@@ -13,7 +13,8 @@ import {
   HiOutlineGlobeAsiaAustralia,
   HiOutlineRocketLaunch,
 } from "react-icons/hi2";
-
+import { TbLanguageHiragana } from "react-icons/tb";
+import { RiEnglishInput } from "react-icons/ri";
 import {
   PiHouseDuotone,
   PiUserCircleDuotone,
@@ -101,6 +102,8 @@ export const iconLibrary = {
   react: FaReact,
   share: FaShareAlt,
   outlineCancel: MdOutlineCancel,
+  languageHiragana: TbLanguageHiragana,
+  englishInput: RiEnglishInput,
 } as const satisfies Record<string, IconType>;
 
 export type IconLibrary = typeof iconLibrary;

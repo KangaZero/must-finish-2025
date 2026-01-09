@@ -29,7 +29,6 @@ import {
   MapCircle,
   MapLocateControl,
 } from "@/components/ui/map";
-
 import {
   routes,
   display,
@@ -45,7 +44,9 @@ import { ThemeToggle } from "./ThemeToggle";
 import styles from "./Header.module.scss";
 import React from "react";
 import { CustomHeadingNav } from "./CustomHeadingNav";
-import { useAchievements } from "./AchievementsProvider";
+import { useLocale } from "@/components/LocaleProvider";
+import { useAchievements } from "@/components/AchievementsProvider";
+import { useToast } from "@once-ui-system/core";
 import TrophiesDisplay from "./ui/trophies-display";
 
 type TimeDisplayProps = {
@@ -85,6 +86,8 @@ export default TimeDisplay;
 
 export const Header = () => {
   const hoverCardDescriptionRef = useRef<HTMLDivElement>(null);
+  const { addToast } = useToast();
+  const { locale, setLocaleCookieAndState } = useLocale();
   const {
     // achievements: achievementsFromProvider,
     unlockAchievement,
@@ -443,9 +446,36 @@ export const Header = () => {
                   <ThemeToggle />
                 </>
               )}
-              <Line background="neutral-alpha-medium" vert maxHeight="24" />
+              {display.localeSwitcher && (
+                <>
+                  <IconButton
+                    tooltip={
+                      locale === "en" ? "日本語に切り替える" : "Set to English"
+                    }
+                    icon={locale === "en" ? "englishInput" : "languageHiragana"}
+                    variant="ghost"
+                    onPointerDown={() => {
+                      setLocaleCookieAndState(locale === "en" ? "ja" : "en");
+                      addToast({
+                        variant: "success",
+                        message:
+                          locale === "en"
+                            ? "日本語に切り替えました"
+                            : "Switched to English",
+                      });
+                    }}
+                  />
+                </>
+              )}
+              <Line
+                className={styles.hideElementOnMobile}
+                background="neutral-alpha-medium"
+                vert
+                maxHeight="24"
+              />
               <StyleOverlay minHeight={25} overflowY="auto">
                 <IconButton
+                  className={styles.hideElementOnMobile}
                   tooltip="Open style settings"
                   icon="sun"
                   variant="ghost"

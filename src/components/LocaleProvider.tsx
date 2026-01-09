@@ -10,6 +10,7 @@ import {
 import { getLocaleCookieFromClient } from "@/utils/getLocaleCookie";
 import { setLocaleCookie } from "@/utils/setLocaleCookie";
 import { t, TranslationKey } from "@/lib/i18n";
+import { useI18nIndicator } from "@/resources";
 
 type OmitSecondParamFromFunction<F> = F extends (
   arg1: infer A,
@@ -22,6 +23,10 @@ type LocaleContextType = {
   locale: "en" | "ja";
   setLocaleCookieAndState: (locale: "en" | "ja") => void;
   translate: OmitSecondParamFromFunction<typeof t>;
+  useLocaleContentOrDefaultContent<T = string>(
+    value: T | string,
+    key: TranslationKey,
+  ): string | T;
 };
 
 const LocaleContext = createContext<LocaleContextType | undefined>(undefined);
@@ -37,6 +42,16 @@ export const LocaleProvider = ({ children }: { children: ReactNode }) => {
     setLocale(savedLocale);
   }, []);
 
+  function useLocaleContentOrDefaultContent<T = string>(
+    value: T | string,
+    key: TranslationKey,
+  ) {
+    if (typeof value === "string" && value === useI18nIndicator) {
+      return translate(key);
+    }
+    return value;
+  }
+
   const setLocaleCookieAndState = (newLocale: "en" | "ja") => {
     setLocaleCookie(newLocale);
     setLocale(newLocale);
@@ -48,7 +63,12 @@ export const LocaleProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <LocaleContext.Provider
-      value={{ locale, setLocaleCookieAndState, translate }}
+      value={{
+        locale,
+        useLocaleContentOrDefaultContent,
+        setLocaleCookieAndState,
+        translate,
+      }}
     >
       {children}
     </LocaleContext.Provider>

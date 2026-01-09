@@ -31,7 +31,8 @@ const display: DisplayConfig = {
   time: true,
   trophies: true,
   themeSwitcher: true,
-  menuAccordion: true,
+  menuAccordion: false,
+  localeSwitcher: true,
 };
 
 // Enable password protection on selected routes

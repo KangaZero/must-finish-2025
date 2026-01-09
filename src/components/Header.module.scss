@@ -45,3 +45,8 @@
     transform: translateX(-20px);
     pointer-events: none;
 }
+@media (max-width: 599px) {
+    .hideElementOnMobile {
+        display: none;
+    }
+}

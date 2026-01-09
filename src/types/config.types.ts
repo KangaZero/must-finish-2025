@@ -22,6 +22,7 @@ export type DisplayConfig = {
   trophies: boolean;
   themeSwitcher: boolean;
   menuAccordion: boolean;
+  localeSwitcher: boolean;
 };
 
 /**
