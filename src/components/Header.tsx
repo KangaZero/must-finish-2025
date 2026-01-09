@@ -17,7 +17,6 @@ import {
   Avatar,
   Column,
   Text,
-  StatusIndicator,
   StyleOverlay,
   useTheme,
 } from "@once-ui-system/core";
@@ -105,10 +104,10 @@ export const Header = () => {
     );
 
     const toUnlockOrNotEosAchievement = (mode: "light" | "dark" | "system") => {
-      // console.trace("theme from useTheme", theme);
-      // console.trace("mode", mode);
+      console.trace("theme from useTheme", theme);
+      console.trace("mode", mode);
       const documentTheme = document.documentElement.getAttribute("data-theme");
-      // console.trace("document theme", documentTheme);
+      console.trace("document theme", documentTheme);
       if (theme === mode) return;
       if (mode !== documentTheme) unlockAchievement("Eos");
     };
@@ -471,16 +470,6 @@ export const Header = () => {
         </Row>
 
         <Flex fillWidth horizontal="end" vertical="center">
-          {pathname === "/achievements" && (
-            <Flex s={{ hide: true }}>
-              <ToggleButton variant="outline">
-                <Row vertical="center" gap="8">
-                  Toggle Cards
-                  <StatusIndicator color="aqua" size="s" />
-                </Row>
-              </ToggleButton>
-            </Flex>
-          )}
           <Flex s={{ hide: true }}>
             {display.trophies && (
               <>

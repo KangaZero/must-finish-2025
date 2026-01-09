@@ -11,18 +11,25 @@ import {
 import { person, social } from "@/resources";
 import styles from "./Footer.module.scss";
 
-import { useQuery } from "@tanstack/react-query";
-
 //Api
 import { getGithubProfile } from "@/app/api/queries/getGithubProfile";
-import React from "react";
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
-  const { data: githubData, isLoading, isError } = getGithubProfile(person.githubUsername);
+  const {
+    data: githubData,
+    isLoading,
+    isError,
+  } = getGithubProfile(person.githubUsername);
 
   return (
-    <Row as="footer" fillWidth padding="8" horizontal="center" s={{ direction: "column" }}>
+    <Row
+      as="footer"
+      fillWidth
+      padding="8"
+      horizontal="center"
+      s={{ direction: "column" }}
+    >
       <Row
         className={styles.mobile}
         maxWidth="m"
@@ -43,7 +50,9 @@ export const Footer = () => {
           <Text size="xs" onBackground="neutral-weak">
             {/* Usage of this template requires attribution. Please don't remove the link to Once UI unless you have a Pro license. */}
             Built with
-            <SmartLink href="https://once-ui.com/products/magic-portfolio">Once UI</SmartLink>
+            <SmartLink href="https://once-ui.com/products/magic-portfolio">
+              Once UI
+            </SmartLink>
           </Text>
         </Text>
         <Row gap="12" vertical="center">
@@ -90,7 +99,10 @@ export const Footer = () => {
                 />
               ),
           )}
-          <Logo wordmark="/trademarks/kanga-zero.svg" className={styles.logoDesktop} />
+          <Logo
+            wordmark="/trademarks/kanga-zero.svg"
+            className={styles.logoDesktop}
+          />
         </Row>
         <Row center hide s={{ hide: false }}>
           <Logo wordmark="/trademarks/kanga-zero.svg" />

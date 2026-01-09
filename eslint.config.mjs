@@ -11,6 +11,7 @@ const eslintConfig = defineConfig([
     rules: {
       "valid-typeof": "error",
       "react-hooks/set-state-in-effect": "off",
+      "no-useless-escape": "off",
     },
   },
   // Override default ignores of eslint-config-next.

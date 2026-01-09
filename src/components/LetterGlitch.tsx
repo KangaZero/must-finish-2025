@@ -36,7 +36,9 @@ const LetterGlitch = ({
   const charHeight = 20;
 
   const getRandomChar = () => {
-    return lettersAndSymbols[Math.floor(Math.random() * lettersAndSymbols.length)];
+    return lettersAndSymbols[
+      Math.floor(Math.random() * lettersAndSymbols.length)
+    ];
   };
 
   const getRandomColor = () => {
@@ -114,9 +116,10 @@ const LetterGlitch = ({
   };
 
   const drawLetters = () => {
-    if (!context.current || letters.current.length === 0) return;
+    if (!canvasRef.current || !context.current || letters.current.length === 0)
+      return;
     const ctx = context.current;
-    const { width, height } = canvasRef.current!.getBoundingClientRect();
+    const { width, height } = canvasRef.current.getBoundingClientRect();
     ctx.clearRect(0, 0, width, height);
     ctx.font = `${fontSize}px monospace`;
     ctx.textBaseline = "top";
@@ -160,7 +163,11 @@ const LetterGlitch = ({
         const startRgb = hexToRgb(letter.color);
         const endRgb = hexToRgb(letter.targetColor);
         if (startRgb && endRgb) {
-          letter.color = interpolateColor(startRgb, endRgb, letter.colorProgress);
+          letter.color = interpolateColor(
+            startRgb,
+            endRgb,
+            letter.colorProgress,
+          );
           needsRedraw = true;
         }
       }
@@ -208,7 +215,7 @@ const LetterGlitch = ({
     window.addEventListener("resize", handleResize);
 
     return () => {
-      cancelAnimationFrame(animationRef.current!);
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
       window.removeEventListener("resize", handleResize);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -235,7 +242,8 @@ const LetterGlitch = ({
     width: "100%",
     height: "100%",
     pointerEvents: "none",
-    background: "radial-gradient(circle, rgba(0,0,0,0) 60%, rgba(0,0,0,1) 100%)",
+    background:
+      "radial-gradient(circle, rgba(0,0,0,0) 60%, rgba(0,0,0,1) 100%)",
   };
 
   const centerVignetteStyle = {
@@ -245,14 +253,19 @@ const LetterGlitch = ({
     width: "100%",
     height: "100%",
     pointerEvents: "none",
-    background: "radial-gradient(circle, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 60%)",
+    background:
+      "radial-gradient(circle, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 60%)",
   };
 
   return (
     <div style={containerStyle as React.CSSProperties}>
       <canvas ref={canvasRef} style={canvasStyle} />
-      {outerVignette && <div style={outerVignetteStyle as React.CSSProperties}></div>}
-      {centerVignette && <div style={centerVignetteStyle as React.CSSProperties}></div>}
+      {outerVignette && (
+        <div style={outerVignetteStyle as React.CSSProperties}></div>
+      )}
+      {centerVignette && (
+        <div style={centerVignetteStyle as React.CSSProperties}></div>
+      )}
     </div>
   );
 };

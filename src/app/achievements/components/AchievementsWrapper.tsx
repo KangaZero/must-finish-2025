@@ -2,9 +2,17 @@
 import "./AchievementsWrapper.css";
 import { useAchievements } from "@/components/AchievementsProvider";
 import { gsap } from "gsap";
-// import { Flip } from "gsap/all";
+//NOTE: gsap/Flip is the actual path, though doesn't seem to be recognized by local machine
+import { Flip } from "gsap/all";
 import { AchievementCard } from "@/components/ui/achievement-card";
-import { Grid, Flex, Row, Tag } from "@once-ui-system/core";
+import {
+  Grid,
+  Flex,
+  Row,
+  Tag,
+  StatusIndicator,
+  ToggleButton,
+} from "@once-ui-system/core";
 import SearchBar from "./SearchBar";
 import { useState, useRef } from "react";
 import type { PointerEvent } from "react";
@@ -12,6 +20,22 @@ import type { Achievement } from "@/types";
 
 export default function AchievementsWrapper() {
   const { achievements, achievementsCount } = useAchievements();
+  const [statusIndicatorColor, setStatusIndicatorColor] = useState<
+    | "blue"
+    | "indigo"
+    | "violet"
+    | "magenta"
+    | "pink"
+    | "red"
+    | "orange"
+    | "yellow"
+    | "moss"
+    | "green"
+    | "emerald"
+    | "aqua"
+    | "cyan"
+    | "gray"
+  >("aqua");
   const [currentSearchTerm, setCurrentSearchTerm] = useState("");
   const [currentSelectedFilters, setCurrentSelectedFilters] = useState<
     Achievement["rarity"][]
@@ -46,13 +70,38 @@ export default function AchievementsWrapper() {
           currentSelectedFilters.filter((f) => f !== filter),
         ),
     });
-    // gsap.registerPlugin(Flip);
-    // const state = Flip.getState(element)
-    // element.classList.add("")
+  };
+
+  const toggleColumns = () => {
+    if (!achievementsGridRef.current) return;
+    gsap.registerPlugin(Flip);
+    const state = Flip.getState(achievementsGridRef.current.children);
+    const currentColumns = getComputedStyle(
+      achievementsGridRef.current,
+    ).gridTemplateColumns;
+    const columnCount = currentColumns.split(" ").length;
+    const newColumnCount = columnCount === 3 ? 1 : columnCount + 1;
+    achievementsGridRef.current.style.gridTemplateColumns = `repeat(${newColumnCount}, minmax(0, 1fr))`;
+    setStatusIndicatorColor(
+      columnCount === 1 ? "aqua" : columnCount === 2 ? "red" : "emerald",
+    );
+    Flip.from(state, {
+      duration: 0.5,
+      ease: "power1.inOut",
+      stagger: 0.02,
+    });
   };
 
   return (
     <Flex maxWidth="l" direction="column" gap="m" align="center">
+      <Row s={{ hide: true }}>
+        <ToggleButton variant="outline" onPointerDown={toggleColumns}>
+          <Row vertical="center" gap="8">
+            Toggle Cards
+            <StatusIndicator color={statusIndicatorColor} size="s" />
+          </Row>
+        </ToggleButton>
+      </Row>
       <Row s={{ width: "100%" }} m={{ width: "80%" }}>
         <SearchBar
           currentSearchTerm={currentSearchTerm}
