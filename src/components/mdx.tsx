@@ -127,7 +127,9 @@ function createInlineCode({ children }: { children: ReactNode }) {
   return <InlineCode>{children}</InlineCode>;
 }
 
-function createCodeBlock(props: unknown) {
+function createCodeBlock(props: {
+  children: ReactNode & { props: { className: string; children: string } };
+}) {
   // For pre tags that contain code blocks
   if (
     props.children &&
