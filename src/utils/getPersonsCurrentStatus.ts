@@ -2,9 +2,31 @@ import { IANATimeZone, Person } from "@/types";
 
 //TODO refactor to Temporal API when widely available
 //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Temporal
+
+/**
+ * Returns the current status of a person based on their timezone and the current time.
+ *
+ * The status is determined by the hour of the day in the specified IANA timezone:
+ * - 0:00–8:59: "sleeping"
+ * - 9:00–16:59: "coding" on weekdays, "relaxing" on weekends
+ * - 17:00–18:59: "running"
+ * - 19:00–23:59: "gaming"
+ *
+ * If a locale is provided and set to "ja", the status is returned as a Japanese string (in Katakana or Kanji).
+ * Otherwise, the status is returned as an English status key.
+ *
+ * @param location - The IANA timezone string (e.g., "Asia/Tokyo") to determine the local time.
+ * @param locale - (Optional) The locale code ("en" or "ja"). If "ja", returns the status in Japanese.
+ * @returns The person's current status as a string: either a status key ("sleeping", "coding", etc.) or its Japanese translation.
+ *
+ * @example
+ * getPersonsCurrentStatus("Asia/Tokyo", "en"); // "coding"
+ * getPersonsCurrentStatus("Asia/Tokyo", "ja"); // "コーディング中"
+ */
 const getPersonsCurrentStatus = (
   location: IANATimeZone,
-): Person["currentStatus"] => {
+  locale?: "en" | "ja",
+) => {
   const date = new Date();
   const currentTimeInUTC9 = new Date(
     date.toLocaleString("en-US", { timeZone: location || "Asia/Tokyo" }),
@@ -22,6 +44,8 @@ const getPersonsCurrentStatus = (
   } as const;
   const currentDay = daysMapped[currentDayInNumber as keyof typeof daysMapped];
 
+  let status: Person["currentStatus"];
+
   switch (currentHour) {
     case 0:
     case 1:
@@ -32,7 +56,7 @@ const getPersonsCurrentStatus = (
     case 6:
     case 7:
     case 8:
-      return "sleeping";
+      return (status = "sleeping");
     case 9:
     case 10:
     case 11:
@@ -42,21 +66,32 @@ const getPersonsCurrentStatus = (
     case 15:
     case 16:
       if (currentDay === "Saturday" || currentDay === "Sunday") {
-        return "relaxing";
+        return (status = "relaxing");
       } else {
-        return "coding";
+        return (status = "coding");
       }
     case 17:
     case 18:
-      return "running";
+      return (status = "running");
     case 19:
     case 20:
     case 21:
     case 22:
     case 23:
-      return "gaming";
+      return (status = "gaming");
     default:
-      return "relaxing";
+      status = "sleeping";
   }
+
+  //Currently only supports En and Ja
+
+  const mappedLocaleStatus = {
+    running: "ランニング中",
+    coding: "コーディング中",
+    gaming: "ゲーミング中",
+    relaxing: "休息中",
+    sleeping: "睡眠中",
+  } as const;
+  return locale === "ja" ? mappedLocaleStatus[status] : status;
 };
 export { getPersonsCurrentStatus };

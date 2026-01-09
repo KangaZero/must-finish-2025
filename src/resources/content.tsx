@@ -71,7 +71,9 @@ const person: Person = {
       category: "hobby",
     },
   ],
-  currentStatus: getPersonsCurrentStatus(userLocation),
+  currentStatus: getPersonsCurrentStatus(
+    userLocation,
+  ) as string as Person["currentStatus"],
 };
 
 const headerHoverCardDetails = [
