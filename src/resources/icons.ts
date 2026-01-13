@@ -31,9 +31,15 @@ import {
   SiSupabase,
   SiVim,
   SiNixos,
+  SiDrizzle,
 } from "react-icons/si";
 
-import { MdOutlineCancel } from "react-icons/md";
+import {
+  MdOutlineCancel,
+  MdFoggy,
+  MdThunderstorm,
+  MdNightsStay,
+} from "react-icons/md";
 
 import {
   FaDiscord,
@@ -56,7 +62,14 @@ import {
   FaTrophy,
 } from "react-icons/fa6";
 
-import { FaShareAlt, FaCloud } from "react-icons/fa";
+import { FaShareAlt, FaCloud, FaSnowflake } from "react-icons/fa";
+import {
+  IoIosSunny,
+  IoMdPartlySunny,
+  IoIosCloudyNight,
+  IoIosCloudy,
+  IoIosRainy,
+} from "react-icons/io";
 
 export const iconLibrary = {
   arrowUpRight: HiArrowUpRight,
@@ -100,11 +113,23 @@ export const iconLibrary = {
   telegram: FaTelegram,
   instagram: FaInstagram,
   sun: FaRegSun,
+  ioiosSunny: IoIosSunny,
   react: FaReact,
   share: FaShareAlt,
   outlineCancel: MdOutlineCancel,
   languageHiragana: TbLanguageHiragana,
   englishInput: RiEnglishInput,
+  //Weather Specific Icons
+  cloudy: IoIosCloudy,
+  cloudyDay: IoMdPartlySunny,
+  cloudyNight: IoIosCloudyNight,
+  clearDay: IoIosSunny,
+  clearNight: MdNightsStay,
+  foggy: MdFoggy,
+  rainy: IoIosRainy,
+  thunderstorm: MdThunderstorm,
+  snowflake: FaSnowflake,
+  drizzle: SiDrizzle,
 } as const satisfies Record<string, IconType>;
 
 export type IconLibrary = typeof iconLibrary;
