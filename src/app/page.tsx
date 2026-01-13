@@ -1,19 +1,13 @@
 import {
   Heading,
-  Text,
-  Button,
-  Avatar,
   RevealFx,
   Column,
-  Badge,
-  Row,
   Schema,
   Meta,
   Line,
   Option,
   ContextMenu,
   Icon,
-  CodeBlock,
 } from "@once-ui-system/core";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { type Metadata } from "next";

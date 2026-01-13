@@ -50,3 +50,23 @@
         display: none;
     }
 }
+
+.overlay {
+    border: 1px solid white;
+    letter-spacing: -2px;
+    rotate: 9deg;
+}
+
+.dateSeparator {
+    /* position: relative; */
+    margin: 0 0 0.6rem 0;
+}
+
+.dateContainer {
+    display: flex;
+}
+
+.dayTimeContainer {
+    gap: 0.25rem;
+    line-height: 1;
+}

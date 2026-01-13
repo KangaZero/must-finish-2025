@@ -29,6 +29,7 @@ import {
   MapCircle,
   MapLocateControl,
 } from "@/components/ui/map";
+import { HeaderDate } from "@/components/ui/header-date";
 import {
   routes,
   display,
@@ -213,18 +214,19 @@ export const Header = () => {
                 tabIndex={0}
                 placement="bottom"
                 trigger={
-                  <span
-                    ref={hoverCardDescriptionRef}
-                    onTouchStart={() => {
-                      unlockAchievement("Snoopy Detective");
-                    }}
-                    onMouseEnter={() => {
-                      unlockAchievement("Snoopy Detective");
-                    }}
-                    style={{ cursor: "pointer" }}
-                  >
-                    {headerHoverCardDetails[0]}
-                  </span>
+                  <HeaderDate />
+                  // <span
+                  //   ref={hoverCardDescriptionRef}
+                  //   onTouchStart={() => {
+                  //     unlockAchievement("Snoopy Detective");
+                  //   }}
+                  //   onMouseEnter={() => {
+                  //     unlockAchievement("Snoopy Detective");
+                  //   }}
+                  //   style={{ cursor: "pointer" }}
+                  // >
+                  //   {headerHoverCardDetails[0]}
+                  // </span>
                 }
               >
                 <Column
