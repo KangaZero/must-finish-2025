@@ -1,5 +1,5 @@
 //https://open-meteo.com/en/docs/jma-api?latitude=35&longitude=139&timezone=Asia%2FTokyo&forecast_days=1&hourly=temperature_2m,weather_code&daily=weather_code&current=temperature_2m,is_day,weather_code
-import { IANATimeZone } from "@/types";
+import { IANATimeZone, WMOCodes } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 
 export type DailyWeatherForecast = {
@@ -22,7 +22,7 @@ export type DailyWeatherForecast = {
     interval: number;
     temperature_2m: number;
     is_day: number;
-    weather_code: number;
+    weather_code: WMOCodes;
   };
   hourly_units: {
     time: string;

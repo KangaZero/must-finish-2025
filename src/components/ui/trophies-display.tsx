@@ -21,14 +21,14 @@ const TrophiesDisplay = ({
     <>
       {summarize ? (
         <>
-          {/*<Badge
-          arrow={false}
-          href="/achievements"
-          icon="trophy"
-          textVariant="label-default-s"
-        >
-          {Object.values(achievementsCount).reduce((a, b) => a + b, 0)}
-        </Badge>*/}
+          <Badge
+            arrow={false}
+            href="/achievements"
+            icon="trophy"
+            textVariant="label-default-s"
+          >
+            {Object.values(achievementsCount).reduce((a, b) => a + b, 0)}
+          </Badge>
         </>
       ) : (
         <>

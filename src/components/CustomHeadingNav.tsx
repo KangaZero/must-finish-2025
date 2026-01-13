@@ -4,15 +4,17 @@ import { HeadingNav, IconButton, Row } from "@once-ui-system/core";
 import { useState } from "react";
 import styles from "./Header.module.scss";
 
-const CustomHeadingNav: React.FC<React.ComponentProps<typeof HeadingNav>> = (props) => {
+const CustomHeadingNav: React.FC<React.ComponentProps<typeof HeadingNav>> = (
+  props,
+) => {
   const [show, setShow] = useState(false);
 
   return (
     <div
       style={{
         position: "fixed",
-        right: 10,
-        top: 60,
+        right: 25,
+        top: 80,
         zIndex: 100,
         pointerEvents: "auto",
       }}

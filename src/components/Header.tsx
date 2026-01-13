@@ -1,21 +1,18 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useEffect, useState, useRef } from "react";
-import { gsap } from "gsap";
-import TextPlugin from "gsap/TextPlugin";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useEffect, useRef, useState } from "react";
 import {
   Fade,
-  Flex,
   Line,
   Row,
+  Flex,
+  Column,
   ToggleButton,
   Animation,
   IconButton,
   HoverCard,
   Avatar,
-  Column,
   Text,
   StyleOverlay,
   useTheme,
@@ -41,6 +38,9 @@ import {
   gallery,
   achievements,
 } from "@/resources";
+import { gsap } from "gsap";
+import TextPlugin from "gsap/TextPlugin";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ThemeToggle } from "./ThemeToggle";
 import styles from "./Header.module.scss";
 import React from "react";
@@ -86,14 +86,14 @@ const TimeDisplay: React.FC<TimeDisplayProps> = ({
 export default TimeDisplay;
 
 export const Header = () => {
-  const hoverCardDescriptionRef = useRef<HTMLDivElement>(null);
   const { addToast } = useToast();
-  const { locale, setLocaleCookieAndState } = useLocale();
+  const { translate, locale, setLocaleCookieAndState } = useLocale();
   const {
     // achievements: achievementsFromProvider,
     unlockAchievement,
     achievementsCount,
   } = useAchievements();
+  const hoverCardDescriptionRef = useRef<HTMLSpanElement>(null);
   const pathname = usePathname() ?? "";
   const { theme } = useTheme();
   useEffect(() => {
@@ -139,8 +139,6 @@ export const Header = () => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const [hideMenu, setHideMenu] = useState(false);
   useEffect(() => {
     if (!hoverCardDescriptionRef.current) return;
     function cycleText(
@@ -153,7 +151,9 @@ export const Header = () => {
       gsap.registerPlugin(ScrollTrigger, TextPlugin);
       const animate = () => {
         gsap.to(ref.current, {
-          text: texts[index],
+          text: translate(
+            `headerHoverCardDetails.${index}` as "headerHoverCardDetails.0",
+          ),
           duration,
           delay,
           onComplete: () => {
@@ -168,7 +168,10 @@ export const Header = () => {
       hoverCardDescriptionRef as React.RefObject<HTMLDivElement>,
       headerHoverCardDetails,
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  const [hideMenu, setHideMenu] = useState(false);
+
   return (
     <>
       <Fade
@@ -213,21 +216,7 @@ export const Header = () => {
               <HoverCard
                 tabIndex={0}
                 placement="bottom"
-                trigger={
-                  <HeaderDate />
-                  // <span
-                  //   ref={hoverCardDescriptionRef}
-                  //   onTouchStart={() => {
-                  //     unlockAchievement("Snoopy Detective");
-                  //   }}
-                  //   onMouseEnter={() => {
-                  //     unlockAchievement("Snoopy Detective");
-                  //   }}
-                  //   style={{ cursor: "pointer" }}
-                  // >
-                  //   {headerHoverCardDetails[0]}
-                  // </span>
-                }
+                trigger={<HeaderDate />}
               >
                 <Column
                   padding="20"
@@ -517,18 +506,33 @@ export const Header = () => {
               </>
             )}
           </Flex>
-          <Flex
-            paddingRight="12"
-            paddingLeft="24"
-            horizontal="end"
-            vertical="center"
-            textVariant="body-default-s"
-            gap="20"
-          >
-            <Flex s={{ hide: true }}>
-              {display.time && <TimeDisplay timeZone={person.location} />}
+          {display.time && (
+            <Flex
+              s={{ hide: true }}
+              paddingRight="12"
+              paddingLeft="24"
+              horizontal="end"
+              vertical="center"
+              textVariant="body-default-s"
+              gap="20"
+            >
+              <TimeDisplay timeZone={person.location} />
             </Flex>
-          </Flex>
+          )}
+        </Flex>
+        <Flex
+          s={{ hide: true }}
+          position="sticky"
+          paddingRight="12"
+          paddingLeft="24"
+          horizontal="end"
+          vertical="end"
+          textVariant="body-default-s"
+          gap="20"
+        >
+          <span ref={hoverCardDescriptionRef}>
+            {translate("headerHoverCardDetails.0")}
+          </span>
         </Flex>
       </Row>
       <CustomHeadingNav />

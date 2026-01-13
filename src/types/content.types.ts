@@ -1,3 +1,4 @@
+import { WMOCodeDescriptions } from "@/resources";
 import { IconName } from "@/resources/icons";
 import { zones } from "tzdata";
 
@@ -345,3 +346,6 @@ export type Achievement<
 export interface Achievements extends BasePageConfig {
   achievements: Array<Achievement>;
 }
+
+export type WMOCodeDescriptionsType = typeof WMOCodeDescriptions;
+export type WMOCodes = keyof typeof WMOCodeDescriptions;
