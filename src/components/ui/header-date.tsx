@@ -5,9 +5,11 @@ import { getDailyWeatherForecast } from "@/app/api/queries/getDailyWeatherForeca
 import { person, WMOCodeDescriptions } from "@/resources";
 import { Icon } from "@once-ui-system/core";
 import { useAchievements } from "@/components/AchievementsProvider";
+import { useLocale } from "@/components/LocaleProvider";
 
 const HeaderDate = () => {
   const { unlockAchievement } = useAchievements();
+  const { translate } = useLocale();
   const [latitude, longitude] = person.locationCoordinates;
   const { data } = getDailyWeatherForecast({
     latitude,
@@ -17,34 +19,15 @@ const HeaderDate = () => {
   });
   const [isHovered, setIsHovered] = useState(false);
   const now = new Date();
-  const days = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-  const months = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-  const day = days[now.getDay()];
+  const day = translate(
+    `headerDate.days.${now.getDay()}` as "headerDate.days.0",
+  );
   const date = now.getDate();
   const hour = now.getHours();
   const isDay = data ? Boolean(data.current.is_day) : hour >= 6 && hour < 18;
-  const month = months[now.getMonth()];
+  const month = translate(
+    `headerDate.months.${now.getMonth()}` as "headerDate.months.0",
+  );
   const temperature = data ? Math.round(data.current.temperature_2m) : 0;
 
   const weatherDescription =

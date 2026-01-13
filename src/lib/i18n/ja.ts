@@ -23,6 +23,31 @@ const ja = {
     `アクセンチュアで勤務中`,
     `現在は${getPersonsCurrentStatus(userLocation, "ja")}`,
   ],
+  headerDate: {
+    days: [
+      "日曜日", // Sunday
+      "月曜日", // Monday
+      "火曜日", // Tuesday
+      "水曜日", // Wednesday
+      "木曜日", // Thursday
+      "金曜日", // Friday
+      "土曜日", // Saturday
+    ],
+    months: [
+      "正月", // January (Shōgatsu)
+      "如月", // February (Kisaragi)
+      "弥生", // March (Yayoi)
+      "卯月", // April (Uzuki)
+      "皐月", // May (Satsuki)
+      "水無月", // June (Minazuki)
+      "文月", // July (Fumizuki)
+      "葉月", // August (Hazuki)
+      "長月", // September (Nagatsuki)
+      "神無月", // October (Kannazuki)
+      "霜月", // November (Shimotsuki)
+      "師走", // December (Shiwasu)
+    ],
+  },
   home: {
     code: `// Aboutページに移動するには、ブラウザのコンソールに以下を入力してください:\nwindow.location.href = '/about';`,
     headline: [
