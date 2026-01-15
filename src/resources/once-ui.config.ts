@@ -32,7 +32,7 @@ const display: DisplayConfig = {
   status: true,
   trophies: true,
   themeSwitcher: true,
-  menuAccordion: false,
+  menuAccordion: true,
   localeSwitcher: true,
 };
 

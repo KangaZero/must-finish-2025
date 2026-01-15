@@ -1,7 +1,8 @@
-import { Flex, Row, Heading, Meta, Schema } from "@once-ui-system/core";
+import { Flex, Meta, Schema } from "@once-ui-system/core";
 import { achievements, baseURL, person, about } from "@/resources";
 import { Metadata } from "next";
 import AchievementsWrapper from "./components/AchievementsWrapper";
+import AchievementsTitle from "./components/AchievementsTitle";
 export async function generateMetadata(): Promise<Metadata> {
   return Meta.generate({
     title: achievements.title,
@@ -28,10 +29,7 @@ export default function Achievements() {
           image: `${baseURL}${person.avatar}`,
         }}
       />
-      <Heading marginBottom="l" variant="heading-strong-xl" align="center">
-        {achievements.title}
-      </Heading>
-      <Row></Row>
+      <AchievementsTitle />
       <AchievementsWrapper />
     </Flex>
   );

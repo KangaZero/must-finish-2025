@@ -165,7 +165,7 @@ export const Header = () => {
       headerHoverCardDetails,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [locale]);
   const [hideMenu, setHideMenu] = useState(false);
 
   return (
@@ -273,7 +273,13 @@ export const Header = () => {
             </Row>
           )}
           {/* {display.location && <Row s={{ hide: true }}>{person.location}</Row>} */}
+          <Flex paddingLeft="24" vertical="center" s={{ hide: true }}>
+            {display.trophies && (
+              <TrophiesDisplay achievementsCount={achievementsCount} />
+            )}
+          </Flex>
         </Row>
+
         <Row fillWidth horizontal="center">
           <Row
             background="page"
@@ -363,7 +369,7 @@ export const Header = () => {
                         label={translate("work.label")}
                         href={`/${locale}/work`}
                         disabled={pathname === `/${locale}/work`}
-                        selected={pathname.startsWith(`${locale}/work`)}
+                        selected={pathname.startsWith(`/${locale}/work`)}
                       />
                     </Row>
                     <Row hide s={{ hide: false }}>
@@ -371,7 +377,7 @@ export const Header = () => {
                         prefixIcon="grid"
                         href={`/${locale}/work`}
                         disabled={pathname === `/${locale}/work`}
-                        selected={pathname.startsWith(`${locale}/work`)}
+                        selected={pathname.startsWith(`/${locale}/work`)}
                       />
                     </Row>
                   </>
@@ -384,7 +390,7 @@ export const Header = () => {
                         label={translate("blog.label")}
                         href={`/${locale}/blog`}
                         disabled={pathname === `/${locale}/blog`}
-                        selected={pathname.startsWith(`${locale}/blog`)}
+                        selected={pathname.startsWith(`/${locale}/blog`)}
                       />
                     </Row>
                     <Row hide s={{ hide: false }}>
@@ -392,7 +398,7 @@ export const Header = () => {
                         prefixIcon="book"
                         href={`/${locale}/blog`}
                         disabled={pathname === `/${locale}/blog`}
-                        selected={pathname.startsWith(`${locale}/blog`)}
+                        selected={pathname.startsWith(`/${locale}/blog`)}
                       />
                     </Row>
                   </>
@@ -403,7 +409,7 @@ export const Header = () => {
                       <ToggleButton
                         prefixIcon="trophy"
                         label={translate("achievements.label")}
-                        href={`${locale}/achievements`}
+                        href={`/${locale}/achievements`}
                         disabled={pathname.startsWith(
                           `/${locale}/achievements`,
                         )}
@@ -415,7 +421,7 @@ export const Header = () => {
                     <Row hide s={{ hide: false }}>
                       <ToggleButton
                         prefixIcon="trophy"
-                        href={`${locale}/achievements`}
+                        href={`/${locale}/achievements`}
                         disabled={pathname.startsWith(
                           `/${locale}/achievements`,
                         )}
@@ -432,7 +438,7 @@ export const Header = () => {
                       <ToggleButton
                         prefixIcon="gallery"
                         label={translate("gallery.label")}
-                        href={`${locale}/gallery`}
+                        href={`/${locale}/gallery`}
                         disabled={pathname.startsWith(`/${locale}/gallery`)}
                         selected={pathname.startsWith(`/${locale}/gallery`)}
                       />
@@ -440,7 +446,7 @@ export const Header = () => {
                     <Row hide s={{ hide: false }}>
                       <ToggleButton
                         prefixIcon="gallery"
-                        href={`${locale}/gallery`}
+                        href={`/${locale}/gallery`}
                         disabled={pathname.startsWith(`/${locale}/gallery`)}
                         selected={pathname.startsWith(`/${locale}/gallery`)}
                       />
@@ -508,21 +514,6 @@ export const Header = () => {
         </Row>
 
         <Flex fillWidth horizontal="end" vertical="center">
-          <Flex s={{ hide: true }}>
-            {display.trophies && (
-              <>
-                <TrophiesDisplay achievementsCount={achievementsCount} />
-                {/*<Column>
-                             Completion Rate:{" "}
-                             {achievementsFromProvider.reduce(
-                               (a, b) => a + (b.isUnlocked ? 1 : 0),
-                               0,
-                             )}
-                             /{achievementsFromProvider.length}
-                           </Column>*/}
-              </>
-            )}
-          </Flex>
           {display.time && (
             <Flex
               s={{ hide: true }}
@@ -545,10 +536,9 @@ export const Header = () => {
               vertical="center"
               textVariant="body-default-s"
               gap="20"
+              minWidth={15}
             >
-              <span ref={hoverCardDescriptionRef}>
-                {/*{translate("headerHoverCardDetails.0")}*/}
-              </span>
+              <span ref={hoverCardDescriptionRef}></span>
             </Flex>
           )}
         </Flex>
