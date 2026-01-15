@@ -1,5 +1,4 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { getLocaleCookieFromClient } from "./utils/getLocaleCookie";
 import type { Locale } from "./lib/i18n";
 
 const locales: Locale[] = ["en", "ja"];
@@ -7,22 +6,33 @@ const locales: Locale[] = ["en", "ja"];
 export function proxy(request: NextRequest) {
   // Check if there is any supported locale in the pathname
   const { pathname } = request.nextUrl;
+  if (pathname.match(/\.(svg|jpg|jpeg|png|gif|mp4|webp|ico)$/)) {
+    return NextResponse.next();
+  }
   const pathnameHasLocale = locales.some(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`,
   );
 
-  if (!pathnameHasLocale)
-    return console.warn(
-      "No locale in pathname or it does not match accepted locales",
-    );
-
-  const locale = getLocaleCookieFromClient();
-  request.nextUrl.pathname = locale
-    ? `/${locale}/${pathname}`
-    : `/en/${pathname}`;
-  // e.g. incoming request is /products
-  // The new URL is now /en-US/products
-  return NextResponse.redirect(request.nextUrl);
+  const localeFromCookie = request.cookies.get("NEXT_LOCALE")?.value;
+  //nextjs.org/docs/messages/proxy-relative-urls
+  if (
+    localeFromCookie &&
+    (localeFromCookie === "ja" || localeFromCookie === "en") &&
+    !pathnameHasLocale
+  ) {
+    if (pathname !== "/") {
+      request.nextUrl.pathname = `/${localeFromCookie}/${pathname}`;
+      return NextResponse.redirect(
+        new URL(`/${localeFromCookie}/${pathname}`, request.url),
+      );
+    } else if (pathname === "/") {
+      request.nextUrl.pathname = `/${localeFromCookie}`;
+      return NextResponse.redirect(
+        new URL(`/${localeFromCookie}`, request.url),
+      );
+    }
+  }
+  return NextResponse.next();
 }
 
 export const config = {
