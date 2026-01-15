@@ -18,28 +18,32 @@ import { baseURL, about, blog, person } from "@/resources";
 import { formatDate } from "@/utils/formatDate";
 import { getPosts } from "@/utils/utils";
 import { Metadata } from "next";
-import React from "react";
 import { Posts } from "@/components/blog/Posts";
 import { ShareSection } from "@/components/blog/ShareSection";
 
-export async function generateStaticParams(): Promise<{ slug: string }[]> {
-  const posts = getPosts(["src", "app", "blog", "posts"]);
-  return posts.map((post) => ({
-    slug: post.slug,
-  }));
+export async function generateStaticParams(): Promise<
+  { lang: string; slug: string }[]
+> {
+  const languages = ["en", "ja"];
+  const posts = getPosts(["src", "app", "[lang]", "blog", "posts"]);
+  return languages.flatMap((lang) =>
+    posts.map((post) => ({
+      lang,
+      slug: post.slug,
+    })),
+  );
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string | string[] }>;
+  params: { lang: string; slug: string | string[] };
 }): Promise<Metadata> {
-  const routeParams = await params;
-  const slugPath = Array.isArray(routeParams.slug)
-    ? routeParams.slug.join("/")
-    : routeParams.slug || "";
+  const slugPath = Array.isArray(params.slug)
+    ? params.slug.join("/")
+    : params.slug || "";
 
-  const posts = getPosts(["src", "app", "blog", "posts"]);
+  const posts = getPosts(["src", "app", "[lang]", "blog", "posts"]);
   const post = posts.find((post) => post.slug === slugPath);
 
   if (!post) return {};
@@ -57,14 +61,13 @@ export async function generateMetadata({
 export default async function Blog({
   params,
 }: {
-  params: Promise<{ slug: string | string[] }>;
+  params: { lang: string; slug: string | string[] };
 }) {
-  const routeParams = await params;
-  const slugPath = Array.isArray(routeParams.slug)
-    ? routeParams.slug.join("/")
-    : routeParams.slug || "";
+  const slugPath = Array.isArray(params.slug)
+    ? params.slug.join("/")
+    : params.slug || "";
 
-  const post = getPosts(["src", "app", "blog", "posts"]).find(
+  const post = getPosts(["src", "app", "[lang]", "blog", "posts"]).find(
     (post) => post.slug === slugPath,
   );
 

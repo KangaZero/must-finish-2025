@@ -18,24 +18,30 @@ import { ScrollToHash, CustomMDX } from "@/components";
 import { Metadata } from "next";
 import { Projects } from "@/components/work/Projects";
 
-export async function generateStaticParams(): Promise<{ slug: string }[]> {
-  const posts = getPosts(["src", "app", "work", "projects"]);
-  return posts.map((post) => ({
-    slug: post.slug,
-  }));
+export async function generateStaticParams(): Promise<
+  { lang: string; slug: string }[]
+> {
+  const languages = ["en", "ja"];
+  const posts = getPosts(["src", "app", "[lang]", "work", "projects"]);
+  const params = languages.flatMap((lang) =>
+    posts.map((post) => ({
+      lang,
+      slug: post.slug,
+    })),
+  );
+  return params;
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string | string[] }>;
+  params: { lang: string; slug: string | string[] };
 }): Promise<Metadata> {
-  const routeParams = await params;
-  const slugPath = Array.isArray(routeParams.slug)
-    ? routeParams.slug.join("/")
-    : routeParams.slug || "";
+  const slugPath = Array.isArray(params.slug)
+    ? params.slug.join("/")
+    : params.slug || "";
 
-  const posts = getPosts(["src", "app", "work", "projects"]);
+  const posts = getPosts(["src", "app", "[lang]", "work", "projects"]);
   const post = posts.find((post) => post.slug === slugPath);
 
   if (!post) return {};
@@ -53,14 +59,13 @@ export async function generateMetadata({
 export default async function Project({
   params,
 }: {
-  params: Promise<{ slug: string | string[] }>;
+  params: { lang: string; slug: string | string[] };
 }) {
-  const routeParams = await params;
-  const slugPath = Array.isArray(routeParams.slug)
-    ? routeParams.slug.join("/")
-    : routeParams.slug || "";
+  const slugPath = Array.isArray(params.slug)
+    ? params.slug.join("/")
+    : params.slug || "";
 
-  const post = getPosts(["src", "app", "work", "projects"]).find(
+  const post = getPosts(["src", "app", "[lang]", "work", "projects"]).find(
     (post) => post.slug === slugPath,
   );
 
