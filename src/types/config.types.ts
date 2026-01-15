@@ -19,6 +19,7 @@ import { NextFontWithVariable } from "next/dist/compiled/@next/font";
 export type DisplayConfig = {
   location: boolean;
   time: boolean;
+  status: boolean;
   trophies: boolean;
   themeSwitcher: boolean;
   menuAccordion: boolean;

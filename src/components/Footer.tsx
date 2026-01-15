@@ -12,7 +12,7 @@ import { person, social } from "@/resources";
 import styles from "./Footer.module.scss";
 
 //Api
-import { getGithubProfile } from "@/app/api/queries/getGithubProfile";
+import { getGithubProfile } from "@/api/queries/getGithubProfile";
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();

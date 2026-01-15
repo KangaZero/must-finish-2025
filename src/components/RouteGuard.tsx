@@ -2,9 +2,16 @@
 
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { routes, protectedRoutes } from "@/resources";
-import { Flex, Spinner, Button, Heading, Column, PasswordInput } from "@once-ui-system/core";
-import NotFound from "@/app/not-found";
+import { protectedRoutes, routes } from "@/resources";
+import {
+  Flex,
+  Spinner,
+  Button,
+  Heading,
+  Column,
+  PasswordInput,
+} from "@once-ui-system/core";
+import NotFound from "@/app/[lang]/not-found";
 
 interface RouteGuardProps {
   children: React.ReactNode;
@@ -29,18 +36,37 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
       const checkRouteEnabled = () => {
         if (!pathname) return false;
 
-        if (pathname in routes) {
-          return routes[pathname as keyof typeof routes];
+        let extractedOutLocalePathname = pathname.match("(en|ja)")
+          ? pathname.split("/")
+          : pathname;
+        // ? This is the home page
+        if (
+          extractedOutLocalePathname.length === 2 &&
+          extractedOutLocalePathname[0] === ""
+        ) {
+          extractedOutLocalePathname = "/";
+          // ? These are static page routes
+        } else if (extractedOutLocalePathname.length === 3) {
+          extractedOutLocalePathname = `/${extractedOutLocalePathname[2]}`;
         }
-
-        const dynamicRoutes = ["/blog", "/work"] as const;
-        for (const route of dynamicRoutes) {
-          if (pathname?.startsWith(route) && routes[route]) {
-            return true;
-          }
+        // console.trace(extractedOutLocalePathname, "extractedOutLocalePathname");
+        if (
+          typeof extractedOutLocalePathname === "string" &&
+          extractedOutLocalePathname in routes
+        ) {
+          return routes[extractedOutLocalePathname as keyof typeof routes];
         }
 
         return false;
+
+        // const dynamicRoutes = ["/blog", "/work"] as const;
+        // for (const route of dynamicRoutes) {
+        //   if (pathname?.startsWith(route) && routes[route]) {
+        //     return true;
+        //   }
+        // }
+
+        // return false;
       };
 
       const routeEnabled = checkRouteEnabled();

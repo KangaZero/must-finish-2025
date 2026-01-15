@@ -6,6 +6,11 @@ const userLocation = getLocalTimeZone() || "Asia/Tokyo";
 //NOTE: content structure matches en.ts for type safety and consistency
 // Keys (except person.languages) wrapped in arrays are used for ReactNode parameters or functions
 const ja = {
+  notFound: {
+    heading: "ページが見つかりません",
+    text: "お探しのページは存在しません。",
+    link: "ホームに戻る",
+  },
   person: {
     workplace: "アクセンチュア",
     languages: ["英語", "日本語"],
@@ -56,6 +61,22 @@ const ja = {
       "あなたのアイデアを形に",
     ],
     subline: ["作成者"],
+    projects: "プロジェクト",
+  },
+  about: {
+    label: "概要",
+  },
+  work: {
+    label: "仕事",
+  },
+  blog: {
+    label: "ブログ",
+  },
+  achievements: {
+    label: "実績",
+  },
+  gallery: {
+    label: "ギャラリー",
   },
 } as const;
 export default ja;

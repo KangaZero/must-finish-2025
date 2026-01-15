@@ -27,19 +27,9 @@ import {
   MapLocateControl,
 } from "@/components/ui/map";
 import { HeaderDate } from "@/components/ui/header-date";
-import {
-  routes,
-  display,
-  person,
-  headerHoverCardDetails,
-  about,
-  blog,
-  work,
-  gallery,
-  achievements,
-} from "@/resources";
+import { routes, display, person, headerHoverCardDetails } from "@/resources";
 import { gsap } from "gsap";
-import TextPlugin from "gsap/TextPlugin";
+import ScrambleTextPlugin from "gsap/ScrambleTextPlugin";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ThemeToggle } from "./ThemeToggle";
 import styles from "./Header.module.scss";
@@ -141,24 +131,30 @@ export const Header = () => {
   }, []);
   useEffect(() => {
     if (!hoverCardDescriptionRef.current) return;
+    gsap.registerPlugin(ScrollTrigger, ScrambleTextPlugin);
     function cycleText(
       ref: React.RefObject<HTMLDivElement>,
       texts: string[],
       duration = 3,
       delay = 2,
     ) {
-      let index = 0;
-      gsap.registerPlugin(ScrollTrigger, TextPlugin);
-      const animate = () => {
+      const animate = (index = 0) => {
         gsap.to(ref.current, {
-          text: translate(
-            `headerHoverCardDetails.${index}` as "headerHoverCardDetails.0",
-          ),
+          scrambleText: {
+            text: translate(
+              `headerHoverCardDetails.${index}` as "headerHoverCardDetails.0",
+            ),
+            chars: translate(
+              `headerHoverCardDetails.${(index + 1) % texts.length}` as "headerHoverCardDetails.0",
+            ),
+            revealDelay: 0.2,
+            speed: 1,
+            newClass: "",
+          },
           duration,
           delay,
           onComplete: () => {
-            index = (index + 1) % texts.length;
-            animate();
+            animate((index + 1) % texts.length);
           },
         });
       };
@@ -305,23 +301,26 @@ export const Header = () => {
                       trigger={
                         <ToggleButton
                           prefixIcon="home"
-                          href="/"
-                          selected={pathname === "/"}
+                          href={`/${locale}`}
+                          disabled={pathname === `/${locale}`}
+                          selected={pathname === `/${locale}`}
                         />
                       }
                     >
                       <ToggleButton
                         prefixIcon="home"
-                        href="/"
-                        selected={pathname === "/"}
+                        href={`/${locale}`}
+                        disabled={pathname === `/${locale}`}
+                        selected={pathname === `/${locale}`}
                       />
                     </Animation>
                   </Row>
                   <Row hide s={{ hide: false }}>
                     <ToggleButton
                       prefixIcon="home"
-                      href="/"
-                      selected={pathname === "/"}
+                      href={`/${locale}`}
+                      disabled={pathname === `/${locale}`}
+                      selected={pathname === `/${locale}`}
                     />
                   </Row>
                 </>
@@ -340,16 +339,18 @@ export const Header = () => {
                     <Row s={{ hide: true }}>
                       <ToggleButton
                         prefixIcon="person"
-                        href="/about"
-                        label={about.label}
-                        selected={pathname === "/about"}
+                        label={translate("about.label")}
+                        href={`/${locale}/about`}
+                        disabled={pathname === `/${locale}/about`}
+                        selected={pathname === `/${locale}/about`}
                       />
                     </Row>
                     <Row hide s={{ hide: false }}>
                       <ToggleButton
                         prefixIcon="person"
-                        href="/about"
-                        selected={pathname === "/about"}
+                        href={`/${locale}/about`}
+                        disabled={pathname === `/${locale}/about`}
+                        selected={pathname === `/${locale}/about`}
                       />
                     </Row>
                   </>
@@ -359,16 +360,18 @@ export const Header = () => {
                     <Row s={{ hide: true }}>
                       <ToggleButton
                         prefixIcon="grid"
-                        href="/work"
-                        label={work.label}
-                        selected={pathname.startsWith("/work")}
+                        label={translate("work.label")}
+                        href={`/${locale}/work`}
+                        disabled={pathname === `/${locale}/work`}
+                        selected={pathname.startsWith(`${locale}/work`)}
                       />
                     </Row>
                     <Row hide s={{ hide: false }}>
                       <ToggleButton
                         prefixIcon="grid"
-                        href="/work"
-                        selected={pathname.startsWith("/work")}
+                        href={`/${locale}/work`}
+                        disabled={pathname === `/${locale}/work`}
+                        selected={pathname.startsWith(`${locale}/work`)}
                       />
                     </Row>
                   </>
@@ -378,16 +381,18 @@ export const Header = () => {
                     <Row s={{ hide: true }}>
                       <ToggleButton
                         prefixIcon="book"
-                        href="/blog"
-                        label={blog.label}
-                        selected={pathname.startsWith("/blog")}
+                        label={translate("blog.label")}
+                        href={`/${locale}/blog`}
+                        disabled={pathname === `/${locale}/blog`}
+                        selected={pathname.startsWith(`${locale}/blog`)}
                       />
                     </Row>
                     <Row hide s={{ hide: false }}>
                       <ToggleButton
                         prefixIcon="book"
-                        href="/blog"
-                        selected={pathname.startsWith("/blog")}
+                        href={`/${locale}/blog`}
+                        disabled={pathname === `/${locale}/blog`}
+                        selected={pathname.startsWith(`${locale}/blog`)}
                       />
                     </Row>
                   </>
@@ -397,16 +402,26 @@ export const Header = () => {
                     <Row s={{ hide: true }}>
                       <ToggleButton
                         prefixIcon="trophy"
-                        href="/achievements"
-                        label={achievements.label}
-                        selected={pathname.startsWith("/achievements")}
+                        label={translate("achievements.label")}
+                        href={`${locale}/achievements`}
+                        disabled={pathname.startsWith(
+                          `/${locale}/achievements`,
+                        )}
+                        selected={pathname.startsWith(
+                          `/${locale}/achievements`,
+                        )}
                       />
                     </Row>
                     <Row hide s={{ hide: false }}>
                       <ToggleButton
                         prefixIcon="trophy"
-                        href="/achievements"
-                        selected={pathname.startsWith("/achievements")}
+                        href={`${locale}/achievements`}
+                        disabled={pathname.startsWith(
+                          `/${locale}/achievements`,
+                        )}
+                        selected={pathname.startsWith(
+                          `/${locale}/achievements`,
+                        )}
                       />
                     </Row>
                   </>
@@ -416,16 +431,18 @@ export const Header = () => {
                     <Row s={{ hide: true }}>
                       <ToggleButton
                         prefixIcon="gallery"
-                        href="/gallery"
-                        label={gallery.label}
-                        selected={pathname.startsWith("/gallery")}
+                        label={translate("gallery.label")}
+                        href={`${locale}/gallery`}
+                        disabled={pathname.startsWith(`/${locale}/gallery`)}
+                        selected={pathname.startsWith(`/${locale}/gallery`)}
                       />
                     </Row>
                     <Row hide s={{ hide: false }}>
                       <ToggleButton
                         prefixIcon="gallery"
-                        href="/gallery"
-                        selected={pathname.startsWith("/gallery")}
+                        href={`${locale}/gallery`}
+                        disabled={pathname.startsWith(`/${locale}/gallery`)}
+                        selected={pathname.startsWith(`/${locale}/gallery`)}
                       />
                     </Row>
                   </>
@@ -519,23 +536,39 @@ export const Header = () => {
               <TimeDisplay timeZone={person.location} />
             </Flex>
           )}
-        </Flex>
-        <Flex
-          s={{ hide: true }}
-          position="sticky"
-          paddingRight="12"
-          paddingLeft="24"
-          horizontal="end"
-          vertical="end"
-          textVariant="body-default-s"
-          gap="20"
-        >
-          <span ref={hoverCardDescriptionRef}>
-            {translate("headerHoverCardDetails.0")}
-          </span>
+          {display.status && (
+            <Flex
+              s={{ hide: true }}
+              paddingRight="12"
+              paddingLeft="24"
+              horizontal="end"
+              vertical="center"
+              textVariant="body-default-s"
+              gap="20"
+            >
+              <span ref={hoverCardDescriptionRef}>
+                {/*{translate("headerHoverCardDetails.0")}*/}
+              </span>
+            </Flex>
+          )}
         </Flex>
       </Row>
       <CustomHeadingNav />
     </>
   );
 };
+
+// <Flex
+//   s={{ hide: true }}
+//   position="sticky"
+//   paddingRight="32"
+//   paddingLeft="24"
+//   horizontal="end"
+//   vertical="end"
+//   textVariant="body-default-s"
+//   gap="20"
+// >
+//   <span ref={hoverCardDescriptionRef}>
+//     {translate("headerHoverCardDetails.0")}
+//   </span>
+// </Flex>

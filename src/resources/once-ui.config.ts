@@ -28,7 +28,8 @@ const routes: RoutesConfig = {
 
 const display: DisplayConfig = {
   location: true,
-  time: true,
+  time: false,
+  status: true,
   trophies: true,
   themeSwitcher: true,
   menuAccordion: false,

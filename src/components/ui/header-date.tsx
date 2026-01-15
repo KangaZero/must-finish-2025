@@ -1,9 +1,9 @@
 "use client";
 import "./header-date.css";
 import { useState } from "react";
-import { getDailyWeatherForecast } from "@/app/api/queries/getDailyWeatherForecast";
+import { getDailyWeatherForecast } from "@/api/queries/getDailyWeatherForecast";
 import { person, WMOCodeDescriptions } from "@/resources";
-import { Icon } from "@once-ui-system/core";
+import { Icon, Skeleton } from "@once-ui-system/core";
 import { useAchievements } from "@/components/AchievementsProvider";
 import { useLocale } from "@/components/LocaleProvider";
 
@@ -56,6 +56,8 @@ const HeaderDate = () => {
   }
   const gradient = getTemperatureColor(temperature);
 
+  // useEffect(() => {}, []);
+
   return (
     <div
       className="link-wrapper"
@@ -100,15 +102,21 @@ const HeaderDate = () => {
         <div className={`p5DateBox ${isHovered ? "hover-active" : ""}`}>
           <div className="p5DateDay">
             <span className="p5Day">{day}</span>
-            {data && (
+            {data ? (
               <Icon
                 tooltip={weatherDescription}
                 name={weatherIcon}
                 className="p5DateWeatherIcon"
               />
+            ) : (
+              <Skeleton
+                shape="circle"
+                className="p5DateWeatherIcon"
+                delay="1"
+              />
             )}
           </div>
-          <div className="p5DateMonthDay" style={{ margin: data ? 0 : 10 }}>
+          <div className="p5DateMonthDay" style={{ margin: data ? 0 : 0 }}>
             <span className="p5Month">{month}</span>
             <span className="p5DateMonthDaySeparator">/</span>
             <span className="p5Date">{date}</span>

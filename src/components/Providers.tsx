@@ -14,7 +14,13 @@ import { ConsoleCommandProvider } from "./ConsoleCommandProvider";
 import { LocaleProvider } from "./LocaleProvider";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
-export function Providers({ children }: { children: React.ReactNode }) {
+export function Providers({
+  children,
+  lang,
+}: {
+  children: React.ReactNode;
+  lang: string;
+}) {
   const queryClient = new QueryClient();
 
   return (
@@ -45,7 +51,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
             }}
           >
             <ToastProvider>
-              <LocaleProvider>
+              <LocaleProvider lang={lang}>
                 <AchievementsProvider>
                   <ConsoleCommandProvider>
                     <IconProvider icons={iconLibrary}>{children}</IconProvider>

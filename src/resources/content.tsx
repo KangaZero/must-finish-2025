@@ -78,7 +78,12 @@ const person: Person = {
   ) as string as Person["currentStatus"],
 };
 
-const headerHoverCardDetails = [useI18nIndicator];
+//NOTE: This is used to determine the length of headerHoverCardDetails for now
+const headerHoverCardDetails = [
+  useI18nIndicator,
+  useI18nIndicator,
+  useI18nIndicator,
+];
 
 const newsletter: Newsletter = {
   display: true,
@@ -622,7 +627,7 @@ const WMOCodeDescriptions = {
   1: {
     day: {
       description: "Mainly Sunny",
-      icon: "clearDAy",
+      icon: "clearDay",
     },
     night: {
       description: "Mainly Clear",

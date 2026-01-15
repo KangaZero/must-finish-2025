@@ -6,6 +6,11 @@ const userLocation = getLocalTimeZone() || "Asia/Tokyo";
 //NOTE: keep the structure as close to content.tsx as possible
 // Keys (except person.languages) wrapped in arrays are used for ReactNode parameters or functions
 const en = {
+  notFound: {
+    heading: "Page Not Found",
+    text: "The page you are looking for does not exist.",
+    link: "Return Home",
+  },
   person: {
     workplace: "Accenture",
     languages: ["English", "Japanese"],
@@ -18,6 +23,8 @@ const en = {
     },
     currentStatus: getPersonsCurrentStatus(userLocation, "en"),
   },
+  //NOTE: this still exists in content.ts and is used to determine the length
+  //TODO: in the future just use this to determine the length
   headerHoverCardDetails: [
     `Based in ${userLocation}`,
     `Working at Accenture`,
@@ -52,6 +59,22 @@ const en = {
     code: `// To visit the About page, type this in your browser console:\nwindow.location.href = '/about';`,
     headline: ["Generic Portfolio", "Generic", "Look"],
     subline: ["Created by"],
+    projects: "Projects",
+  },
+  about: {
+    label: "About",
+  },
+  work: {
+    label: "Work",
+  },
+  blog: {
+    label: "Blog",
+  },
+  achievements: {
+    label: "Achievements",
+  },
+  gallery: {
+    label: "Gallery",
   },
 } as const;
 export default en;

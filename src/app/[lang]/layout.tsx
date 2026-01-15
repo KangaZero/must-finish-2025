@@ -29,11 +29,14 @@ export async function generateMetadata(): Promise<Metadata> {
   });
 }
 
+export async function generateStaticParams() {
+  return [{ lang: "en" }, { lang: "ja" }];
+}
+
 export default async function RootLayout({
+  params,
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: LayoutProps<"/[lang]">) {
   return (
     <Flex
       suppressHydrationWarning
@@ -106,7 +109,7 @@ export default async function RootLayout({
           }}
         />
       </head>
-      <Providers>
+      <Providers lang={(await params).lang}>
         <Column
           as="body"
           background="page"
