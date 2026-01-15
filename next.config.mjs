@@ -24,9 +24,6 @@ const nextConfig = {
       },
     ],
   },
-  experimental: {
-    viewTransition: true,
-  },
   sassOptions: {
     compiler: "modern",
     silenceDeprecations: ["legacy-js-api"],
