@@ -17,7 +17,13 @@ export const ThemeToggle: React.FC = () => {
     setCurrentTheme(
       (document.documentElement.getAttribute("data-theme") as
         | "light"
-        | "dark") || "light",
+        | "dark"
+        | null) ||
+        (window.localStorage.getItem("data-theme") as
+          | "light"
+          | "dark"
+          | null) ||
+        "light",
     );
   }, []);
 

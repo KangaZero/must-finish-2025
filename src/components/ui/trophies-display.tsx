@@ -1,7 +1,7 @@
 "use client";
 //WARNING: Using header-date.css
 import "./header-date.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { achievementTrophyMapping } from "@/resources";
 import { Achievement } from "@/types";
 import { Badge, CountFx } from "@once-ui-system/core";
@@ -17,10 +17,16 @@ const TrophiesDisplay = ({
 }) => {
   const { locale } = useLocale();
   const [isHovered, setIsHovered] = useState(false);
-  const totalTrophies = Object.values(achievementsCount).reduce(
-    (a, b) => a + b,
-    0,
-  );
+  const [totalTrophyCount, setTotalTrophyCount] = useState(0);
+
+  useEffect(() => {
+    const totalTrophies = Object.values(achievementsCount).reduce(
+      (a, b) => a + b,
+      0,
+    );
+    setTotalTrophyCount(totalTrophies);
+  }, [achievementsCount]);
+
   const rarity: Achievement["rarity"][] = [
     "common",
     "uncommon",
@@ -39,7 +45,7 @@ const TrophiesDisplay = ({
             onMouseLeave={() => setIsHovered(false)}
             onTouchStart={() => setIsHovered(!isHovered)}
           >
-            <div className="fallback">{totalTrophies} trophies</div>
+            <div className="fallback">{totalTrophyCount} trophies</div>
 
             <div className={`shape-wrapper ${isHovered ? "active" : ""}`}>
               <div className="shape cyan-fill jelly">
@@ -73,7 +79,7 @@ const TrophiesDisplay = ({
                   <CountFx
                     className="p5Day"
                     variant="body-strong-m"
-                    value={totalTrophies}
+                    value={totalTrophyCount}
                     speed={2000}
                     effect="simple"
                     easing="ease-out"
