@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Button,
   Column,
   Heading,
@@ -19,6 +18,7 @@ import styles from "@/components/about/about.module.scss";
 import React from "react";
 import TrueFocus from "@/components/about/TrueFocus";
 import { RubyNameTitle } from "@/components/about/RubyNameTitle";
+import { AvatarContainer } from "@/components/about/AvatarContainer";
 
 export async function generateMetadata() {
   return Meta.generate({
@@ -96,7 +96,8 @@ export default function About() {
             flex={3}
             horizontal="center"
           >
-            <Avatar src={person.avatar} size="xl" />
+            <AvatarContainer />
+            {/*<Avatar src={person.avatar} size="xl" />*/}
             <Row gap="8" vertical="center">
               <Icon onBackground="accent-weak" name="globe" />
               {person.location}

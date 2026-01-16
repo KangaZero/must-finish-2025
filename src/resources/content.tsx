@@ -35,7 +35,7 @@ const person: Person = {
     { romaji: "Yong", furigana: "ヨング", kanji: "楊" },
   ],
   role: useI18nIndicator,
-  avatar: "/images/avatar.jpg",
+  avatar: "/images/avatar.png",
   email: "samuelyongw@gmail.com",
   githubUsername: "KangaZero",
   location: userLocation, // Expecting the IANA time zone identifier, e.g., 'Europe/Vienna'
