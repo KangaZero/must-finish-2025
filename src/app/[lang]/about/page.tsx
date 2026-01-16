@@ -17,6 +17,8 @@ import { baseURL, about, person, social } from "@/resources";
 import TableOfContents from "@/components/about/TableOfContents";
 import styles from "@/components/about/about.module.scss";
 import React from "react";
+import TrueFocus from "@/components/about/TrueFocus";
+import { RubyNameTitle } from "@/components/about/RubyNameTitle";
 
 export async function generateMetadata() {
   return Meta.generate({
@@ -147,7 +149,8 @@ export default function About() {
                 />
               </Row>
             )}
-            <Heading
+            <RubyNameTitle />
+            {/*<Heading
               className={styles.textAlign}
               variant="body-strong-l"
               onBackground="accent-alpha-strong"
@@ -160,14 +163,14 @@ export default function About() {
                   <rp>)</rp>{" "}
                 </ruby>
               ))}
-            </Heading>
-            <Text
+            </Heading>*/}
+            {/*<Text
               className={styles.textAlign}
               variant="display-default-xs"
               onBackground="neutral-weak"
             >
               {person.role}
-            </Text>
+            </Text>*/}
             {social.length > 0 && (
               <Row
                 className={styles.blockAlign}
@@ -225,15 +228,14 @@ export default function About() {
 
           {about.work.display && (
             <>
-              <Heading
-                as="h2"
+              <TrueFocus
                 id={about.work.title}
-                variant="display-strong-s"
-                marginBottom="m"
-              >
-                {about.work.title}
-              </Heading>
-              <Column fillWidth gap="l" marginBottom="40">
+                manualMode
+                blurAmount={4.5}
+                animationDuration={0.3}
+                borderColor="#f0eff6"
+              />
+              <Column fillWidth gap="l" marginTop="m" marginBottom="40">
                 {about.work.experiences.map((experience, index) => (
                   <Column
                     key={`${experience.company}-${experience.role}-${index}`}

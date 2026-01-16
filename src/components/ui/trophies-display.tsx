@@ -4,9 +4,10 @@ import "./header-date.css";
 import { useEffect, useState } from "react";
 import { achievementTrophyMapping } from "@/resources";
 import { Achievement } from "@/types";
-import { Badge, CountFx } from "@once-ui-system/core";
+import { Badge } from "@once-ui-system/core";
 import Link from "next/link";
 import { useLocale } from "@/components/LocaleProvider";
+import CountUp from "@/components/ui/CountUp";
 
 const TrophiesDisplay = ({
   achievementsCount,
@@ -76,29 +77,18 @@ const TrophiesDisplay = ({
                   <span className="p5Day" style={{ marginRight: 8 }}>
                     🏆
                   </span>
-                  <CountFx
+                  <CountUp
+                    // NOTE: This is just my fav number but negative
+                    from={-21}
+                    to={totalTrophyCount}
+                    direction="up"
+                    duration={2}
                     className="p5Day"
-                    variant="body-strong-m"
-                    value={totalTrophyCount}
-                    speed={2000}
-                    effect="simple"
-                    easing="ease-out"
                   />
                 </div>
-                {/*<div className="p5DateMonthDay">
-                  <span className="p5Month">Trophies</span>
-                </div>*/}
               </div>
             </div>
           </div>
-          {/*<Badge
-            arrow={false}
-            href={`/${locale}/achievements`}
-            icon="trophy"
-            textVariant="label-default-s"
-          >
-            {Object.values(achievementsCount).reduce((a, b) => a + b, 0)}
-          </Badge>*/}
         </Link>
       ) : (
         <>

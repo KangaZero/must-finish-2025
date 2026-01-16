@@ -63,6 +63,16 @@ const en = {
   },
   about: {
     label: "About",
+    intro: {
+      title: "Introduction",
+      description: `Professional Frontend Developer specialized in React and TypeScript.
+      Hobbyist Backend Developer and Rust, Golang, NIXOS enjoyer.`,
+    },
+    work: {
+      title: "Frontend Developer",
+      //? For TrueFocus component, the blurred text will always show this, while when focused shows "Title"
+      titleBlur: "Backend",
+    },
   },
   work: {
     label: "Work",

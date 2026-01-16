@@ -72,7 +72,6 @@ export const LocaleProvider = ({
 
     // 2. Replace the locale segment (index 1)
     pathSegments[1] = newLocale;
-    console.trace("pathSegments", pathSegments);
 
     // 3. Join back but don't navigate: "/fr/dashboard"
     const newPath = pathSegments.join("/");

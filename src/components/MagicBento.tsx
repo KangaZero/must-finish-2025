@@ -977,7 +977,7 @@ const MagicBento: React.FC<BentoProps> = ({
       scale: 0.2,
       duration: 0.5,
       ease: "power2.in",
-      y: "-100vh",
+      y: "-100dvh",
       onComplete: () => {
         setIsCardsCombined(false);
         setIsPuzzleSolved(false);

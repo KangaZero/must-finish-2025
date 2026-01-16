@@ -65,6 +65,18 @@ const ja = {
   },
   about: {
     label: "概要",
+    intro: {
+      title: "自己紹介",
+      description: `
+      React / TypeScript 専門のフロントエンドエンジニア。 バックエンドは趣味で、Rust / Golang / NixOS 推しです。
+      `,
+    },
+    work: {
+      //NOTE: Space is intentional to split the title
+      title: "フロントエンド 開発者",
+      //? For TrueFocus component, the blurred text will always show this, while when focused shows "Title"
+      titleBlur: "バックエンド",
+    },
   },
   work: {
     label: "仕事",

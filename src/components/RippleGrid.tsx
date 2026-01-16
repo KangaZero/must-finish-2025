@@ -327,7 +327,8 @@ void main() {
     mouseInteraction,
     mouseInteractionRadius,
   ]);
-  if (pathname.length === 1) {
+  //home page with and without locale
+  if (pathname.length === 1 || pathname.length === 3) {
     return <div ref={containerRef} className="ripple-grid-container" />;
   } else {
     return null;
