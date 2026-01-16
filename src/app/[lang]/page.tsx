@@ -1,5 +1,4 @@
 import {
-  Heading,
   RevealFx,
   Column,
   Schema,
@@ -20,6 +19,7 @@ import { home, about, person, baseURL, userSettings } from "@/resources";
 // import DrawingPanel from "@/components/DrawingPanel";
 import MagicBento from "@/components/MagicBento";
 import { HomeHeading } from "@/components/home/HomeHeading";
+import HomeProjectsTitle from "@/components/home/HomeProjectsTitle";
 
 export async function generateMetadata(): Promise<Metadata> {
   return Meta.generate({
@@ -104,9 +104,7 @@ export default function Home() {
           )
         } */}
         <RevealFx fillWidth horizontal="center">
-          <Heading as="h1" wrap="balance" variant="display-strong-m">
-            Projects
-          </Heading>
+          <HomeProjectsTitle />
         </RevealFx>
         <MagicBento
           textAutoHide={true}

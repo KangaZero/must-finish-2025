@@ -56,7 +56,8 @@ const getPersonsCurrentStatus = (
     case 6:
     case 7:
     case 8:
-      return (status = "sleeping");
+      status = "sleeping";
+      break;
     case 9:
     case 10:
     case 11:
@@ -66,25 +67,27 @@ const getPersonsCurrentStatus = (
     case 15:
     case 16:
       if (currentDay === "Saturday" || currentDay === "Sunday") {
-        return (status = "relaxing");
+        status = "relaxing";
       } else {
-        return (status = "coding");
+        status = "coding";
       }
+      break;
     case 17:
     case 18:
-      return (status = "running");
+      status = "running";
+      break;
     case 19:
     case 20:
     case 21:
     case 22:
     case 23:
-      return (status = "gaming");
+      status = "gaming";
+      break;
     default:
       status = "sleeping";
   }
 
-  //Currently only supports En and Ja
-
+  //NOTE Currently only supports En and Ja
   const mappedLocaleStatus = {
     running: "ランニング中",
     coding: "コーディング中",

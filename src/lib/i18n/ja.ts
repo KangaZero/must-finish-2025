@@ -24,9 +24,9 @@ const ja = {
     currentStatus: getPersonsCurrentStatus(userLocation, "ja"),
   },
   headerHoverCardDetails: [
-    `${userLocation} 拠点`,
-    `アクセンチュアで勤務中`,
-    `現在は${getPersonsCurrentStatus(userLocation, "ja")}`,
+    `現在地 ${userLocation}`,
+    `アクセンチュアに在職中`,
+    `只今${getPersonsCurrentStatus(userLocation, "ja")}`,
   ],
   headerDate: {
     days: [

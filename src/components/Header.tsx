@@ -132,13 +132,15 @@ export const Header = () => {
   useEffect(() => {
     if (!hoverCardDescriptionRef.current) return;
     gsap.registerPlugin(ScrollTrigger, ScrambleTextPlugin);
+    let killed = false;
     function cycleText(
       ref: React.RefObject<HTMLDivElement>,
       texts: string[],
-      duration = 3,
-      delay = 2,
+      duration = 1,
+      delay = 8,
     ) {
       const animate = (index = 0) => {
+        if (killed) return;
         gsap.to(ref.current, {
           scrambleText: {
             text: translate(
@@ -164,8 +166,12 @@ export const Header = () => {
       hoverCardDescriptionRef as React.RefObject<HTMLDivElement>,
       headerHoverCardDetails,
     );
+    return () => {
+      killed = true;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locale]);
+
   const [hideMenu, setHideMenu] = useState(false);
 
   return (
@@ -273,7 +279,12 @@ export const Header = () => {
             </Row>
           )}
           {/* {display.location && <Row s={{ hide: true }}>{person.location}</Row>} */}
-          <Flex paddingLeft="24" vertical="center" s={{ hide: true }}>
+          <Flex
+            paddingLeft="24"
+            vertical="center"
+            s={{ hide: true }}
+            m={{ hide: true }}
+          >
             {display.trophies && (
               <TrophiesDisplay achievementsCount={achievementsCount} />
             )}
