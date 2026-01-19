@@ -1,14 +1,12 @@
 import {
   Column,
   Heading,
-  Icon,
   Media,
   Tag,
   Text,
   Meta,
   Schema,
   Row,
-  Logo,
 } from "@once-ui-system/core";
 import { baseURL, about, person } from "@/resources";
 import TableOfContents from "@/components/about/TableOfContents";
@@ -19,6 +17,8 @@ import TrueFocus from "@/components/about/TrueFocus";
 import { AvatarContainer } from "@/components/about/AvatarContainer";
 import { TranslationKey } from "@/lib/i18n";
 import { IntroContainer } from "@/components/about/IntroContainer";
+import { StudiesContainer } from "@/components/about/StudiesContainer";
+import { LocationLanguageContainer } from "@/components/about/LocationLanguageContainer";
 
 export async function generateMetadata() {
   return Meta.generate({
@@ -101,20 +101,7 @@ export default function About() {
             horizontal="center"
           >
             <AvatarContainer />
-            {/*<Avatar src={person.avatar} size="xl" />*/}
-            <Row gap="8" vertical="center">
-              <Icon onBackground="accent-weak" name="globe" />
-              {person.location}
-            </Row>
-            {person.languages && person.languages.length > 0 && (
-              <Row wrap gap="8">
-                {person.languages.map((language, index) => (
-                  <Tag key={index} size="l">
-                    {language}
-                  </Tag>
-                ))}
-              </Row>
-            )}
+            <LocationLanguageContainer />
           </Column>
         )}
         <Column className={styles.blockAlign} flex={9} maxWidth={40}>
@@ -202,43 +189,7 @@ export default function About() {
             </>
           )}
 
-          {about.studies.display && (
-            <>
-              <Heading
-                as="h2"
-                id={about.studies.title}
-                variant="display-strong-s"
-                marginBottom="m"
-              >
-                {about.studies.title}
-              </Heading>
-              <Column fillWidth gap="l" marginBottom="40">
-                {about.studies.institutions.map((institution, index) => (
-                  <Column
-                    key={`${institution.name}-${index}`}
-                    fillWidth
-                    gap="4"
-                  >
-                    <Row>
-                      <Text id={institution.name} variant="heading-strong-l">
-                        {institution.name}
-                      </Text>
-                      <Logo
-                        style={{ marginLeft: "1rem" }}
-                        wordmark={institution.logoWordmark}
-                      />
-                    </Row>
-                    <Text
-                      variant="heading-default-xs"
-                      onBackground="neutral-weak"
-                    >
-                      {institution.description}
-                    </Text>
-                  </Column>
-                ))}
-              </Column>
-            </>
-          )}
+          {about.studies.display && <StudiesContainer />}
 
           {about.technical.display && (
             <>

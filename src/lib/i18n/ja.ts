@@ -14,6 +14,20 @@ const ja = {
   person: {
     workplace: "アクセンチュア",
     languages: ["英語", "日本語"],
+    learningLanguages: [
+      {
+        language: "マレー語",
+        description: "会話レベル",
+      },
+      {
+        language: "中国語",
+        description: "限定的な能力",
+      },
+      {
+        language: "ドイツ語",
+        description: "読解限定",
+      },
+    ],
     role: "フロントエンド開発者",
     technologies: {
       category: {
@@ -77,6 +91,16 @@ const ja = {
       subtitle: "フロントエンド 開発者",
       //? For TrueFocus component, the blurred text will always show this, while when focused shows "Title"
       subtitleBlur: "バックエンド",
+    },
+    studies: {
+      title: "学歴",
+      institutions: [
+        {
+          name: "シドニー大学",
+          description: "クラシックピアノ専攻/フルスタックWeb開発副専攻",
+          title: "文学士",
+        },
+      ],
     },
   },
   work: {

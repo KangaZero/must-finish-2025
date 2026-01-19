@@ -41,7 +41,14 @@ const person: Person = {
   githubUsername: "KangaZero",
   location: userLocation, // Expecting the IANA time zone identifier, e.g., 'Europe/Vienna'
   locationCoordinates: [35.660504, 139.724981], // Latitude, Longitude for Tokyo
-  languages: [useI18nIndicator], // optional: Leave the array empty if you don't want to display languages
+  //NOTE: Used for length
+  languages: [useI18nIndicator, useI18nIndicator],
+  //NOTE: Used for length
+  learningLanguages: [
+    { language: useI18nIndicator, description: useI18nIndicator },
+    { language: useI18nIndicator, description: useI18nIndicator },
+    { language: useI18nIndicator, description: useI18nIndicator },
+  ],
   technologies: [
     {
       name: "React",
@@ -409,18 +416,20 @@ const about: About = {
   },
   studies: {
     display: true, // set to false to hide this section
-    title: "Education",
+    title: useI18nIndicator, //Education
+    //WARNING: If there is more than 1 might just move the logoWordmark to the translation file itself
     institutions: [
       {
-        name: "University of Sydney",
-        description: <>Studied software engineering.</>,
+        name: useI18nIndicator, //USYD
+        description: useI18nIndicator,
         logoWordmark: "/trademarks/university-of-sydney-logo.svg",
+        title: useI18nIndicator,
       },
     ],
     images: [],
   },
   technical: {
-    display: true, // set to false to hide this section
+    display: false, // set to false to hide this section
     title: "Technical skills",
     skills: [
       {

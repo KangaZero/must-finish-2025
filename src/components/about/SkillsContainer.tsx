@@ -51,6 +51,7 @@ const SkillsContainer = () => {
                   <div className="flip-card-inner">
                     <div className="flip-card-front">
                       <Icon
+                        decorative
                         name={frontIcon}
                         tooltip={`${frontName} - ${item.level}`}
                         size="m"
@@ -64,6 +65,7 @@ const SkillsContainer = () => {
                     </div>
                     <div className="flip-card-back">
                       <Icon
+                        decorative
                         name={backIcon}
                         tooltip={`${backName} - ${item.level}`}
                         size="m"

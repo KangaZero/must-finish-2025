@@ -109,7 +109,7 @@ const IntroContainer = () => {
           gap="m"
           marginBottom="xl"
         >
-          {about.intro.description}
+          {translate("about.intro.description")}
         </Column>
       )}
     </>

@@ -44,6 +44,11 @@ export type Person = {
   locationCoordinates: [number, number]; // [latitude, longitude]
   /** Languages spoken */
   languages: string[];
+  /** Languages learning or limited proficiency */
+  learningLanguages: {
+    language: string;
+    description: string;
+  }[];
   /** Technologies you dabble with */
   technologies: {
     name: string;
@@ -229,6 +234,8 @@ export interface About extends BasePageConfig {
       description: React.ReactNode;
       /** Logo path (SVG) */
       logoWordmark: `${string}.svg`;
+      /**Official title of degree */
+      title: string;
     }>;
     images?: Array<{
       /** Image source path */

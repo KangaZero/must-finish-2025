@@ -14,6 +14,20 @@ const en = {
   person: {
     workplace: "Accenture",
     languages: ["English", "Japanese"],
+    learningLanguages: [
+      {
+        language: "Malay",
+        description: "Conversational",
+      },
+      {
+        language: "Mandarin",
+        description: "Limited proficiency",
+      },
+      {
+        language: "German",
+        description: "Limited to reading",
+      },
+    ],
     role: "Frontend Developer",
     technologies: {
       category: {
@@ -73,6 +87,17 @@ const en = {
       subtitle: "Frontend Developer",
       //? For TrueFocus component, the blurred text will always show this, while when focused shows "Title"
       subtitleBlur: "Backend",
+    },
+    studies: {
+      title: "Education",
+      institutions: [
+        {
+          name: "University of Sydney",
+          description:
+            "Majored in Classical Piano, minored in Fullstack Web Development",
+          title: "Bachelor of Arts",
+        },
+      ],
     },
   },
   work: {
