@@ -72,10 +72,11 @@ const ja = {
       `,
     },
     work: {
+      title: "職務経歴",
       //NOTE: Space is intentional to split the title
-      title: "フロントエンド 開発者",
+      subtitle: "フロントエンド 開発者",
       //? For TrueFocus component, the blurred text will always show this, while when focused shows "Title"
-      titleBlur: "バックエンド",
+      subtitleBlur: "バックエンド",
     },
   },
   work: {

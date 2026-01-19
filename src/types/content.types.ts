@@ -89,6 +89,31 @@ export type Social = Array<{
 }>;
 
 /**
+ * Skills configuration.
+ */
+export type Skills = Array<{
+  /** Name of the skill/technology */
+  name:
+    | "Typescript"
+    | "Javascript"
+    | "React"
+    | "Rust"
+    | "Golang"
+    | "NixOS"
+    | "Bash"
+    | "Git"
+    | "Vue";
+  /** Icon for the social platform
+   * The icons are a part of "src/resources/icons.ts" file.
+   * If you need a different icon, import it there and reference it everywhere else
+   */
+  icon: IconName;
+  level: "pro" | "hobby";
+  /** Whether this social link is essential and should be displayed on the about page */
+  essential?: boolean;
+}>;
+
+/**
  * Base interface for page configuration with common properties.
  */
 export interface BasePageConfig {

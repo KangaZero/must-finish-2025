@@ -11,6 +11,7 @@ import type {
   UserSettings,
   Achievement,
   AchievementPage,
+  Skills,
 } from "@/types";
 import { getLocalTimeZone } from "@/utils/getLocalTimeZone";
 import { getPersonsCurrentStatus } from "@/utils/getPersonsCurrentStatus";
@@ -124,6 +125,57 @@ const social: Social = [
     icon: "email",
     link: `mailto:${person.email}`,
     essential: true,
+  },
+];
+
+const skills: Skills = [
+  {
+    name: "Typescript",
+    icon: "typescript",
+    essential: true,
+    level: "pro",
+  },
+  {
+    name: "Javascript",
+    icon: "javascript",
+    essential: false,
+    level: "pro",
+  },
+  {
+    name: "React",
+    icon: "react",
+    essential: true,
+    level: "pro",
+  },
+  {
+    name: "Git",
+    icon: "git",
+    essential: true,
+    level: "pro",
+  },
+  {
+    name: "Bash",
+    icon: "bash",
+    essential: true,
+    level: "pro",
+  },
+  {
+    name: "Vue",
+    icon: "vuejs",
+    essential: true,
+    level: "hobby",
+  },
+  {
+    name: "Golang",
+    icon: "goLang",
+    essential: true,
+    level: "hobby",
+  },
+  {
+    name: "Rust",
+    icon: "rust",
+    essential: true,
+    level: "hobby",
   },
 ];
 
@@ -291,16 +343,15 @@ const about: About = {
   intro: {
     display: true,
     title: "Introduction",
-    description: (
-      <>
-        Professional Frontend Developer specialized in React and TypeScript.
-        Hobbyist Backend Developer and Rust, Golang, NIXOS enjoyer.
-      </>
-    ),
+    description: useI18nIndicator,
+    // <>
+    //   Professional Frontend Developer specialized in React and TypeScript.
+    //   Hobbyist Backend Developer and Rust, Golang, NIXOS enjoyer.
+    // </>
   },
   work: {
     display: true, // set to false to hide this section
-    title: "Frontend Developer & DX Architect",
+    title: useI18nIndicator, // Work Experience
     experiences: [
       {
         company: "Accenture",
@@ -901,6 +952,7 @@ export {
   person,
   headerHoverCardDetails,
   social,
+  skills,
   newsletter,
   home,
   projectCardData,

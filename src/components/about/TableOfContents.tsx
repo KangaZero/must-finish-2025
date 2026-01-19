@@ -2,13 +2,15 @@
 
 import React from "react";
 import { Column, Flex, Text } from "@once-ui-system/core";
+import { useLocale } from "@/components/LocaleProvider";
 import styles from "./about.module.scss";
+import type { TranslationKey } from "@/lib/i18n";
 
 interface TableOfContentsProps {
   structure: {
-    title: string;
+    title: TranslationKey;
     display: boolean;
-    items: string[];
+    items?: string[];
   }[];
   about: {
     tableOfContent: {
@@ -18,7 +20,11 @@ interface TableOfContentsProps {
   };
 }
 
-const TableOfContents: React.FC<TableOfContentsProps> = ({ structure, about }) => {
+const TableOfContents: React.FC<TableOfContentsProps> = ({
+  structure,
+  about,
+}) => {
+  const { translate } = useLocale();
   const scrollTo = (id: string, offset: number) => {
     const element = document.getElementById(id);
     if (element) {
@@ -56,12 +62,12 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({ structure, about }) =
               className={styles.hover}
               gap="8"
               vertical="center"
-              onClick={() => scrollTo(section.title, 80)}
+              onClick={() => scrollTo(translate(section.title), 80)}
             >
               <Flex height="1" minWidth="16" background="neutral-strong"></Flex>
-              <Text>{section.title}</Text>
+              <Text>{translate(section.title)}</Text>
             </Flex>
-            {about.tableOfContent.subItems && (
+            {about.tableOfContent.subItems && section.items && (
               <>
                 {section.items.map((item, itemIndex) => (
                   <Flex
@@ -74,7 +80,11 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({ structure, about }) =
                     vertical="center"
                     onClick={() => scrollTo(item, 80)}
                   >
-                    <Flex height="1" minWidth="8" background="neutral-strong"></Flex>
+                    <Flex
+                      height="1"
+                      minWidth="8"
+                      background="neutral-strong"
+                    ></Flex>
                     <Text>{item}</Text>
                   </Flex>
                 ))}

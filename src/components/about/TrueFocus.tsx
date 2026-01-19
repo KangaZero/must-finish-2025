@@ -5,7 +5,8 @@ import { motion } from "motion/react";
 import { useLocale } from "@/components/LocaleProvider";
 
 interface TrueFocusProps {
-  id: string;
+  //NOTE: id is used for the TableOfContents component for navigation, id may not necessary equal to the title name here
+  // id: string;
   // sentence?: string;
   separator?: string;
   manualMode?: boolean;
@@ -24,7 +25,7 @@ interface FocusRect {
 }
 
 const TrueFocus: React.FC<TrueFocusProps> = ({
-  id,
+  // id,
   // sentence = "True Focus",
   separator = " ",
   manualMode = false,
@@ -35,7 +36,7 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
   pauseBetweenAnimations = 1,
 }) => {
   const { translate } = useLocale();
-  const sentence = translate("about.work.title");
+  const sentence = translate("about.work.subtitle");
   const words = sentence.split(separator);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [lastActiveIndex, setLastActiveIndex] = useState<number | null>(null);
@@ -93,7 +94,11 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
   };
 
   return (
-    <div className="focus-container" id={id} ref={containerRef}>
+    <div
+      className="focus-container"
+      id={translate("about.work.title")}
+      ref={containerRef}
+    >
       {words.map((word, index) => {
         const isActive = index === currentIndex;
         return (
@@ -124,7 +129,7 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
             onMouseLeave={handleMouseLeave}
           >
             {index === 0 && !isActive
-              ? translate("about.work.titleBlur")
+              ? translate("about.work.subtitleBlur")
               : word}
           </span>
         );

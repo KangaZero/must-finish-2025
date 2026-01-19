@@ -1,9 +1,7 @@
 import {
-  Button,
   Column,
   Heading,
   Icon,
-  IconButton,
   Media,
   Tag,
   Text,
@@ -12,13 +10,15 @@ import {
   Row,
   Logo,
 } from "@once-ui-system/core";
-import { baseURL, about, person, social } from "@/resources";
+import { baseURL, about, person } from "@/resources";
 import TableOfContents from "@/components/about/TableOfContents";
 import styles from "@/components/about/about.module.scss";
 import React from "react";
 import TrueFocus from "@/components/about/TrueFocus";
-import { RubyNameTitle } from "@/components/about/RubyNameTitle";
+
 import { AvatarContainer } from "@/components/about/AvatarContainer";
+import { TranslationKey } from "@/lib/i18n";
+import { IntroContainer } from "@/components/about/IntroContainer";
 
 export async function generateMetadata() {
   return Meta.generate({
@@ -33,26 +33,30 @@ export async function generateMetadata() {
 export default function About() {
   const structure = [
     {
-      title: about.intro.title,
+      title: "about.intro.title",
       display: about.intro.display,
-      items: [],
     },
     {
-      title: about.work.title,
+      title: "about.work.title",
       display: about.work.display,
       items: about.work.experiences.map((experience) => experience.company),
     },
     {
-      title: about.studies.title,
+      title: "about.studies.title",
       display: about.studies.display,
       items: about.studies.institutions.map((institution) => institution.name),
     },
     {
-      title: about.technical.title,
+      title: "about.technical.title",
       display: about.technical.display,
       items: about.technical.skills.map((skill) => skill.title),
     },
-  ];
+  ] as {
+    title: TranslationKey;
+    display: boolean;
+    items?: string[];
+  }[];
+
   return (
     <Column maxWidth="m">
       <Schema
@@ -114,123 +118,10 @@ export default function About() {
           </Column>
         )}
         <Column className={styles.blockAlign} flex={9} maxWidth={40}>
-          <Column
-            id={about.intro.title}
-            fillWidth
-            minHeight="160"
-            vertical="center"
-            marginBottom="32"
-          >
-            {about.calendar.display && (
-              <Row
-                fitWidth
-                border="brand-alpha-medium"
-                background="brand-alpha-weak"
-                radius="full"
-                padding="4"
-                gap="8"
-                marginBottom="m"
-                vertical="center"
-                className={styles.blockAlign}
-                style={{
-                  backdropFilter: "blur(var(--static-space-1))",
-                }}
-              >
-                <Icon
-                  paddingLeft="12"
-                  name="calendar"
-                  onBackground="brand-weak"
-                />
-                <Row paddingX="8">Schedule a call</Row>
-                <IconButton
-                  href={about.calendar.link}
-                  data-border="rounded"
-                  variant="secondary"
-                  icon="chevronRight"
-                />
-              </Row>
-            )}
-            <RubyNameTitle />
-            {/*<Heading
-              className={styles.textAlign}
-              variant="body-strong-l"
-              onBackground="accent-alpha-strong"
-            >
-              {person.rubyName.map((name, index) => (
-                <ruby key={index}>
-                  {name.romaji}
-                  <rp>(</rp>
-                  <rt>{name.furigana}</rt>
-                  <rp>)</rp>{" "}
-                </ruby>
-              ))}
-            </Heading>*/}
-            {/*<Text
-              className={styles.textAlign}
-              variant="display-default-xs"
-              onBackground="neutral-weak"
-            >
-              {person.role}
-            </Text>*/}
-            {social.length > 0 && (
-              <Row
-                className={styles.blockAlign}
-                paddingTop="20"
-                paddingBottom="8"
-                gap="8"
-                wrap
-                horizontal="center"
-                fitWidth
-                data-border="rounded"
-              >
-                {social
-                  .filter((item) => item.essential)
-                  .map(
-                    (item) =>
-                      item.link && (
-                        <React.Fragment key={item.name}>
-                          <Row s={{ hide: true }}>
-                            <Button
-                              key={item.name}
-                              href={item.link}
-                              prefixIcon={item.icon}
-                              label={item.name}
-                              size="s"
-                              weight="default"
-                              variant="secondary"
-                            />
-                          </Row>
-                          <Row hide s={{ hide: false }}>
-                            <IconButton
-                              size="l"
-                              key={`${item.name}-icon`}
-                              href={item.link}
-                              icon={item.icon}
-                              variant="secondary"
-                            />
-                          </Row>
-                        </React.Fragment>
-                      ),
-                  )}
-              </Row>
-            )}
-          </Column>
-
-          {about.intro.display && (
-            <Column
-              textVariant="body-default-l"
-              fillWidth
-              gap="m"
-              marginBottom="xl"
-            >
-              {about.intro.description}
-            </Column>
-          )}
-
+          <IntroContainer />
           {about.work.display && (
             <>
               <TrueFocus
-                id={about.work.title}
                 manualMode
                 blurAmount={4.5}
                 animationDuration={0.3}

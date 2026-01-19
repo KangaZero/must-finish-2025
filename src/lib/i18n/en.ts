@@ -69,9 +69,10 @@ const en = {
       Hobbyist Backend Developer and Rust, Golang, NIXOS enjoyer.`,
     },
     work: {
-      title: "Frontend Developer",
+      title: "Work Experience",
+      subtitle: "Frontend Developer",
       //? For TrueFocus component, the blurred text will always show this, while when focused shows "Title"
-      titleBlur: "Backend",
+      subtitleBlur: "Backend",
     },
   },
   work: {

@@ -11,6 +11,7 @@ const AvatarContainer = () => {
       <div className="avatar-polygon-container"></div>
       <Image
         className={theme === "dark" ? "avatar-img-dark" : "avatar-img"}
+        preload
         width={150}
         height={300}
         src={person.avatar}

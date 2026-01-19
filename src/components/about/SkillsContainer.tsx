@@ -1,0 +1,86 @@
+"use client";
+import "./SkillsContainer.css";
+import { skills } from "@/resources";
+import { Row, Icon } from "@once-ui-system/core";
+import React, { useState } from "react";
+
+const SkillsContainer = () => {
+  const [hovered, setHovered] = useState<string | null>(null);
+
+  return (
+    <>
+      {skills
+        .filter((item) => item.essential)
+        .map((item) => {
+          const isFlipped =
+            hovered === item.name &&
+            (item.name === "Typescript" || item.name === "Javascript");
+
+          // Determine swap values
+          const frontName = item.name;
+          const frontIcon = item.icon;
+          const backName =
+            item.name === "Typescript"
+              ? "Javascript"
+              : item.name === "Javascript"
+                ? "Typescript"
+                : item.name;
+          const backIcon =
+            item.name === "Typescript"
+              ? "javascript"
+              : item.name === "Javascript"
+                ? "typescript"
+                : item.icon;
+
+          return (
+            <React.Fragment key={item.name}>
+              <Row s={{ justifyContent: "center" }}>
+                <div
+                  tabIndex={0}
+                  aria-label={`${item.name} - ${item.level}`}
+                  className={`flip-card${isFlipped ? " flipped" : ""}`}
+                  onPointerDown={() => {
+                    if (
+                      item.name === "Typescript" ||
+                      item.name === "Javascript"
+                    ) {
+                      setHovered(isFlipped ? null : item.name);
+                    }
+                  }}
+                >
+                  <div className="flip-card-inner">
+                    <div className="flip-card-front">
+                      <Icon
+                        name={frontIcon}
+                        tooltip={`${frontName} - ${item.level}`}
+                        size="m"
+                        cursor={
+                          frontName === "Javascript" ||
+                          frontName === "Typescript"
+                            ? "pointer"
+                            : "default"
+                        }
+                      />
+                    </div>
+                    <div className="flip-card-back">
+                      <Icon
+                        name={backIcon}
+                        tooltip={`${backName} - ${item.level}`}
+                        size="m"
+                        cursor={
+                          backName === "Javascript" || backName === "Typescript"
+                            ? "pointer"
+                            : "default"
+                        }
+                      />
+                    </div>
+                  </div>
+                </div>
+              </Row>
+            </React.Fragment>
+          );
+        })}
+    </>
+  );
+};
+export { SkillsContainer };

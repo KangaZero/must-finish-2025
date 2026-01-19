@@ -56,8 +56,6 @@ const HeaderDate = () => {
   }
   const gradient = getTemperatureColor(temperature);
 
-  // useEffect(() => {}, []);
-
   return (
     <div
       className="link-wrapper"

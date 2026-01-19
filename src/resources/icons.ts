@@ -26,6 +26,7 @@ import {
 import {
   SiJavascript,
   SiTypescript,
+  SiGnubash,
   SiNextdotjs,
   SiFigma,
   SiSupabase,
@@ -49,6 +50,7 @@ import {
   FaX,
   FaThreads,
   FaInstagram,
+  FaVuejs,
   FaXTwitter,
   FaFacebook,
   FaPinterest,
@@ -62,7 +64,7 @@ import {
   FaTrophy,
 } from "react-icons/fa6";
 
-import { FaShareAlt, FaCloud, FaSnowflake } from "react-icons/fa";
+import { FaShareAlt, FaCloud, FaGitAlt, FaSnowflake } from "react-icons/fa";
 import {
   IoIosSunny,
   IoMdPartlySunny,
@@ -74,6 +76,7 @@ import {
 export const iconLibrary = {
   arrowUpRight: HiArrowUpRight,
   arrowRight: HiArrowRight,
+  bash: SiGnubash,
   cloud: FaCloud,
   email: HiEnvelope,
   globe: HiOutlineGlobeAsiaAustralia,
@@ -88,6 +91,7 @@ export const iconLibrary = {
   discord: FaDiscord,
   eye: HiOutlineEye,
   eyeOff: HiOutlineEyeSlash,
+  git: FaGitAlt,
   github: FaGithub,
   linkedin: FaLinkedin,
   x: FaX,
@@ -101,6 +105,7 @@ export const iconLibrary = {
   typescript: SiTypescript,
   rust: FaRust,
   goLang: FaGolang,
+  vuejs: FaVuejs,
   vim: SiVim,
   nixOs: SiNixos,
   nextjs: SiNextdotjs,
