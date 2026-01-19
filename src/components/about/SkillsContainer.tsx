@@ -55,6 +55,14 @@ const SkillsContainer = () => {
                         name={frontIcon}
                         tooltip={`${frontName} - ${item.level}`}
                         size="m"
+                        className={
+                          frontName === "Javascript"
+                            ? "javascript"
+                            : frontName === "Typescript"
+                              ? "typescript"
+                              : ""
+                        }
+                        style={{ color: item.color }}
                         cursor={
                           frontName === "Javascript" ||
                           frontName === "Typescript"
@@ -69,6 +77,7 @@ const SkillsContainer = () => {
                         name={backIcon}
                         tooltip={`${backName} - ${item.level}`}
                         size="m"
+                        style={{ color: "hsla(52, 94%, 54%, 1)" }}
                         cursor={
                           backName === "Javascript" || backName === "Typescript"
                             ? "pointer"

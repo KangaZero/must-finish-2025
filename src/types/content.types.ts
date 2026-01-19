@@ -112,6 +112,7 @@ export type Skills = Array<{
    * The icons are a part of "src/resources/icons.ts" file.
    * If you need a different icon, import it there and reference it everywhere else
    */
+  color: string;
   icon: IconName;
   level: "pro" | "hobby";
   /** Whether this social link is essential and should be displayed on the about page */

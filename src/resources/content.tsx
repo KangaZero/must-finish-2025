@@ -112,7 +112,7 @@ const social: Social = [
   {
     name: "LinkedIn",
     icon: "linkedin",
-    link: "https://www.linkedin.com/company/once-ui/",
+    link: "https://www.linkedin.com/in/samuel-wai-weng-yong-4a6874194/",
     essential: true,
   },
   // {
@@ -139,48 +139,56 @@ const skills: Skills = [
   {
     name: "Typescript",
     icon: "typescript",
+    color: "hsla(211, 60%, 48%, 1)", // Official TS Blue
     essential: true,
     level: "pro",
   },
   {
     name: "Javascript",
     icon: "javascript",
+    color: "hsla(52, 94%, 54%, 1)", // Standard JS Yellow
     essential: false,
     level: "pro",
   },
   {
     name: "React",
     icon: "react",
+    color: "hsla(193, 95%, 68%, 1)", // React Cyan
     essential: true,
     level: "pro",
   },
   {
     name: "Git",
     icon: "git",
+    color: "hsla(11, 88%, 51%, 1)", // Git Orange/Red
     essential: true,
     level: "pro",
   },
   {
     name: "Bash",
     icon: "bash",
+    color: "hsla(158, 45%, 43%, 1)", // Terminal Green
     essential: true,
     level: "pro",
   },
   {
     name: "Vue",
     icon: "vuejs",
+    color: "hsla(153, 47%, 49%, 1)", // Vue Green
     essential: true,
     level: "hobby",
   },
   {
     name: "Golang",
     icon: "goLang",
+    color: "hsla(192, 60%, 55%, 1)", // Go Gopher Blue
     essential: true,
     level: "hobby",
   },
   {
     name: "Rust",
     icon: "rust",
+    color: "hsla(17, 60%, 15%, 1)", // Rust Dark Brown/Black
     essential: true,
     level: "hobby",
   },

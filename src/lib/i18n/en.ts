@@ -87,6 +87,60 @@ const en = {
       subtitle: "Frontend Developer",
       //? For TrueFocus component, the blurred text will always show this, while when focused shows "Title"
       subtitleBlur: "Backend",
+      experiences: [
+        {
+          company: "Accenture",
+          timeframe: "2023 - Present",
+          role: "Frontend Developer",
+          achievements: [
+            `<>
+                  <b>Unified a fragmented ecosystem</b> of legacy tools (Excel,
+                  PowerPoint, and Sharepoint docs) into a single, standardized
+                  platform, creating a <q>single source of truth</q> for enterprise
+                  workflows.
+                </>`,
+            `<>
+                  <b>Developed interactive visual builders</b>, including an SAP
+                  component canvas and a design-flow engine, allowing users to build
+                  and test enterprise applications through a drag-and-drop interface.
+                </>`,
+            `<>
+                  <b>
+                    Engineered an <q>App-Wide Intelligence</q> layer
+                  </b>{" "}
+                  that enables the platform to automatically read, update, and
+                  refactor data across the entire web application to ensure
+                  consistency.
+                </>`,
+            `<>
+                  <b>Transformed the Developer Experience (DX)</b> by replacing slow,
+                  manual documentation processes with automated tools, significantly
+                  reducing project delivery times and operational costs.
+                </>`,
+          ],
+          images: [
+            {
+              src: "/images/projects/project-01/cover-01.jpg",
+              alt: "Once UI Project",
+              width: 16,
+              height: 9,
+            },
+          ],
+        },
+        {
+          company: "Timewitch",
+          timeframe: "2023",
+          role: "Fullstack intern",
+          achievements: [
+            `<>
+                  Developed a design system that unified the brand across multiple
+                  platforms, improving design consistency by 40%.
+                </>
+                `,
+          ],
+          images: [],
+        },
+      ],
     },
     studies: {
       title: "Education",

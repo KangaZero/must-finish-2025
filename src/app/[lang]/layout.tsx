@@ -120,7 +120,7 @@ export default async function RootLayout({
           horizontal="center"
         >
           <div className="fixed inset-0 pointer-events-none z-1">
-            {[...Array(16)].map((_, i) => (
+            {[...Array(8)].map((_, i) => (
               <div
                 key={i}
                 className={[

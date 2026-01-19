@@ -8,11 +8,11 @@ import styles from "@/components/about/about.module.scss";
 import { useLocale } from "@/components/LocaleProvider";
 
 const IntroContainer = () => {
-  const { translate } = useLocale();
+  const { translate, locale } = useLocale();
   return (
     <>
       <Column
-        id={translate("about.intro.title")}
+        id={translate("about.intro.title") as string}
         fillWidth
         minHeight="160"
         vertical="center"
@@ -43,6 +43,7 @@ const IntroContainer = () => {
             />
           </Row>
         )}
+
         <RubyNameTitle />
         {social.length > 0 && (
           <Row
@@ -64,7 +65,11 @@ const IntroContainer = () => {
                       <Row s={{ hide: true }}>
                         <Button
                           key={item.name}
-                          href={item.link}
+                          href={
+                            item.name === "LinkedIn" && locale === "ja"
+                              ? `${item.link}?locale=ja_JP`
+                              : item.link
+                          }
                           prefixIcon={item.icon}
                           label={item.name}
                           size="s"
@@ -76,7 +81,11 @@ const IntroContainer = () => {
                         <IconButton
                           size="l"
                           key={`${item.name}-icon`}
-                          href={item.link}
+                          href={
+                            item.name === "LinkedIn" && locale === "ja"
+                              ? `${item.link}?locale=ja_JP`
+                              : item.link
+                          }
                           icon={item.icon}
                           variant="secondary"
                         />
