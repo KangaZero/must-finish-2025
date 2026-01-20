@@ -29,7 +29,7 @@ const CustomHeadingNav: React.FC<React.ComponentProps<typeof HeadingNav>> = (
         fitHeight
         className={` ${styles.menuItems} ${show ? styles.menuVisible : styles.menuHidden}`}
       >
-        <HeadingNav {...props} width={12} />
+        <HeadingNav {...props} width={13} />
       </Row>
     </div>
   );

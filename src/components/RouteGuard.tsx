@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { protectedRoutes, routes } from "@/resources";
 import {
-  Flex,
+  Row,
   Spinner,
   Button,
   Heading,
@@ -12,6 +12,8 @@ import {
   PasswordInput,
 } from "@once-ui-system/core";
 import NotFound from "@/app/[lang]/not-found";
+import RotatingText from "@/components/ui/RotatingText";
+import { useLocale } from "@/components/LocaleProvider";
 
 interface RouteGuardProps {
   children: React.ReactNode;
@@ -19,6 +21,7 @@ interface RouteGuardProps {
 
 const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
   const pathname = usePathname();
+  const { translate } = useLocale();
   const [isRouteEnabled, setIsRouteEnabled] = useState(false);
   const [isPasswordRequired, setIsPasswordRequired] = useState(false);
   const [password, setPassword] = useState("");
@@ -104,9 +107,27 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
 
   if (loading) {
     return (
-      <Flex fillWidth paddingY="128" horizontal="center">
-        <Spinner />
-      </Flex>
+      <Column fillWidth paddingY="128" horizontal="center">
+        <RotatingText
+          texts={[
+            translate("loading.0"),
+            translate("loading.1"),
+            translate("loading.2"),
+          ]}
+          mainClassName="px-2 sm:px-2 md:px-3 bg-cyan-300 text-black overflow-hidden py-0.5 sm:py-1 md:py-2 justify-center rounded-lg"
+          staggerFrom={"last"}
+          initial={{ y: "100%" }}
+          animate={{ y: 0 }}
+          exit={{ y: "-100%" }}
+          staggerDuration={0.025}
+          splitLevelClassName="overflow-hidden pb-0.5 sm:pb-1 md:pb-1"
+          transition={{ type: "spring", damping: 30, stiffness: 400 }}
+          rotationInterval={3500}
+        />
+        <Row center fillWidth paddingTop="12">
+          <Spinner size="xl" />
+        </Row>
+      </Column>
     );
   }
 

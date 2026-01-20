@@ -52,7 +52,7 @@ const HomeHeading = () => {
           horizontal="center"
           paddingBottom="16"
         >
-          <Heading wrap="balance" variant="display-strong-l">
+          <Heading id="home-headline" wrap="balance" variant="display-strong-l">
             {home.headline(
               translate("home.headline.0"),
               translate("home.headline.1"),

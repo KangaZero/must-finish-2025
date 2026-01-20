@@ -20,9 +20,10 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import "./MagicBento.css";
 import { Kbd, Button, Row } from "@once-ui-system/core";
-import { useAchievements } from "./AchievementsProvider";
+import { useAchievements } from "@/components/AchievementsProvider";
 import { projectCardData } from "@/resources";
 import Image from "next/image";
+import { GSDevTools } from "gsap/GSDevTools";
 
 export interface BentoCardProps {
   correctIndex: number;
@@ -64,8 +65,8 @@ const createParticleElement = (
   el.className = "particle";
   el.style.cssText = `
     position: absolute;
-    width: 4px;
-    height: 4px;
+    width: 2px;
+    height: 2px;
     border-radius: 50%;
     background: rgba(${color}, 1);
     box-shadow: 0 0 6px rgba(${color}, 0.6);
@@ -786,13 +787,11 @@ const MagicBento: React.FC<BentoProps> = ({
     return [];
   });
   const initialItems = projectCardData;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [isPuzzleSolved, setIsPuzzleSolved] = useState(false);
   const [isCardsCombined, setIsCardsCombined] = useState(false);
   // const [activeCard, setActiveCard] = useState<string | null>(null);
 
   const appearOneByOneCardAnimation = () => {
-    gsap.registerPlugin(ScrollTrigger);
+    gsap.registerPlugin(ScrollTrigger, GSDevTools);
     const grid = gridRef.current;
     if (!grid) return;
     const puzzleCards = grid.querySelectorAll<HTMLElement>(
@@ -889,40 +888,28 @@ const MagicBento: React.FC<BentoProps> = ({
         duration: 0.4,
         ease: "power2.in",
       },
-      0.6, // Start after the initial move
+      0.7, // Start after the initial move
     );
 
     // Reveal the combined card
     tl.fromTo(
       combinedCardRef.current,
       {
-        scale: 0.8,
+        scale: 0.2,
         opacity: 0,
         rotate: 0,
-        x: "-100vw",
-        y: 0,
+        x: 0,
+        y: -200,
       },
       {
         opacity: 1,
         scale: 1,
-        rotate: 360,
         x: 0,
-        keyframes: [
-          { y: -60, duration: 0.25, ease: "power1.out" }, // big bounce up
-          { y: 0, duration: 0.18, ease: "bounce.out" }, // land
-          { y: -35, duration: 0.18, ease: "power1.out" }, // medium bounce
-          { y: 0, duration: 0.13, ease: "bounce.out" }, // land
-          { y: -18, duration: 0.13, ease: "power1.out" }, // small bounce
-          { y: 0, duration: 0.09, ease: "bounce.out" }, // land
-          { y: -8, duration: 0.09, ease: "power1.out" }, // tiny bounce
-          { y: 0, duration: 0.07, ease: "bounce.out" }, // land
-          { y: -3, duration: 0.07, ease: "power1.out" }, // micro bounce
-          { y: 0, duration: 0.05, ease: "bounce.out" }, // final settle
-        ],
-        duration: 1.5,
-        ease: "power1.inOut",
+        y: 0,
+        duration: 0.5,
+        ease: "bounce.out",
       },
-      0.2,
+      1.4,
     );
     return () => {
       tl.kill();
@@ -939,7 +926,6 @@ const MagicBento: React.FC<BentoProps> = ({
       (item, index) => item.correctIndex !== index,
     );
     if (!isCorrectIndex) return;
-    setIsPuzzleSolved(true);
     transitionToSolvedCard();
   };
 
@@ -979,10 +965,9 @@ const MagicBento: React.FC<BentoProps> = ({
       ease: "power2.in",
       y: "-100dvh",
       onComplete: () => {
-        setIsCardsCombined(false);
-        setIsPuzzleSolved(false);
-        setItems(initialItems);
         appearOneByOneCardAnimation();
+        setIsCardsCombined(false);
+        setItems(initialItems);
       },
     });
   };

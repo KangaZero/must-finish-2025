@@ -6,6 +6,12 @@ const userLocation = getLocalTimeZone() || "Asia/Tokyo";
 //NOTE: keep the structure as close to content.tsx as possible
 // Keys (except person.languages) wrapped in arrays are used for ReactNode parameters or functions
 const en = {
+  loading: [
+    "Verifying",
+    "Did you know waiting causes time to pass",
+    "The English word 'water' is different in the Japanese language",
+    "It is impossible to open doors that are already open",
+  ],
   notFound: {
     heading: "Page Not Found",
     text: "The page you are looking for does not exist.",
@@ -120,10 +126,7 @@ const en = {
           ],
           images: [
             {
-              src: "/images/projects/project-01/cover-01.jpg",
               alt: "Once UI Project",
-              width: 16,
-              height: 9,
             },
           ],
         },

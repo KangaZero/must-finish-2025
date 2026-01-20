@@ -553,8 +553,8 @@ export const Header = () => {
             </Flex>
           )}
         </Flex>
+        <CustomHeadingNav />
       </Row>
-      <CustomHeadingNav />
     </>
   );
 };
