@@ -27,6 +27,7 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import "./MagicBento.css";
+import "@/components/ui/header-date.css";
 import {
   Dialog,
   Column,
@@ -573,9 +574,8 @@ const SortableCard: React.FC<{
   });
 
   const [isProjectCardOpen, setIsProjectCardOpen] = useState(false);
-  const [shouldFlip, setShouldFlip] = useState(false);
+  const [shouldFlip, setShouldFlip] = useState<boolean | "reverse">(false);
   const cardImageRef = useRef<HTMLDivElement>(null);
-  const cardDialogImageRef = useRef<HTMLDivElement>(null);
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
@@ -588,40 +588,99 @@ const SortableCard: React.FC<{
   }, []);
   useLayoutEffect(() => {
     const flipProjectImage = (retryCount = 0, retries = 5) => {
-      if (!shouldFlip || !cardImageRef.current) return;
+      if (!shouldFlip) return;
 
-      const projectCardDialog = document.querySelector(".project-card-dialog");
-      const projectCardDialogImageDiv = document.querySelector(
-        `.project-card-dialog-image.${id}`,
+      const projectCardDialog = document.getElementById("project-dialog");
+      //NOTE: These 3 elements are related to moving the image
+      const projectCardDialogImageDiv = document.getElementById(
+        `project-dialog-image-div-${id}`,
       );
-      const cardImageDiv = document.querySelector(
-        `.magic-bento-card__image.${id}`,
+      const originalImageDiv = document.getElementById(
+        `original-project-image-div-${id}`,
+      );
+      const originalImageElement = document.getElementById(
+        `original-image-${id}`,
       );
       if (!projectCardDialogImageDiv || !projectCardDialog) {
         if (retryCount >= retries) return;
         return setTimeout(() => flipProjectImage(retryCount + 1), 0);
       }
 
-      const cardImageState = Flip.getState(cardImageRef.current);
-      if (projectCardDialogImageDiv.firstChild && cardImageDiv) {
-        const projectCardImageState = Flip.getState(projectCardDialogImageDiv);
-        cardImageDiv.appendChild(projectCardDialogImageDiv.firstChild);
-        Flip.from(projectCardImageState, {
-          duration: 1,
-          scale: true,
-          ease: "power2.inout",
-        });
+      //NOTE: These 3 elements are related to moving the title
+      const originalTitleElement = document.getElementById(
+        `original-title-placement-${id}`,
+      );
+      const originalTitleDiv = document.getElementById(
+        `original_text_div-${id}`,
+      );
+      const dialogTitleElement = document.getElementById("dialog-title");
+
+      //NOTE: These 2 are related to moving the description
+      const originalDescriptionElement = document.getElementById(
+        `original-description-placement-${id}`,
+      );
+      const projectCardDialogDescriptionDiv = document.getElementById(
+        `project-dialog-description-div`,
+      );
+
+      const cardImageState = Flip.getState(originalImageElement);
+      const titleState = Flip.getState(originalTitleElement);
+      const descriptionState = Flip.getState(originalDescriptionElement);
+      if (
+        !originalImageElement ||
+        !originalImageDiv ||
+        !originalTitleElement ||
+        !originalTitleDiv ||
+        !dialogTitleElement ||
+        !originalDescriptionElement ||
+        !projectCardDialogDescriptionDiv
+      )
+        return;
+      if (shouldFlip === "reverse") {
+        projectCardDialog.classList.add("project-card-dialog--crumble");
+        originalImageElement.classList.toggle("dialog-image");
+        originalImageDiv.appendChild(originalImageElement);
+        originalTitleElement.classList.remove("dialog-title", "p5DateBox");
+        originalDescriptionElement.classList.remove(
+          "p5DateDay",
+          "p5DateMonthDay",
+        );
+        originalTitleDiv.prepend(
+          originalTitleElement,
+          originalDescriptionElement,
+        );
       } else {
-        projectCardDialogImageDiv.appendChild(cardImageRef.current);
-        Flip.from(cardImageState, {
-          duration: 1,
-          scale: true,
-          ease: "power2.inout",
-        });
+        projectCardDialogImageDiv.appendChild(originalImageElement);
+        originalImageElement.classList.toggle("dialog-image");
+        dialogTitleElement.appendChild(originalTitleElement);
+        originalTitleElement.classList.add("dialog-title", "p5DateBox");
+        projectCardDialogDescriptionDiv.appendChild(originalDescriptionElement);
+        originalDescriptionElement.classList.add("p5DateDay", "p5DateMonthDay");
       }
+      const baseDuration = 0.8;
+      Flip.from(titleState, {
+        duration: baseDuration,
+        scale: true,
+        ease: "back.out",
+      });
+      Flip.from(cardImageState, {
+        duration: baseDuration + 0.12,
+        scale: true,
+        ease: "back.out",
+      });
+      Flip.from(descriptionState, {
+        duration: baseDuration + 0.24,
+        scale: true,
+        ease: "back.out",
+        onComplete: () => {
+          if (shouldFlip !== "reverse") return;
+          setIsProjectCardOpen(false);
+        },
+      });
       setShouldFlip(false);
     };
     flipProjectImage();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shouldFlip]);
 
   if (enableStars) {
@@ -652,9 +711,11 @@ const SortableCard: React.FC<{
                   setShouldFlip(true);
                   setIsProjectCardOpen(true);
                 }}
-                className={`magic-bento-card__image ${id}`}
+                className={`magic-bento-card__image`}
+                id={`original-project-image-div-${id}`}
               >
                 <Image
+                  id={`original-image-${id}`}
                   src={card.image || ""}
                   alt={card.title || ""}
                   width={200}
@@ -662,9 +723,20 @@ const SortableCard: React.FC<{
                 />
               </div>
             </div>
-            <div className="magic-bento-card__content">
-              <h2 className="magic-bento-card__title">{card.title}</h2>
-              <p className="magic-bento-card__description">
+            <div
+              className="magic-bento-card__content"
+              id={`original_text_div-${id}`}
+            >
+              <h2
+                className="magic-bento-card__title"
+                id={`original-title-placement-${id}`}
+              >
+                {card.title}
+              </h2>
+              <p
+                className="magic-bento-card__description"
+                id={`original-description-placement-${id}`}
+              >
                 {card.description}
               </p>
             </div>
@@ -673,26 +745,30 @@ const SortableCard: React.FC<{
         <Dialog
           isOpen={isProjectCardOpen}
           onClose={() => {
-            setIsProjectCardOpen(false);
-            setShouldFlip(true);
+            setShouldFlip("reverse");
           }}
-          title="Customized dialog"
+          title=""
           border="info-alpha-weak"
+          id="project-dialog"
           className="project-card-dialog"
         >
           <Column fillWidth gap="16">
+            <div role="heading" aria-level={1} id={`dialog-title`}></div>
             <div
-              ref={cardDialogImageRef}
-              className={`project-card-dialog-image ${id}`}
+              className={`project-card-dialog-image`}
+              id={`project-dialog-image-div-${id}`}
             ></div>
-            <Feedback vertical="center" variant="info">
-              This dialog has custom styling applied through Flex props. You can
-              customize the background, border, and other properties.
-            </Feedback>
+            <Feedback
+              vertical="center"
+              variant="info"
+              id={`project-dialog-description-div`}
+            ></Feedback>
             <Text>Custom content can be added inside the dialog body.</Text>
             <Button
               variant="primary"
-              onClick={() => setIsProjectCardOpen(false)}
+              onPointerDown={() => {
+                setShouldFlip("reverse");
+              }}
             >
               Close
             </Button>
