@@ -83,6 +83,7 @@
 }
 
 .magic-bento-card__image {
+    cursor: pointer !important;
     display: flex;
     flex-direction: row;
     width: 100px;
@@ -276,4 +277,24 @@
 
 .magic-bento-card--combined .magic-bento-card__description {
     font-size: 16px;
+}
+
+.project-card-dialog {
+    /*position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);*/
+    z-index: 999;
+    min-width: 90dvw;
+    min-height: 90dvh;
+}
+
+.project-card__hidden {
+    display: hidden;
+}
+
+.project-card-dialog-image {
+    display: inline-flex;
+    height: 40dvh;
+    border: 1px solid var(--purple-border);
 }

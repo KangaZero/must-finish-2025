@@ -7,7 +7,6 @@ const userLocation = getLocalTimeZone() || "Asia/Tokyo";
 // Keys (except person.languages) wrapped in arrays are used for ReactNode parameters or functions
 const ja = {
   loading: [
-    "確認中",
     "生まれたことがある人の死亡率は１００％です",
     "「今日」という言葉は明日の前の日を意味します",
     "右利きの人は左利きではありません",

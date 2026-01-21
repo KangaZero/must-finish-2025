@@ -1,6 +1,14 @@
 "use client";
-import React, { useRef, useEffect, useCallback, useState } from "react";
+import React, {
+  useRef,
+  useEffect,
+  useCallback,
+  useState,
+  useLayoutEffect,
+} from "react";
 import { gsap } from "gsap";
+//NOTE: gsap/Flip is the actual path, though doesn't seem to be recognized by local machine
+import { Flip } from "gsap/all";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   DndContext,
@@ -19,7 +27,15 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import "./MagicBento.css";
-import { Kbd, Button, Row } from "@once-ui-system/core";
+import {
+  Dialog,
+  Column,
+  Feedback,
+  Text,
+  Kbd,
+  Button,
+  Row,
+} from "@once-ui-system/core";
 import { useAchievements } from "@/components/AchievementsProvider";
 import { projectCardData } from "@/resources";
 import Image from "next/image";
@@ -556,170 +572,288 @@ const SortableCard: React.FC<{
     id,
   });
 
+  const [isProjectCardOpen, setIsProjectCardOpen] = useState(false);
+  const [shouldFlip, setShouldFlip] = useState(false);
+  const cardImageRef = useRef<HTMLDivElement>(null);
+  const cardDialogImageRef = useRef<HTMLDivElement>(null);
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
     opacity: isDragging ? 0.5 : 1,
     cursor: "grab",
   };
+
+  useEffect(() => {
+    gsap.registerPlugin(Flip);
+  }, []);
+  useLayoutEffect(() => {
+    const flipProjectImage = (retryCount = 0, retries = 5) => {
+      if (!shouldFlip || !cardImageRef.current) return;
+
+      const projectCardDialog = document.querySelector(".project-card-dialog");
+      const projectCardDialogImageDiv = document.querySelector(
+        `.project-card-dialog-image.${id}`,
+      );
+      const cardImageDiv = document.querySelector(
+        `.magic-bento-card__image.${id}`,
+      );
+      if (!projectCardDialogImageDiv || !projectCardDialog) {
+        if (retryCount >= retries) return;
+        return setTimeout(() => flipProjectImage(retryCount + 1), 0);
+      }
+
+      const cardImageState = Flip.getState(cardImageRef.current);
+      if (projectCardDialogImageDiv.firstChild && cardImageDiv) {
+        const projectCardImageState = Flip.getState(projectCardDialogImageDiv);
+        cardImageDiv.appendChild(projectCardDialogImageDiv.firstChild);
+        Flip.from(projectCardImageState, {
+          duration: 1,
+          scale: true,
+          ease: "power2.inout",
+        });
+      } else {
+        projectCardDialogImageDiv.appendChild(cardImageRef.current);
+        Flip.from(cardImageState, {
+          duration: 1,
+          scale: true,
+          ease: "power2.inout",
+        });
+      }
+      setShouldFlip(false);
+    };
+    flipProjectImage();
+  }, [shouldFlip]);
+
   if (enableStars) {
     return (
-      <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-        <ParticleCard
-          {...cardProps}
-          disableAnimations={shouldDisableAnimations}
-          particleCount={particleCount}
-          glowColor={glowColor}
-          enableTilt={enableTilt}
-          clickEffect={clickEffect}
-          enableMagnetism={enableMagnetism}
+      <>
+        <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
+          <ParticleCard
+            {...cardProps}
+            disableAnimations={shouldDisableAnimations}
+            particleCount={particleCount}
+            glowColor={glowColor}
+            enableTilt={enableTilt}
+            clickEffect={clickEffect}
+            enableMagnetism={enableMagnetism}
+          >
+            <div className="magic-bento-card__header">
+              <div className="magic-bento-card__label">
+                <span>
+                  <Kbd className="mr-4">{card.correctIndex}</Kbd>
+                </span>
+                {card.label}
+              </div>
+              <div
+                ref={cardImageRef}
+                onPointerDown={() => {
+                  if (!cardImageRef.current) return;
+                  gsap.registerPlugin(Flip, GSDevTools);
+                  setShouldFlip(true);
+                  setIsProjectCardOpen(true);
+                }}
+                className={`magic-bento-card__image ${id}`}
+              >
+                <Image
+                  src={card.image || ""}
+                  alt={card.title || ""}
+                  width={200}
+                  height={200}
+                />
+              </div>
+            </div>
+            <div className="magic-bento-card__content">
+              <h2 className="magic-bento-card__title">{card.title}</h2>
+              <p className="magic-bento-card__description">
+                {card.description}
+              </p>
+            </div>
+          </ParticleCard>
+        </div>
+        <Dialog
+          isOpen={isProjectCardOpen}
+          onClose={() => {
+            setIsProjectCardOpen(false);
+            setShouldFlip(true);
+          }}
+          title="Customized dialog"
+          border="info-alpha-weak"
+          className="project-card-dialog"
         >
-          <div className="magic-bento-card__header">
-            <div className="magic-bento-card__label">
-              <span>
-                <Kbd className="mr-4">{card.correctIndex}</Kbd>
-              </span>
-              {card.label}
-            </div>
-            <div className="magic-bento-card__image">
-              <Image
-                src={card.image || ""}
-                alt={card.title || ""}
-                width={200}
-                height={200}
-              />
-            </div>
-          </div>
-          <div className="magic-bento-card__content">
-            <h2 className="magic-bento-card__title">{card.title}</h2>
-            <p className="magic-bento-card__description">{card.description}</p>
-          </div>
-        </ParticleCard>
-      </div>
+          <Column fillWidth gap="16">
+            <div
+              ref={cardDialogImageRef}
+              className={`project-card-dialog-image ${id}`}
+            ></div>
+            <Feedback vertical="center" variant="info">
+              This dialog has custom styling applied through Flex props. You can
+              customize the background, border, and other properties.
+            </Feedback>
+            <Text>Custom content can be added inside the dialog body.</Text>
+            <Button
+              variant="primary"
+              onClick={() => setIsProjectCardOpen(false)}
+            >
+              Close
+            </Button>
+          </Column>
+        </Dialog>
+      </>
     );
   }
 
-  return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      <div
-        {...cardProps}
-        ref={(el) => {
-          if (!el) return;
+  // return (
+  //   <>
+  //     <div
+  //       onPointerDown={() => {
+  //         setIsProjectCardOpen(true);
+  //       }}
+  //       ref={setNodeRef}
+  //       style={style}
+  //       {...attributes}
+  //       {...listeners}
+  //     >
+  //       <div
+  //         {...cardProps}
+  //         ref={(el) => {
+  //           if (!el) return;
 
-          // const handleMouseMove = (e: MouseEvent) => {
-          //   if (shouldDisableAnimations) return;
+  //           // const handleMouseMove = (e: MouseEvent) => {
+  //           //   if (shouldDisableAnimations) return;
 
-          //   const rect = el.getBoundingClientRect();
-          //   const x = e.clientX - rect.left;
-          //   const y = e.clientY - rect.top;
-          //   const centerX = rect.width / 2;
-          //   const centerY = rect.height / 2;
+  //           //   const rect = el.getBoundingClientRect();
+  //           //   const x = e.clientX - rect.left;
+  //           //   const y = e.clientY - rect.top;
+  //           //   const centerX = rect.width / 2;
+  //           //   const centerY = rect.height / 2;
 
-          //   if (enableTilt) {
-          //     const rotateX = ((y - centerY) / centerY) * -10;
-          //     const rotateY = ((x - centerX) / centerX) * 10;
-          //     gsap.to(el, {
-          //       rotateX,
-          //       rotateY,
-          //       duration: 0.1,
-          //       ease: "power2.out",
-          //       transformPerspective: 1000,
-          //     });
-          //   }
+  //           //   if (enableTilt) {
+  //           //     const rotateX = ((y - centerY) / centerY) * -10;
+  //           //     const rotateY = ((x - centerX) / centerX) * 10;
+  //           //     gsap.to(el, {
+  //           //       rotateX,
+  //           //       rotateY,
+  //           //       duration: 0.1,
+  //           //       ease: "power2.out",
+  //           //       transformPerspective: 1000,
+  //           //     });
+  //           //   }
 
-          //   if (enableMagnetism) {
-          //     const magnetX = (x - centerX) * 0.05;
-          //     const magnetY = (y - centerY) * 0.05;
-          //     gsap.to(el, {
-          //       x: magnetX,
-          //       y: magnetY,
-          //       duration: 0.3,
-          //       ease: "power2.out",
-          //     });
-          //   }
-          // };
+  //           //   if (enableMagnetism) {
+  //           //     const magnetX = (x - centerX) * 0.05;
+  //           //     const magnetY = (y - centerY) * 0.05;
+  //           //     gsap.to(el, {
+  //           //       x: magnetX,
+  //           //       y: magnetY,
+  //           //       duration: 0.3,
+  //           //       ease: "power2.out",
+  //           //     });
+  //           //   }
+  //           // };
 
-          const handleMouseLeave = () => {
-            if (shouldDisableAnimations) return;
+  //           const handleMouseLeave = () => {
+  //             if (shouldDisableAnimations) return;
 
-            if (enableTilt) {
-              gsap.to(el, {
-                rotateX: 0,
-                rotateY: 0,
-                duration: 0.3,
-                ease: "power2.out",
-              });
-            }
+  //             if (enableTilt) {
+  //               gsap.to(el, {
+  //                 rotateX: 0,
+  //                 rotateY: 0,
+  //                 duration: 0.3,
+  //                 ease: "power2.out",
+  //               });
+  //             }
 
-            if (enableMagnetism) {
-              gsap.to(el, {
-                x: 0,
-                y: 0,
-                duration: 0.3,
-                ease: "power2.out",
-              });
-            }
-          };
+  //             if (enableMagnetism) {
+  //               gsap.to(el, {
+  //                 x: 0,
+  //                 y: 0,
+  //                 duration: 0.3,
+  //                 ease: "power2.out",
+  //               });
+  //             }
+  //           };
 
-          const handleClick = (e: MouseEvent) => {
-            if (!clickEffect || shouldDisableAnimations) return;
+  //           const handleClick = (e: MouseEvent) => {
+  //             if (!clickEffect || shouldDisableAnimations) return;
 
-            const rect = el.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
+  //             const rect = el.getBoundingClientRect();
+  //             const x = e.clientX - rect.left;
+  //             const y = e.clientY - rect.top;
 
-            const maxDistance = Math.max(
-              Math.hypot(x, y),
-              Math.hypot(x - rect.width, y),
-              Math.hypot(x, y - rect.height),
-              Math.hypot(x - rect.width, y - rect.height),
-            );
+  //             const maxDistance = Math.max(
+  //               Math.hypot(x, y),
+  //               Math.hypot(x - rect.width, y),
+  //               Math.hypot(x, y - rect.height),
+  //               Math.hypot(x - rect.width, y - rect.height),
+  //             );
 
-            const ripple = document.createElement("div");
-            ripple.style.cssText = `
-              position: absolute;
-              width: ${maxDistance * 2}px;
-              height: ${maxDistance * 2}px;
-              border-radius: 50%;
-              background: radial-gradient(circle, rgba(${glowColor}, 0.4) 0%, rgba(${glowColor}, 0.2) 30%, transparent 70%);
-              left: ${x - maxDistance}px;
-              top: ${y - maxDistance}px;
-              pointer-events: none;
-              z-index: 1000;
-            `;
+  //             const ripple = document.createElement("div");
+  //             ripple.style.cssText = `
+  //             position: absolute;
+  //             width: ${maxDistance * 2}px;
+  //             height: ${maxDistance * 2}px;
+  //             border-radius: 50%;
+  //             background: radial-gradient(circle, rgba(${glowColor}, 0.4) 0%, rgba(${glowColor}, 0.2) 30%, transparent 70%);
+  //             left: ${x - maxDistance}px;
+  //             top: ${y - maxDistance}px;
+  //             pointer-events: none;
+  //             z-index: 1000;
+  //           `;
 
-            el.appendChild(ripple);
+  //             el.appendChild(ripple);
 
-            gsap.fromTo(
-              ripple,
-              {
-                scale: 0,
-                opacity: 1,
-              },
-              {
-                scale: 1,
-                opacity: 0,
-                duration: 0.8,
-                ease: "power2.out",
-                onComplete: () => ripple.remove(),
-              },
-            );
-          };
+  //             gsap.fromTo(
+  //               ripple,
+  //               {
+  //                 scale: 0,
+  //                 opacity: 1,
+  //               },
+  //               {
+  //                 scale: 1,
+  //                 opacity: 0,
+  //                 duration: 0.8,
+  //                 ease: "power2.out",
+  //                 onComplete: () => ripple.remove(),
+  //               },
+  //             );
+  //           };
 
-          el.addEventListener("mouseleave", handleMouseLeave);
-          el.addEventListener("click", handleClick);
-        }}
-      >
-        <div className="magic-bento-card__header">
-          <div className="magic-bento-card__label">{card.label}</div>
-        </div>
-        <div className="magic-bento-card__content">
-          <h2 className="magic-bento-card__title">{card.title}</h2>
-          <p className="magic-bento-card__description">{card.description}</p>
-        </div>
-      </div>
-    </div>
-  );
+  //           el.addEventListener("mouseleave", handleMouseLeave);
+  //           el.addEventListener("click", handleClick);
+  //         }}
+  //       >
+  //         <div className="magic-bento-card__header">
+  //           <div className="magic-bento-card__label">{card.label}</div>
+  //         </div>
+  //         <div className="magic-bento-card__content">
+  //           <h2 className="magic-bento-card__title">{card.title}</h2>
+  //           <p className="magic-bento-card__description">{card.description}</p>
+  //         </div>
+  //       </div>
+  //     </div>
+  //     <Dialog
+  //       isOpen={isProjectCardOpen}
+  //       onClose={() => setIsProjectCardOpen(false)}
+  //       title="Customized dialog"
+  //       maxWidth={48}
+  //       background="danger-weak"
+  //       border="danger-medium"
+  //     >
+  //       <Column fillWidth gap="16">
+  //         <Feedback vertical="center" variant="danger">
+  //           This dialog has custom styling applied through Flex props. You can
+  //           customize the background, border, and other properties.
+  //         </Feedback>
+  //         <Text onBackground="danger-weak">
+  //           Custom content can be added inside the dialog body.
+  //         </Text>
+  //         <Button variant="danger" onClick={() => setIsProjectCardOpen(false)}>
+  //           Close
+  //         </Button>
+  //       </Column>
+  //     </Dialog>
+  //   </>
+  // );
 };
 
 const BentoCardGrid: React.FC<{
@@ -791,7 +925,7 @@ const MagicBento: React.FC<BentoProps> = ({
   // const [activeCard, setActiveCard] = useState<string | null>(null);
 
   const appearOneByOneCardAnimation = () => {
-    gsap.registerPlugin(ScrollTrigger, GSDevTools);
+    gsap.registerPlugin(ScrollTrigger);
     const grid = gridRef.current;
     if (!grid) return;
     const puzzleCards = grid.querySelectorAll<HTMLElement>(
