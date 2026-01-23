@@ -13,7 +13,6 @@ import { AchievementsProvider } from "./AchievementsProvider";
 import { ConsoleCommandProvider } from "./ConsoleCommandProvider";
 import { LocaleProvider } from "./LocaleProvider";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
-
 export function Providers({
   children,
   lang,

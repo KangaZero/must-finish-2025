@@ -23,31 +23,3 @@
         bottom: 0;
     }
 }
-
-.menuItems {
-    transition:
-        width 0.3s ease,
-        opacity 0.3s ease;
-    overflow: auto;
-    scrollbar-width: none;
-    display: flex;
-    align-items: center;
-    max-width: 37dvw;
-    opacity: 1;
-}
-.menuVisible {
-    opacity: 1;
-    transform: translateX(0px);
-    pointer-events: auto;
-}
-.menuHidden {
-    opacity: 0;
-    width: 0;
-    transform: translateX(-20px);
-    pointer-events: none;
-}
-@media (max-width: 599px) {
-    .hideElementOnMobile {
-        display: none;
-    }
-}

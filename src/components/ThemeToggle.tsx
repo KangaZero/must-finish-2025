@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { Icon, ToggleButton, useTheme } from "@once-ui-system/core";
 import { useAchievements } from "./AchievementsProvider";
 
-export const ThemeToggle: React.FC = () => {
+export const ThemeToggle: React.FC<{ className: string }> = ({ className }) => {
   const { theme, setTheme } = useTheme();
   const { unlockAchievement } = useAchievements();
   const [, setMounted] = useState(false);
@@ -44,6 +44,7 @@ export const ThemeToggle: React.FC = () => {
 
   return (
     <ToggleButton
+      className={className}
       onPointerDown={() => {
         setTheme(nextTheme);
         unlockAchievement("Eos");

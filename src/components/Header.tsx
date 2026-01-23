@@ -1,20 +1,14 @@
 "use client";
 
-import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import {
   Fade,
-  Line,
   Row,
   Flex,
   Column,
-  ToggleButton,
-  Animation,
-  IconButton,
   HoverCard,
   Avatar,
   Text,
-  StyleOverlay,
   useTheme,
 } from "@once-ui-system/core";
 import {
@@ -27,17 +21,16 @@ import {
   MapLocateControl,
 } from "@/components/ui/map";
 import { HeaderDate } from "@/components/ui/header-date";
-import { routes, display, person, headerHoverCardDetails } from "@/resources";
+import { HeaderDock } from "@/components/HeaderDock";
+import { display, person, headerHoverCardDetails } from "@/resources";
 import { gsap } from "gsap";
 import ScrambleTextPlugin from "gsap/ScrambleTextPlugin";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ThemeToggle } from "./ThemeToggle";
 import styles from "./Header.module.scss";
 import React from "react";
 import { CustomHeadingNav } from "./CustomHeadingNav";
 import { useLocale } from "@/components/LocaleProvider";
 import { useAchievements } from "@/components/AchievementsProvider";
-import { useToast } from "@once-ui-system/core";
 import TrophiesDisplay from "./ui/trophies-display";
 
 type TimeDisplayProps = {
@@ -76,15 +69,13 @@ const TimeDisplay: React.FC<TimeDisplayProps> = ({
 export default TimeDisplay;
 
 export const Header = () => {
-  const { addToast } = useToast();
-  const { translate, locale, setLocaleCookieAndState } = useLocale();
+  const { translate, locale } = useLocale();
   const {
     // achievements: achievementsFromProvider,
     unlockAchievement,
     achievementsCount,
   } = useAchievements();
   const hoverCardDescriptionRef = useRef<HTMLSpanElement>(null);
-  const pathname = usePathname() ?? "";
   const { theme } = useTheme();
   useEffect(() => {
     const lightThemeBtnElement = document.querySelector(
@@ -171,8 +162,6 @@ export const Header = () => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locale]);
-
-  const [hideMenu, setHideMenu] = useState(false);
 
   return (
     <>
@@ -291,239 +280,7 @@ export const Header = () => {
           </Flex>
         </Row>
 
-        <Row fillWidth horizontal="center">
-          <Row
-            background="page"
-            border="neutral-alpha-weak"
-            radius="m-4"
-            shadow="l"
-            padding="4"
-            horizontal="center"
-            zIndex={1}
-          >
-            <Row
-              gap="4"
-              vertical="center"
-              textVariant="body-default-s"
-              suppressHydrationWarning
-            >
-              {routes["/"] && (
-                <>
-                  <Row s={{ hide: true }}>
-                    <Animation
-                      blur={8}
-                      triggerType="hover"
-                      center
-                      duration={400}
-                      trigger={
-                        <ToggleButton
-                          prefixIcon="home"
-                          href={`/${locale}`}
-                          disabled={pathname === `/${locale}`}
-                          selected={pathname === `/${locale}`}
-                        />
-                      }
-                    >
-                      <ToggleButton
-                        prefixIcon="home"
-                        href={`/${locale}`}
-                        disabled={pathname === `/${locale}`}
-                        selected={pathname === `/${locale}`}
-                      />
-                    </Animation>
-                  </Row>
-                  <Row hide s={{ hide: false }}>
-                    <ToggleButton
-                      prefixIcon="home"
-                      href={`/${locale}`}
-                      disabled={pathname === `/${locale}`}
-                      selected={pathname === `/${locale}`}
-                    />
-                  </Row>
-                </>
-              )}
-              <Row
-                className={`${styles.menuItems} ${hideMenu ? styles.menuHidden : styles.menuVisible}`}
-              >
-                <Line
-                  background="neutral-alpha-medium"
-                  vert
-                  maxHeight="24"
-                  s={{ hide: true }}
-                />
-                {routes["/about"] && (
-                  <>
-                    <Row s={{ hide: true }}>
-                      <ToggleButton
-                        prefixIcon="person"
-                        label={translate("about.label")}
-                        href={`/${locale}/about`}
-                        disabled={pathname === `/${locale}/about`}
-                        selected={pathname === `/${locale}/about`}
-                      />
-                    </Row>
-                    <Row hide s={{ hide: false }}>
-                      <ToggleButton
-                        prefixIcon="person"
-                        href={`/${locale}/about`}
-                        disabled={pathname === `/${locale}/about`}
-                        selected={pathname === `/${locale}/about`}
-                      />
-                    </Row>
-                  </>
-                )}
-                {routes["/work"] && (
-                  <>
-                    <Row s={{ hide: true }}>
-                      <ToggleButton
-                        prefixIcon="grid"
-                        label={translate("work.label")}
-                        href={`/${locale}/work`}
-                        disabled={pathname === `/${locale}/work`}
-                        selected={pathname.startsWith(`/${locale}/work`)}
-                      />
-                    </Row>
-                    <Row hide s={{ hide: false }}>
-                      <ToggleButton
-                        prefixIcon="grid"
-                        href={`/${locale}/work`}
-                        disabled={pathname === `/${locale}/work`}
-                        selected={pathname.startsWith(`/${locale}/work`)}
-                      />
-                    </Row>
-                  </>
-                )}
-                {routes["/blog"] && (
-                  <>
-                    <Row s={{ hide: true }}>
-                      <ToggleButton
-                        prefixIcon="book"
-                        label={translate("blog.label")}
-                        href={`/${locale}/blog`}
-                        disabled={pathname === `/${locale}/blog`}
-                        selected={pathname.startsWith(`/${locale}/blog`)}
-                      />
-                    </Row>
-                    <Row hide s={{ hide: false }}>
-                      <ToggleButton
-                        prefixIcon="book"
-                        href={`/${locale}/blog`}
-                        disabled={pathname === `/${locale}/blog`}
-                        selected={pathname.startsWith(`/${locale}/blog`)}
-                      />
-                    </Row>
-                  </>
-                )}
-                {routes["/achievements"] && (
-                  <>
-                    <Row s={{ hide: true }}>
-                      <ToggleButton
-                        prefixIcon="trophy"
-                        label={translate("achievements.label")}
-                        href={`/${locale}/achievements`}
-                        disabled={pathname.startsWith(
-                          `/${locale}/achievements`,
-                        )}
-                        selected={pathname.startsWith(
-                          `/${locale}/achievements`,
-                        )}
-                      />
-                    </Row>
-                    <Row hide s={{ hide: false }}>
-                      <ToggleButton
-                        prefixIcon="trophy"
-                        href={`/${locale}/achievements`}
-                        disabled={pathname.startsWith(
-                          `/${locale}/achievements`,
-                        )}
-                        selected={pathname.startsWith(
-                          `/${locale}/achievements`,
-                        )}
-                      />
-                    </Row>
-                  </>
-                )}
-                {routes["/gallery"] && (
-                  <>
-                    <Row s={{ hide: true }}>
-                      <ToggleButton
-                        prefixIcon="gallery"
-                        label={translate("gallery.label")}
-                        href={`/${locale}/gallery`}
-                        disabled={pathname.startsWith(`/${locale}/gallery`)}
-                        selected={pathname.startsWith(`/${locale}/gallery`)}
-                      />
-                    </Row>
-                    <Row hide s={{ hide: false }}>
-                      <ToggleButton
-                        prefixIcon="gallery"
-                        href={`/${locale}/gallery`}
-                        disabled={pathname.startsWith(`/${locale}/gallery`)}
-                        selected={pathname.startsWith(`/${locale}/gallery`)}
-                      />
-                    </Row>
-                  </>
-                )}
-              </Row>
-              {display.themeSwitcher && (
-                <>
-                  <Line background="neutral-alpha-medium" vert maxHeight="24" />
-                  <ThemeToggle />
-                </>
-              )}
-              {display.localeSwitcher && (
-                <>
-                  <IconButton
-                    tooltip={
-                      locale === "en" ? "日本語に切り替える" : "Set to English"
-                    }
-                    icon={locale === "en" ? "englishInput" : "languageHiragana"}
-                    variant="ghost"
-                    onPointerDown={() => {
-                      setLocaleCookieAndState(locale === "en" ? "ja" : "en");
-                      addToast({
-                        variant: "success",
-                        message:
-                          locale === "en"
-                            ? "日本語に切り替えました"
-                            : "Switched to English",
-                      });
-                    }}
-                  />
-                </>
-              )}
-              <Line
-                className={styles.hideElementOnMobile}
-                background="neutral-alpha-medium"
-                vert
-                maxHeight="24"
-              />
-              <StyleOverlay minHeight={25} overflowY="auto">
-                <IconButton
-                  className={styles.hideElementOnMobile}
-                  tooltip="Open style settings"
-                  icon="sun"
-                  variant="ghost"
-                  //NOTE: full menu needs to be shown else the screen size is too small to access the style settings
-                  onPointerDown={() => {
-                    setHideMenu(false);
-                  }}
-                />
-              </StyleOverlay>
-              {display.menuAccordion && (
-                <>
-                  <Line background="neutral-alpha-medium" vert maxHeight="24" />
-                  <ToggleButton
-                    prefixIcon={hideMenu ? "chevronRight" : "chevronLeft"}
-                    onPointerDown={() => setHideMenu(!hideMenu)}
-                    aria-label="Toggle menu"
-                  />
-                </>
-              )}
-            </Row>
-          </Row>
-        </Row>
-
+        <HeaderDock />
         <Flex fillWidth horizontal="end" vertical="center">
           {display.time && (
             <Flex
