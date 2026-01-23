@@ -3,17 +3,12 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { protectedRoutes, routes } from "@/resources";
-import {
-  Row,
-  Spinner,
-  Button,
-  Heading,
-  Column,
-  PasswordInput,
-} from "@once-ui-system/core";
+import { Button, Heading, Column, PasswordInput } from "@once-ui-system/core";
 import NotFound from "@/app/[lang]/not-found";
 import RotatingText from "@/components/ui/RotatingText";
 import { useLocale } from "@/components/LocaleProvider";
+import { getVisitCountCookieFromClient } from "@/utils/getVisitCountCookieFromClient";
+import StartTerminal from "./StartTerminal";
 
 interface RouteGuardProps {
   children: React.ReactNode;
@@ -28,6 +23,8 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
   const [loading, setLoading] = useState(true);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const visitCountCookieCount = getVisitCountCookieFromClient();
 
   useEffect(() => {
     const performChecks = async () => {
@@ -105,9 +102,10 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
     }
   };
 
+  // if (loading || !visitCountCookieCount) {
   if (loading) {
     return (
-      <Column fillWidth paddingY="128" horizontal="center">
+      <Column fillWidth paddingY="128">
         <RotatingText
           texts={[
             translate("loading.0"),
@@ -124,9 +122,7 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
           transition={{ type: "spring", damping: 30, stiffness: 400 }}
           rotationInterval={3500}
         />
-        <Row center fillWidth paddingTop="12">
-          <Spinner size="xl" />
-        </Row>
+        <StartTerminal />
       </Column>
     );
   }

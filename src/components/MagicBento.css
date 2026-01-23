@@ -361,10 +361,15 @@
 
 .project-card-dialog {
     transform: scale(0.01);
-    animation: growOutwards 0.5s cubic-bezier(0.6, -0.28, 0.735, 0.045) forwards;
+    animation: growOutwards 1s cubic-bezier(0.6, -0.28, 0.735, 0.045) forwards;
     z-index: 999;
-    min-width: 90dvw;
-    min-height: 90dvh;
+    min-width: 60dvw;
+    min-height: 60dvh;
+}
+
+#project-dialog-description-div {
+    text-align: start;
+    text-wrap: auto;
 }
 
 @keyframes crumbleAndFade {

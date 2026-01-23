@@ -1,4 +1,12 @@
-@import "tailwindcss";
+/*FOR css light-dark() to work forcibly*/
+[data-theme="light"] {
+    color-scheme: light;
+}
+
+[data-theme="dark"] {
+    color-scheme: dark;
+}
+/*@import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
@@ -169,4 +177,4 @@
     .leaflet-edit-marker-selected {
         @apply !border-transparent !bg-transparent;
     }
-}
+}*/

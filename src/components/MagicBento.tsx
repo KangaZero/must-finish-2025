@@ -602,7 +602,8 @@ const SortableCard: React.FC<{
         `original-image-${id}`,
       );
       if (!projectCardDialogImageDiv || !projectCardDialog) {
-        if (retryCount >= retries) return;
+        if (retryCount >= retries)
+          return setIsProjectCardOpen(!isProjectCardOpen);
         return setTimeout(() => flipProjectImage(retryCount + 1), 0);
       }
 
@@ -635,12 +636,13 @@ const SortableCard: React.FC<{
         !originalDescriptionElement ||
         !projectCardDialogDescriptionDiv
       )
-        return;
+        //Default to just closing the dialog if elements not found
+        return setIsProjectCardOpen(!isProjectCardOpen);
       if (shouldFlip === "reverse") {
         projectCardDialog.classList.add("project-card-dialog--crumble");
         originalImageElement.classList.toggle("dialog-image");
         originalImageDiv.appendChild(originalImageElement);
-        originalTitleElement.classList.remove("dialog-title", "p5DateBox");
+        originalTitleElement.classList.remove("dialog-title");
         originalDescriptionElement.classList.remove(
           "p5DateDay",
           "p5DateMonthDay",
@@ -653,7 +655,7 @@ const SortableCard: React.FC<{
         projectCardDialogImageDiv.appendChild(originalImageElement);
         originalImageElement.classList.toggle("dialog-image");
         dialogTitleElement.appendChild(originalTitleElement);
-        originalTitleElement.classList.add("dialog-title", "p5DateBox");
+        originalTitleElement.classList.add("dialog-title");
         projectCardDialogDescriptionDiv.appendChild(originalDescriptionElement);
         originalDescriptionElement.classList.add("p5DateDay", "p5DateMonthDay");
       }
@@ -753,16 +755,18 @@ const SortableCard: React.FC<{
           className="project-card-dialog"
         >
           <Column fillWidth gap="16">
-            <div role="heading" aria-level={1} id={`dialog-title`}></div>
             <div
               className={`project-card-dialog-image`}
               id={`project-dialog-image-div-${id}`}
             ></div>
+            <div role="heading" aria-level={1} id={`dialog-title`}></div>
             <Feedback
               vertical="center"
               variant="info"
               id={`project-dialog-description-div`}
-            ></Feedback>
+            >
+              {card.description}
+            </Feedback>
             <Text>Custom content can be added inside the dialog body.</Text>
             <Button
               variant="primary"
