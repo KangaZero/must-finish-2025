@@ -71,6 +71,7 @@ import {
   IoIosCloudyNight,
   IoIosCloudy,
   IoIosRainy,
+  IoMdTime,
 } from "react-icons/io";
 
 export const iconLibrary = {
@@ -116,6 +117,7 @@ export const iconLibrary = {
   whatsapp: FaWhatsapp,
   reddit: FaReddit,
   telegram: FaTelegram,
+  time: IoMdTime,
   instagram: FaInstagram,
   sun: FaRegSun,
   ioiosSunny: IoIosSunny,

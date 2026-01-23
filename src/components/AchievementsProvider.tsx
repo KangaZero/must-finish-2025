@@ -77,6 +77,18 @@ export const AchievementsProvider = ({
   );
   const [currentAchievementUnlocked, setCurrentAchievementUnlocked] =
     useState<null | Achievement>(null);
+  //   //TODO replace after testing is done
+  //   achievements
+  //     .map((ach) => {
+  //       return {
+  //         ...ach,
+  //         isUnlocked: true,
+  //         unlockedAt: new Date(),
+  //         split: 21000, //21s
+  //       };
+  //     })
+  //     .find((a) => a.title === "Go Touch Grass") || null,
+  // );
   const [unlockSandMandala, setUnlockSandMandala] = useState(false);
 
   const unlockAchievement = useCallback(
