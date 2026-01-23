@@ -1,4 +1,5 @@
-import { Achievement } from "@/types";
+import "./achievement-card.css";
+import { Achievement, AchievementTitle } from "@/types";
 import { achievementTrophyMapping } from "@/resources";
 import {
   Line,
@@ -59,6 +60,11 @@ export const AchievementCard = ({
           fillHeight
           radius="l-4"
           direction="column"
+          className={
+            title === ("???" as AchievementTitle) || title === "Speedophile"
+              ? "negative-achievement-card"
+              : ""
+          }
           // border="neutral-alpha-medium"
           style={{
             // background: isUnlocked

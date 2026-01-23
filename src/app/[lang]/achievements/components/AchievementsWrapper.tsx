@@ -17,6 +17,7 @@ import SearchBar from "./SearchBar";
 import { useState, useRef } from "react";
 import type { PointerEvent } from "react";
 import type { Achievement } from "@/types";
+import { negativeAchievement } from "@/resources";
 
 export default function AchievementsWrapper() {
   const { achievements, achievementsCount } = useAchievements();
@@ -42,7 +43,27 @@ export default function AchievementsWrapper() {
   >([]);
   const achievementsGridRef = useRef<HTMLDivElement>(null);
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
-  const filteredAchievements = achievements.filter(
+  // Check if all achievements except "Speedophile" are unlocked.
+  // // "Speedophile may have already been unlocked, so that check is also added"
+  const isAllVisibleAchievementsUnlocked =
+    achievements.filter(
+      (achievement) =>
+        achievement.isUnlocked && achievement.title !== "Speedophile",
+    ).length === achievements.length;
+  // If all visible achievements are unlocked, include the negative achievement with its title & description, as it will show as ???
+  const achievementsToDisplay = isAllVisibleAchievementsUnlocked
+    ? [...achievements, negativeAchievement]
+    : ([
+        ...achievements,
+        {
+          id: -99,
+          title: "???",
+          description: "??????",
+          rarity: "mythic",
+          isUnlocked: false,
+        },
+      ] as Achievement[]);
+  const filteredAchievements = achievementsToDisplay.filter(
     (achievement) =>
       achievement.title
         .toLowerCase()
