@@ -1,3 +1,4 @@
+import { getCurrentYear } from "@/utils/getCurrentYear";
 import { getLocalTimeZone } from "@/utils/getLocalTimeZone";
 import { getPersonsCurrentStatus } from "@/utils/getPersonsCurrentStatus";
 
@@ -75,9 +76,9 @@ const ja = {
   home: {
     code: `// Aboutページに移動するには、ブラウザのコンソールに以下を入力してください:\nwindow.location.href = '/about';`,
     headline: [
-      "創造力と技術の融合",
-      "次世代フロントエンド開発",
-      "あなたのアイデアを形に",
+      "Samuel Wai Weng Yongの",
+      "ポートフォリオ",
+      `令和：${getCurrentYear("ja")}年`,
     ],
     subline: ["作成者"],
     projects: "プロジェクト",

@@ -28,7 +28,7 @@ import ScrambleTextPlugin from "gsap/ScrambleTextPlugin";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import styles from "./Header.module.scss";
 import React from "react";
-import { CustomHeadingNav } from "./CustomHeadingNav";
+// import { CustomHeadingNav } from "./CustomHeadingNav";
 import { useLocale } from "@/components/LocaleProvider";
 import { useAchievements } from "@/components/AchievementsProvider";
 import TrophiesDisplay from "./ui/trophies-display";
@@ -310,7 +310,8 @@ export const Header = () => {
             </Flex>
           )}
         </Flex>
-        <CustomHeadingNav />
+        {/*TODO FIx the styling and positioning*/}
+        {/*<CustomHeadingNav />*/}
       </Row>
     </>
   );

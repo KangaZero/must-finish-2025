@@ -3,7 +3,7 @@
  * Returns undefined if the cookie is not set, not a number, or is invalid.
  */
 export function getVisitCountCookieFromClient() {
-  if (!document) return;
+  if (typeof document === "undefined") return;
   const match = document.cookie.match(/(?:^|; )VISIT_COUNT=([^;]*)/);
   //WARNING: The user can manually change the cookie, so to make sure no funny business happens this check is added
   return match

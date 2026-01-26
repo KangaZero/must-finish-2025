@@ -1,5 +1,6 @@
 import { getLocalTimeZone } from "@/utils/getLocalTimeZone";
 import { getPersonsCurrentStatus } from "@/utils/getPersonsCurrentStatus";
+import { getCurrentYear } from "@/utils/getCurrentYear";
 
 const userLocation = getLocalTimeZone() || "Asia/Tokyo";
 //WARNING: Following used for metaData: Don't add for title, description, baseURL, path, image
@@ -76,7 +77,7 @@ const en = {
   },
   home: {
     code: `// To visit the About page, type this in your browser console:\nwindow.location.href = '/about';`,
-    headline: ["Generic Portfolio", "Generic", "Look"],
+    headline: ["Samuel Wai Weng Yong", "Portfolio", `${getCurrentYear("en")}`],
     subline: ["Created by"],
     projects: "Projects",
   },

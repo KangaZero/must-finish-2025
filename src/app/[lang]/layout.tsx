@@ -207,13 +207,15 @@ export default async function RootLayout({
             />
           </RevealFx>
           <Flex fillWidth minHeight="16" s={{ hide: true }} />
-          <Header />
-          <AchievementToast position="top-right" />
-          <Flex zIndex={0} fillWidth padding="l" horizontal="center" flex={1}>
-            <Flex horizontal="center" fillWidth minHeight="0">
-              <RouteGuard>{children}</RouteGuard>
+          <RouteGuard>
+            <Header />
+            <AchievementToast position="top-right" />
+            <Flex zIndex={0} fillWidth padding="l" horizontal="center" flex={1}>
+              <Flex horizontal="center" fillWidth minHeight="0">
+                {children}
+              </Flex>
             </Flex>
-          </Flex>
+          </RouteGuard>
           <Footer />
         </Column>
       </Providers>

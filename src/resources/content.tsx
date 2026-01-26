@@ -209,7 +209,8 @@ const home: Home = {
     <Text>
       {text1}
       <br />
-      {text2}{" "}
+      {text2}
+      <br />
       <LetterFx
         speed="slow"
         trigger="instant"

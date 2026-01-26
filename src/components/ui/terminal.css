@@ -1,0 +1,154 @@
+.animated-span {
+    display: grid;
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: -0.025rem;
+}
+
+.terminal-container {
+    border: 1px solid var(--border);
+    z-index: 0;
+    height: 100%;
+    max-height: 400px;
+    width: 100%;
+    min-width: 300px;
+    max-width: 90dvw; /* max-w-lg */
+    border-radius: 0.75rem; /* rounded-xl */
+}
+
+.terminal-header {
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 0.5rem; /* gap-y-2 */
+    padding: 1rem; /* p-4 */
+}
+
+.terminal-header-end {
+    display: flex;
+    align-items: start;
+}
+
+.terminal-dot-group {
+    display: flex;
+    gap: 0.5rem; /* gap-x-2 */
+}
+.terminal-dot {
+    height: 0.7rem; /* h-2 */
+    width: 0.7rem; /* w-2 */
+    font-size: 0.6rem;
+    line-height: 3;
+    border-radius: 9999px; /* rounded-full */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @media (max-width: 599px) {
+        height: 1rem; /* h-1.5 */
+        font-size: 0.75rem;
+        width: 1rem; /* w-1.5 */
+    }
+}
+
+.terminal-dot:hover {
+    filter: brightness(0.6);
+    cursor: pointer;
+    scale: 1.2;
+    transition: all 0.2s ease-in-out;
+}
+.bg-red-500 {
+    background: #ef4444;
+}
+.bg-yellow-500 {
+    background: #f59e42;
+}
+.bg-green-500 {
+    background: #22c55e;
+}
+
+.text-green-500 {
+    color: #22c55e;
+}
+
+.text-muted {
+    filter: brightness(0.7);
+}
+
+.terminal-code-area {
+    padding: 0.4rem;
+    padding-top: 1rem;
+    margin: 0;
+}
+.terminal-code {
+    scrollbar-width: none;
+    min-height: 200px;
+    display: grid;
+    gap: 0.25rem;
+    padding-left: 0.3rem;
+    overflow: auto;
+}
+
+.terminal-input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.terminal-input-native {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    width: 100%;
+    left: 0;
+    top: 0;
+}
+
+.terminal-input-display {
+    font-family: inherit;
+    font-size: 1rem;
+    color: var(--foreground);
+    background: transparent;
+    border: none;
+    outline: none;
+    width: 100%;
+    padding: 0.2rem 0;
+    white-space: pre;
+    position: relative;
+}
+
+.custom-caret {
+    display: inline-block;
+    width: 1ch;
+    height: 1.2em;
+    background: none;
+    border-left: 5px solid #22c55e; /* green caret, adjust as needed */
+    filter: brightness(0.8);
+    margin-left: -1px;
+    vertical-align: bottom;
+    content: "";
+}
+
+.custom-caret.blink {
+    animation: blink-caret 1s steps(1) infinite;
+}
+
+@keyframes blink-caret {
+    0%,
+    50% {
+        opacity: 1;
+    }
+    51%,
+    100% {
+        opacity: 0;
+    }
+}
+
+#terminal-send-btn {
+    transition: all 0.2s ease-in-out;
+}
+
+#terminal-send-btn:hover {
+    filter: brightness(0.8);
+    scale: 1.1;
+}

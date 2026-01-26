@@ -7,7 +7,7 @@
 // }
 
 export function getLocaleCookieFromClient() {
-  if (!document) return;
+  if (typeof document === "undefined") return;
   const match = document.cookie.match(/(?:^|; )NEXT_LOCALE=([^;]*)/);
   //WARNING: The user can manually change the cookie, so to make sure no funny business happens this check is added
   return match && (match[1] === "ja" || match[1] === "en")

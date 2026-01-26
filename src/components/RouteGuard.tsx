@@ -3,10 +3,16 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { protectedRoutes, routes } from "@/resources";
-import { Button, Heading, Column, PasswordInput } from "@once-ui-system/core";
+import {
+  Row,
+  Button,
+  Heading,
+  Column,
+  PasswordInput,
+} from "@once-ui-system/core";
 import NotFound from "@/app/[lang]/not-found";
-import RotatingText from "@/components/ui/RotatingText";
-import { useLocale } from "@/components/LocaleProvider";
+// import RotatingText from "@/components/ui/RotatingText";
+// import { useLocale } from "@/components/LocaleProvider";
 import { getVisitCountCookieFromClient } from "@/utils/getVisitCountCookieFromClient";
 import StartTerminal from "./StartTerminal";
 
@@ -16,7 +22,7 @@ interface RouteGuardProps {
 
 const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
   const pathname = usePathname();
-  const { translate } = useLocale();
+  // const { translate } = useLocale();
   const [isRouteEnabled, setIsRouteEnabled] = useState(false);
   const [isPasswordRequired, setIsPasswordRequired] = useState(false);
   const [password, setPassword] = useState("");
@@ -102,27 +108,29 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
     }
   };
 
-  // if (loading || !visitCountCookieCount) {
-  if (loading) {
+  if (loading || !visitCountCookieCount) {
+    // if (loading) {
     return (
       <Column fillWidth paddingY="128">
-        <RotatingText
+        {/*<RotatingText
           texts={[
             translate("loading.0"),
             translate("loading.1"),
             translate("loading.2"),
           ]}
-          mainClassName="px-2 sm:px-2 md:px-3 bg-cyan-300 text-black overflow-hidden py-0.5 sm:py-1 md:py-2 justify-center rounded-lg"
+          mainClassName="px-2 sm:px-2 md:px-3 bg-cyan-300 text-black overflow-hidden py-2 sm:py-1 md:py-2 justify-center rounded-lg"
           staggerFrom={"last"}
           initial={{ y: "100%" }}
           animate={{ y: 0 }}
           exit={{ y: "-100%" }}
           staggerDuration={0.025}
-          splitLevelClassName="overflow-hidden pb-0.5 sm:pb-1 md:pb-1"
+          splitLevelClassName="overflow-hidden pb-1.5 sm:pb-1 md:pb-1"
           transition={{ type: "spring", damping: 30, stiffness: 400 }}
           rotationInterval={3500}
-        />
-        <StartTerminal />
+        />*/}
+        <Row center fill marginTop="64">
+          <StartTerminal />
+        </Row>
       </Column>
     );
   }

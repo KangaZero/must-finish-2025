@@ -67,11 +67,13 @@ import {
 import { FaShareAlt, FaCloud, FaGitAlt, FaSnowflake } from "react-icons/fa";
 import {
   IoIosSunny,
+  IoMdClose,
   IoMdPartlySunny,
   IoIosCloudyNight,
   IoIosCloudy,
   IoIosRainy,
   IoMdTime,
+  IoMdSend,
 } from "react-icons/io";
 
 export const iconLibrary = {
@@ -79,6 +81,7 @@ export const iconLibrary = {
   arrowRight: HiArrowRight,
   bash: SiGnubash,
   cloud: FaCloud,
+  close: IoMdClose,
   email: HiEnvelope,
   globe: HiOutlineGlobeAsiaAustralia,
   person: PiUserCircleDuotone,
@@ -105,6 +108,7 @@ export const iconLibrary = {
   javascript: SiJavascript,
   typescript: SiTypescript,
   rust: FaRust,
+  send: IoMdSend,
   goLang: FaGolang,
   vuejs: FaVuejs,
   vim: SiVim,

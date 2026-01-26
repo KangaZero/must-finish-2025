@@ -14,12 +14,11 @@ import {
 import { useLocale } from "@/components/LocaleProvider";
 import { useState, useEffect } from "react";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { useToast } from "@once-ui-system/core";
+import { LocaleToggle } from "@/components/LocaleToggle";
 
 const HeaderDock = () => {
   const pathname = usePathname() ?? "";
-  const { translate, locale, setLocaleCookieAndState } = useLocale();
-  const { addToast } = useToast();
+  const { translate, locale } = useLocale();
   const [hideMenu, setHideMenu] = useState(false);
   const [chevronAnimating, setChevronAnimating] = useState(false);
 
@@ -241,24 +240,7 @@ const HeaderDock = () => {
           )}
           {display.localeSwitcher && (
             <>
-              <IconButton
-                className="menuIcon"
-                tooltip={
-                  locale === "en" ? "日本語に切り替える" : "Set to English"
-                }
-                icon={locale === "en" ? "englishInput" : "languageHiragana"}
-                variant="ghost"
-                onPointerDown={() => {
-                  setLocaleCookieAndState(locale === "en" ? "ja" : "en");
-                  addToast({
-                    variant: "success",
-                    message:
-                      locale === "en"
-                        ? "日本語に切り替えました"
-                        : "Switched to English",
-                  });
-                }}
-              />
+              <LocaleToggle className="menuIcon" />
             </>
           )}
           {!hideMenu && (
