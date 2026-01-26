@@ -36,6 +36,7 @@ import {
 } from "react-icons/si";
 
 import {
+  MdBluetoothDisabled,
   MdOutlineCancel,
   MdFoggy,
   MdThunderstorm,
@@ -64,8 +65,23 @@ import {
   FaTrophy,
 } from "react-icons/fa6";
 
-import { FaShareAlt, FaCloud, FaGitAlt, FaSnowflake } from "react-icons/fa";
 import {
+  FaBluetooth,
+  FaBatteryFull,
+  FaBatteryEmpty,
+  FaBatteryQuarter,
+  FaBatteryHalf,
+  FaBatteryThreeQuarters,
+  FaShareAlt,
+  FaCloud,
+  FaWindows,
+  FaLinux,
+  FaApple,
+  FaGitAlt,
+  FaSnowflake,
+} from "react-icons/fa";
+import {
+  IoIosBatteryCharging,
   IoIosSunny,
   IoMdClose,
   IoMdPartlySunny,
@@ -77,6 +93,17 @@ import {
 } from "react-icons/io";
 
 export const iconLibrary = {
+  apple: FaApple,
+  bluetooth: FaBluetooth,
+  batteryFull: FaBatteryFull,
+  batteryEmpty: FaBatteryEmpty,
+  batteryQuarter: FaBatteryQuarter,
+  batteryHalf: FaBatteryHalf,
+  batteryThreeQuarters: FaBatteryThreeQuarters,
+  batteryCharging: IoIosBatteryCharging,
+  bluetoothDisabled: MdBluetoothDisabled,
+  windows: FaWindows,
+  linux: FaLinux,
   arrowUpRight: HiArrowUpRight,
   arrowRight: HiArrowRight,
   bash: SiGnubash,

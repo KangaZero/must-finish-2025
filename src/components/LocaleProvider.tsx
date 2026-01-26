@@ -50,8 +50,19 @@ export const LocaleProvider = ({
     }
     const savedLocale = getLocaleCookieFromClient();
 
-    if (!savedLocale) return setLocaleCookie("en");
-
+    if (!savedLocale) {
+      const userLanguage = navigator.language;
+      if (userLanguage === "ja" || userLanguage.startsWith("ja-")) {
+        return setLocaleCookie("ja");
+      } else if (userLanguage === "en" || userLanguage.startsWith("en-")) {
+        return setLocaleCookie("en");
+      } else {
+        console.warn(
+          "No default locale found or incompatible, falling back to EN",
+        );
+        return setLocaleCookie("en");
+      }
+    }
     setLocale(savedLocale);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

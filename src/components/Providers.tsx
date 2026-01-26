@@ -13,6 +13,7 @@ import { AchievementsProvider } from "./AchievementsProvider";
 import { ConsoleCommandProvider } from "./ConsoleCommandProvider";
 import { LocaleProvider } from "./LocaleProvider";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { UserInfoProvider } from "./UserInfoProvider";
 export function Providers({
   children,
   lang,
@@ -49,15 +50,19 @@ export function Providers({
               line: dataStyle.tick.line,
             }}
           >
-            <ToastProvider>
-              <LocaleProvider lang={lang}>
-                <AchievementsProvider>
-                  <ConsoleCommandProvider>
-                    <IconProvider icons={iconLibrary}>{children}</IconProvider>
-                  </ConsoleCommandProvider>
-                </AchievementsProvider>
-              </LocaleProvider>
-            </ToastProvider>
+            <UserInfoProvider>
+              <ToastProvider>
+                <LocaleProvider lang={lang}>
+                  <AchievementsProvider>
+                    <ConsoleCommandProvider>
+                      <IconProvider icons={iconLibrary}>
+                        {children}
+                      </IconProvider>
+                    </ConsoleCommandProvider>
+                  </AchievementsProvider>
+                </LocaleProvider>
+              </ToastProvider>
+            </UserInfoProvider>
           </DataThemeProvider>
         </ThemeProvider>
       </LayoutProvider>

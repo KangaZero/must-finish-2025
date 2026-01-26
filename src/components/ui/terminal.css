@@ -76,14 +76,14 @@
 }
 
 .terminal-code-area {
-    padding: 0.4rem;
-    padding-top: 1rem;
+    padding: 0 0.4rem 0.4rem 0.4rem;
     margin: 0;
 }
 .terminal-code {
     scrollbar-width: none;
+    padding-top: 1rem;
     max-height: 300px;
-    min-height: 200px;
+    min-height: 300px;
     display: grid;
     gap: 0.25rem;
     padding-left: 0.3rem;
@@ -163,4 +163,8 @@
 #terminal-input-display-area {
     font-weight: 400;
     letter-spacing: -0.025rem;
+}
+
+#terminal-user-info-icons {
+    display: flex;
 }

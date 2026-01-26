@@ -5,14 +5,16 @@ import {
   TypingAnimation,
 } from "@/components/ui/terminal";
 import "@/components/ui/terminal.css";
-import { IconButton } from "@once-ui-system/core";
+import { Icon, IconButton } from "@once-ui-system/core";
 import { useRef, useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { terminalCommand } from "@/resources";
 import { TerminalCommandTypeKeyType } from "@/types";
+import { useUserInfo } from "@/components/UserInfoProvider";
 
 const StartTerminal = () => {
   const pathname = usePathname();
+  const { typeSafeUserInfo } = useUserInfo();
   const terminalInputRef = useRef<HTMLInputElement | null>(null);
   const terminalSendBtnRef = useRef<HTMLButtonElement | null>(null);
   const [terminalInput, setTerminalInput] = useState("");
@@ -141,6 +143,29 @@ const StartTerminal = () => {
               }
             }}
           />
+          {typeSafeUserInfo && (
+            <div id="terminal-user-info-icons">
+              <Icon name={typeSafeUserInfo.platform} size="s" />
+              <Icon
+                name={
+                  typeSafeUserInfo.bluetoothSupported
+                    ? "bluetooth"
+                    : "bluetoothDisabled"
+                }
+                size="s"
+              />
+              {typeSafeUserInfo.batteryIcon !== "batteryUnknown" &&
+                typeSafeUserInfo.batteryLevel && (
+                  <IconButton
+                    variant="secondary"
+                    style={{ pointerEvents: "none" }}
+                    tooltip={`${String(typeSafeUserInfo.batteryLevel)}%`}
+                    icon={typeSafeUserInfo.batteryIcon}
+                    size="s"
+                  />
+                )}
+            </div>
+          )}
           <pre className="terminal-input-display">
             {terminalInput}
             <span className={`custom-caret${isFocused ? " blink" : ""}`} />

@@ -270,19 +270,14 @@ void main() {
 
     return () => {
       window.removeEventListener("resize", resize);
-      if (mouseInteraction && containerRef.current) {
-        containerRef.current.removeEventListener("mousemove", handleMouseMove);
-        containerRef.current.removeEventListener(
-          "mouseenter",
-          handleMouseEnter,
-        );
-        containerRef.current.removeEventListener(
-          "mouseleave",
-          handleMouseLeave,
-        );
+      const container = containerRef.current;
+      if (mouseInteraction && container) {
+        container.removeEventListener("mousemove", handleMouseMove);
+        container.removeEventListener("mouseenter", handleMouseEnter);
+        container.removeEventListener("mouseleave", handleMouseLeave);
       }
       renderer.gl.getExtension("WEBGL_lose_context")?.loseContext();
-      containerRef.current?.removeChild(gl.canvas);
+      if (container) container.removeChild(gl.canvas);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
