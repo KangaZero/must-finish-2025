@@ -118,7 +118,7 @@ class BehaviorTracker {
       totalFocusTime: 0,
       blurStartTime: 0,
       totalBlurTime: 0,
-      hasFocus: document.hasFocus(),
+      hasFocus: false, // document.hasFocus()
 
       pageLoadTime: performance.now(),
       firstInteractionTime: null,
