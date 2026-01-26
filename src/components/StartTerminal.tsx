@@ -9,38 +9,50 @@ import { useRef, useState } from "react";
 
 const StartTerminal = () => {
   const terminalInputRef = useRef<HTMLInputElement | null>(null);
-  const [terminalInput, setTerminalInput] = useState("test");
+  const terminalCodeAreaRef = useRef<HTMLDivElement | null>(null);
+  const [terminalInput, setTerminalInput] = useState("");
   const [isFocused, setIsFocused] = useState(false);
+
+  const handleSendTerminalCommand = () => {
+    if (terminalInput.trim() === "" || !terminalCodeAreaRef.current) return;
+    const newSpan = document.createElement("span");
+    newSpan.textContent = `> ${terminalInput}`;
+    terminalCodeAreaRef.current.appendChild(newSpan);
+    setTerminalInput(""); // Clear input after sending
+  };
+
   return (
     <Terminal>
-      <TypingAnimation>
-        &gt; bunx samuel-yong/portfolio@latest init
-      </TypingAnimation>
+      <div ref={terminalCodeAreaRef}>
+        <TypingAnimation>
+          &gt; bunx samuel-yong/portfolio@latest init
+        </TypingAnimation>
 
-      <AnimatedSpan className="text-green-500">
-        ✔ Preflight checks.
-      </AnimatedSpan>
+        <AnimatedSpan className="text-green-500">
+          ✔ Preflight checks.
+        </AnimatedSpan>
 
-      <AnimatedSpan className="text-green-500">✔ Added content</AnimatedSpan>
+        <AnimatedSpan className="text-green-500">✔ Added content</AnimatedSpan>
 
-      <AnimatedSpan className="text-green-500">✔ Added styles</AnimatedSpan>
+        <AnimatedSpan className="text-green-500">✔ Added styles</AnimatedSpan>
 
-      <AnimatedSpan className="text-green-500">✔ Added scripts</AnimatedSpan>
+        <AnimatedSpan className="text-green-500">✔ Added scripts</AnimatedSpan>
 
-      <AnimatedSpan className="text-green-500">
-        ✔ Added dependencies.
-      </AnimatedSpan>
+        <AnimatedSpan className="text-green-500">
+          ✔ Added dependencies.
+        </AnimatedSpan>
 
-      <AnimatedSpan className="text-blue-500">
-        <span>ℹ Found 1 project:</span>
-        <span className="pl-2">- portfolio/me.exe</span>
-      </AnimatedSpan>
+        <AnimatedSpan className="text-blue-500">
+          <span>ℹ Found 1 project:</span>
+          <span className="pl-2">- portfolio/me.exe</span>
+        </AnimatedSpan>
 
-      <AnimatedSpan className="text-muted">
-        Success! Project initialization completed.
-      </AnimatedSpan>
+        <AnimatedSpan className="text-muted">
+          Success! Project initialization completed.
+        </AnimatedSpan>
 
-      <AnimatedSpan className="text-muted">exit code: 0</AnimatedSpan>
+        <AnimatedSpan className="text-muted">exit code: 0</AnimatedSpan>
+      </div>
       <AnimatedSpan>
         <div
           tabIndex={0}
@@ -79,6 +91,7 @@ const StartTerminal = () => {
             tooltip="Send Command"
             icon="send"
             size="m"
+            onPointerDown={handleSendTerminalCommand}
           />
         </div>
       </AnimatedSpan>
