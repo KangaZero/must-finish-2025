@@ -376,6 +376,15 @@ export type Achievement<
       noOfAchievementsRequiredToUnlock?: number;
     };
 
+export type TerminalCommandType = {
+  help: (inputAreaElement: HTMLElement) => void;
+  echo: (argument: string, inputAreaElement: HTMLElement) => void;
+  ls: (pathName: string, inputAreaElement: HTMLElement) => void;
+  clear: (elementsToRemove: Element[], inputAreaElement: HTMLElement) => void;
+};
+
+export type TerminalCommandTypeKeyType = keyof TerminalCommandType;
+
 export interface Achievements extends BasePageConfig {
   achievements: Array<Achievement>;
 }

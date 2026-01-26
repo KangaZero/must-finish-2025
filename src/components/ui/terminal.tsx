@@ -31,6 +31,7 @@ const ItemIndexContext = createContext<number | null>(null);
 const useItemIndex = () => useContext(ItemIndexContext);
 
 interface AnimatedSpanProps extends MotionProps {
+  id?: string;
   children: React.ReactNode;
   delay?: number;
   className?: string;
@@ -38,6 +39,7 @@ interface AnimatedSpanProps extends MotionProps {
 }
 
 export const AnimatedSpan = ({
+  id,
   children,
   delay = 0,
   className,
@@ -67,6 +69,7 @@ export const AnimatedSpan = ({
 
   return (
     <motion.div
+      id={id}
       ref={elementRef}
       initial={{ opacity: 0, y: -5 }}
       animate={shouldAnimate ? { opacity: 1, y: 0 } : { opacity: 0, y: -5 }}
@@ -240,15 +243,9 @@ export const Terminal = ({
   }, [children, sequence]);
 
   const content = (
-    <div
-      ref={containerRef}
-      className={cn(
-        "terminal-container border-border bg-background z-0 h-full max-h-[400px] w-full max-w-lg rounded-xl border",
-        className,
-      )}
-    >
-      <div className="terminal-header border-border flex flex-col gap-y-2 border-b p-4">
-        <div className="terminal-dot-group flex flex-row gap-x-2">
+    <div ref={containerRef} className={cn("terminal-container", className)}>
+      <div className="terminal-header ">
+        <div className="terminal-dot-group">
           <div className="terminal-dot bg-red-500">X</div>
           <div className="terminal-dot bg-yellow-500">-</div>
           <div className="terminal-dot bg-green-500">■</div>
@@ -259,9 +256,7 @@ export const Terminal = ({
         </div>
       </div>
       <pre className="terminal-code-area">
-        <code className="terminal-code grid gap-y-1 overflow-auto">
-          {wrappedChildren}
-        </code>
+        <code className="terminal-code">{wrappedChildren}</code>
       </pre>
     </div>
   );

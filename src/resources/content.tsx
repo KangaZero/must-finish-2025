@@ -7,6 +7,7 @@ import type {
   Newsletter,
   Person,
   Social,
+  TerminalCommandType,
   Work,
   UserSettings,
   Achievement,
@@ -24,6 +25,30 @@ const userSettings: UserSettings = {
 const userLocation = getLocalTimeZone() || "Asia/Tokyo";
 
 const useI18nIndicator = "USE I18N!";
+
+const terminalCommand: TerminalCommandType = {
+  help: (inputAreaElement: HTMLElement) => {
+    inputAreaElement.textContent += `\nSupported commands: clear, echo, help`;
+  },
+  clear: (elementsToRemove: Element[], inputAreaElement: HTMLElement) => {
+    elementsToRemove.forEach((el) => {
+      el.remove();
+    });
+    inputAreaElement.innerHTML = "";
+  },
+  echo: (argument: string, inputAreaElement: HTMLElement) => {
+    inputAreaElement.textContent += `\n> ${argument}`;
+  },
+  ls: (currentPath: string, inputAreaElement: HTMLElement) => {
+    switch (true) {
+      case currentPath === "/":
+        inputAreaElement.textContent += `\nDesktop  Documents  Downloads  Music  Pictures  Videos`;
+        break;
+      default:
+        break;
+    }
+  },
+};
 
 const person: Person = {
   firstName: "Samuel Wai Weng",
@@ -966,6 +991,7 @@ const WMOCodeDescriptions = {
 } as const;
 
 export {
+  terminalCommand,
   userSettings,
   person,
   headerHoverCardDetails,
