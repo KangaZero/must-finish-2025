@@ -378,13 +378,31 @@ export type Achievement<
     };
 
 export type TerminalCommandType = {
-  exit: (minimizeTerminal: () => void) => void;
+  exit: (
+    window: Window & typeof globalThis,
+    inputAreaElement: HTMLElement,
+    argument: string | "-y",
+  ) => void;
   start: (setIsStartInitialized: Dispatch<SetStateAction<boolean>>) => void;
   help: (inputAreaElement: HTMLElement) => void;
+  history: (
+    inpuAreaElement: HTMLElement,
+    allUserCommands: (string | TerminalCommandTypeKeyType)[],
+    argument: string | `${number}`,
+  ) => void;
   fastfetch: (inputAreaElement: HTMLElement) => void;
   echo: (argument: string, inputAreaElement: HTMLElement) => void;
   ls: (pathName: string, inputAreaElement: HTMLElement) => void;
   clear: (elementsToRemove: Element[], inputAreaElement: HTMLElement) => void;
+  y: (
+    previousMessage: TerminalCommandTypeKeyType | string,
+    inputAreaElement: HTMLElement,
+    window: Window & typeof globalThis,
+  ) => void;
+  n: (
+    previousMessage: TerminalCommandTypeKeyType | string,
+    inputAreaElement: HTMLElement,
+  ) => void;
 };
 
 export type TerminalCommandTypeKeyType = keyof TerminalCommandType;

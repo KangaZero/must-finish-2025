@@ -28,7 +28,10 @@
 }
 
 .terminal-container::before {
-    background-image: url("/images/terminal/ocean_with_cloud.png");
+    background-image: light-dark(
+        url("/images/terminal/ocean_with_cloud.png"),
+        url("/images/terminal/night-road_purple.png")
+    );
     content: "";
     background-attachment: fixed;
     background-size: cover;

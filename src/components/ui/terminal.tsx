@@ -18,7 +18,6 @@ import { motion, MotionProps, useInView } from "motion/react";
 
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "../ThemeToggle";
-// import { Spinner } from "@once-ui-system/core";
 import { LocaleToggle } from "../LocaleToggle";
 import { useUserInfo } from "../UserInfoProvider";
 import { Dialog } from "@once-ui-system/core";

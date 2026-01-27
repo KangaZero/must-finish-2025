@@ -19,6 +19,9 @@ const StartTerminal = ({ enableDialog }: { enableDialog: boolean }) => {
     useUserInfo();
   const terminalInputRef = useRef<HTMLInputElement | null>(null);
   const terminalSendBtnRef = useRef<HTMLButtonElement | null>(null);
+  const [allUserCommands, setAllUserCommands] = useState<
+    (string | TerminalCommandTypeKeyType)[]
+  >([]);
   const [terminalInput, setTerminalInput] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const [caretPos, setCaretPos] = useState(0);
@@ -40,14 +43,39 @@ const StartTerminal = ({ enableDialog }: { enableDialog: boolean }) => {
       .toLowerCase()
       .split(" ")[0] as TerminalCommandTypeKeyType;
 
+    setAllUserCommands([...allUserCommands, terminalInput]);
     const terminalInputArguments = terminalInput.split(" ").slice(1).join(" ");
 
     //NOTE: The last 2 elements are the current input area and the input wrapper, so we exclude them from removal
     const elementsToRemove = Array.from(allAnimatedSpanElements).slice(0, -2);
+
     switch (normalizedTerminalInputCommand) {
+      case "y":
+        if (typeof window === "undefined") return;
+        if (allUserCommands.length < 1) {
+          terminalInputDisplayAreaElement.textContent += `\nCommand not recognized: ${terminalInput}`;
+        } else {
+          terminalCommand.y(
+            allUserCommands[allUserCommands.length - 1],
+            terminalInputDisplayAreaElement,
+            window,
+          );
+        }
+        break;
+      case "n":
+        if (typeof window === "undefined") return;
+        if (allUserCommands.length < 1) {
+          terminalInputDisplayAreaElement.textContent += `\nCommand not recognized: ${terminalInput}`;
+        } else {
+          terminalCommand.n(
+            allUserCommands[allUserCommands.length - 1],
+            terminalInputDisplayAreaElement,
+          );
+        }
+        break;
       case "start":
         if (isStartInitialized) {
-          terminalInputDisplayAreaElement.innerHTML += `\nCommand is already initialized`;
+          terminalInputDisplayAreaElement.textContent += `\nCommand is already initialized`;
         } else {
           terminalCommand.start(setIsStartInitialized);
         }
@@ -65,11 +93,23 @@ const StartTerminal = ({ enableDialog }: { enableDialog: boolean }) => {
         );
         break;
       case "exit":
-        if (terminalContainerRef.current)
-          terminalCommand.exit(terminalContainerRef.current.minimizeTerminal);
+        if (!terminalContainerRef.current && typeof window === "undefined")
+          return;
+        terminalCommand.exit(
+          window,
+          terminalInputDisplayAreaElement,
+          terminalInputArguments,
+        );
         break;
       case "fastfetch":
         terminalCommand.fastfetch(terminalInputDisplayAreaElement);
+        break;
+      case "history":
+        terminalCommand.history(
+          terminalInputDisplayAreaElement,
+          allUserCommands,
+          terminalInputArguments,
+        );
         break;
       case "help":
         terminalCommand.help(terminalInputDisplayAreaElement);
@@ -78,7 +118,7 @@ const StartTerminal = ({ enableDialog }: { enableDialog: boolean }) => {
         terminalCommand.ls(pathname, terminalInputDisplayAreaElement);
         break;
       default:
-        terminalInputDisplayAreaElement.innerHTML += `\nCommand not recognized: ${terminalInput}`;
+        terminalInputDisplayAreaElement.textContent += `\nCommand not recognized: ${terminalInput}`;
         break;
     }
     setTerminalInput("");

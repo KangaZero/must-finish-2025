@@ -27,11 +27,51 @@ const userLocation = getLocalTimeZone() || "Asia/Tokyo";
 const useI18nIndicator = "USE I18N!";
 
 const terminalCommand: TerminalCommandType = {
-  exit: (minimizeTerminal: () => void) => minimizeTerminal(),
+  y: (previousMessage, inputAreaElement, window) => {
+    switch (previousMessage) {
+      case "exit":
+        window.close();
+        break;
+      default:
+        inputAreaElement.textContent += `\nCommand not recognized: y`;
+        break;
+    }
+  },
+  n: (previousMessage, inputAreaElement) => {
+    switch (previousMessage) {
+      case "exit":
+        inputAreaElement.textContent += `\nExited out of command 'exit'`;
+        break;
+      default:
+        inputAreaElement.textContent += `\nCommand not recognized: n`;
+        break;
+    }
+  },
+  exit: (window, inputAreaElement, argument) => {
+    if (argument === "-y") {
+      window.close();
+    } else if (argument) {
+      inputAreaElement.textContent += `\nCommand: 'exit' executed with unknown argument: ${argument}. Do you mean '-y'?`;
+    } else {
+      inputAreaElement.textContent += `\nAre you sure you want to exit the site? [Y/N]`;
+    }
+  },
   start: (setIsStartInitialized) => {
     setIsStartInitialized(true);
   },
-  help: (inputAreaElement: HTMLElement) => {
+  history: (inputAreaElement, allUserCommands, argument) => {
+    if (allUserCommands.length < 1)
+      return (inputAreaElement.textContent += `\nNo history detected\nExited out of command 'history'`);
+    if (!argument) {
+      inputAreaElement.textContent += `\nHistory: ${allUserCommands.join(", ")}`;
+    } else if (argument && Number(argument)) {
+      const userCommandsToShow = allUserCommands.slice(0, Number(argument));
+      inputAreaElement.textContent += `\nHistory: ${userCommandsToShow.join(", ")}`;
+    } else {
+      inputAreaElement.textContent += `\nCommand: 'history' executed with unknown argument: ${argument}. Only pass in integers}`;
+    }
+  },
+  help: (inputAreaElement) => {
     inputAreaElement.textContent += `\nSupported commands: clear, echo <arg>, help, fastfetch, start, exit`;
   },
   fastfetch: (inputAreaElement: HTMLElement) => {
