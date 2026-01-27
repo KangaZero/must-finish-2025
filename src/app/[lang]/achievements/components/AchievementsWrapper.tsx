@@ -13,6 +13,7 @@ import {
   StatusIndicator,
   ToggleButton,
 } from "@once-ui-system/core";
+import { useUserInfo } from "@/components/UserInfoProvider";
 import SearchBar from "./SearchBar";
 import { useState, useRef } from "react";
 import type { PointerEvent } from "react";
@@ -20,6 +21,7 @@ import type { Achievement } from "@/types";
 import { negativeAchievement } from "@/resources";
 
 export default function AchievementsWrapper() {
+  const { userInfo } = useUserInfo();
   const { achievements, achievementsCount } = useAchievements();
   const [statusIndicatorColor, setStatusIndicatorColor] = useState<
     | "blue"
@@ -123,6 +125,7 @@ export default function AchievementsWrapper() {
           </Row>
         </ToggleButton>
       </Row>
+      {userInfo?.localStorageEnabled && <></>}
       <Row s={{ width: "100%" }} m={{ width: "80%" }}>
         <SearchBar
           currentSearchTerm={currentSearchTerm}

@@ -27,8 +27,39 @@ const userLocation = getLocalTimeZone() || "Asia/Tokyo";
 const useI18nIndicator = "USE I18N!";
 
 const terminalCommand: TerminalCommandType = {
+  exit: (minimizeTerminal: () => void) => minimizeTerminal(),
+  start: (setIsStartInitialized) => {
+    setIsStartInitialized(true);
+  },
   help: (inputAreaElement: HTMLElement) => {
-    inputAreaElement.textContent += `\nSupported commands: clear, echo, help`;
+    inputAreaElement.textContent += `\nSupported commands: clear, echo <arg>, help, fastfetch, start, exit`;
+  },
+  fastfetch: (inputAreaElement: HTMLElement) => {
+    inputAreaElement.textContent += `\n
+    ....              samuelwaiwengyong@C11-625BGTEPHOO
+.',:clooo:  .:looooo:.           ---------------------------------
+.;looooooooc  .oooooooooo'          OS: Ubuntu 24.04.3 LTS x86_64
+.;looooool:,''.  :ooooooooooc          Host: Windows Subsystem for Linu)
+;looool;.         'oooooooooo,          Kernel: Linux 6.6.87.2-microsoft2
+;clool'             .cooooooc.  ,,       Uptime: 52 seconds
+...                ......  .:oo,      Packages: 705 (dpkg), 8 (snap)
+.;clol:,.                        .loooo'     Shell: zsh 5.9
+:ooooooooo,                        'ooool     Display (rdp-2): 1920x1080 in 25z
+'ooooooooooo.                        loooo.    Display (rdp-0): 1920x1200, 60 Hz
+'ooooooooool                         coooo.    WM: WSLg 1.0.66 (Wayland)
+,loooooooc.                        .loooo.    Theme: Yaru [GTK3]
+.,;;;'.                          ;ooooc     Icons: Yaru [GTK3]
+...                         ,ooool.     Terminal: WezTerm 20240203-110802
+.cooooc.              ..',,'.  .cooo.      CPU: 12th Gen Intel(R) Core(TM) z
+;ooooo:.           ;oooooooc.  :l.       GPU: Intel(R) UHD Graphics (128.]
+.coooooc,..      coooooooooo.           Memory: 673.88 MiB / 7.58 GiB (9)
+.:ooooooolc:. .ooooooooooo'           Swap: 0 B / 2.00 GiB (0%)
+.':loooooo;  ,oooooooooc            Disk (/): 14.16 GiB / 1006.85 Gi4
+..';::c'  .;loooo:'             Disk (/mnt/c): 232.65 GiB / 235.p
+                       Local IP (eth0): 172.23.146.189/0
+                       Battery (Microsoft Hyper-V Virtu]
+                       Locale: C.UTF-8
+    `;
   },
   clear: (elementsToRemove: Element[], inputAreaElement: HTMLElement) => {
     elementsToRemove.forEach((el) => {

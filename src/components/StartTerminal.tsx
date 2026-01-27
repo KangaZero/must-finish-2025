@@ -5,7 +5,7 @@ import {
   TypingAnimation,
 } from "@/components/ui/terminal";
 import "@/components/ui/terminal.css";
-import { Icon, IconButton } from "@once-ui-system/core";
+import { Icon, IconButton, Line } from "@once-ui-system/core";
 import { useRef, useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { terminalCommand } from "@/resources";
@@ -14,8 +14,9 @@ import { useUserInfo } from "@/components/UserInfoProvider";
 
 const StartTerminal = () => {
   const pathname = usePathname();
-  const terminalContainerRef = useRef<HTMLDivElement | null>(null);
-  const { typeSafeUserInfo } = useUserInfo();
+  const terminalContainerRef = useRef<{ minimizeTerminal: () => void }>(null);
+  const { typeSafeUserInfo, setIsStartInitialized, isStartInitialized } =
+    useUserInfo();
   const terminalInputRef = useRef<HTMLInputElement | null>(null);
   const terminalSendBtnRef = useRef<HTMLButtonElement | null>(null);
   const [terminalInput, setTerminalInput] = useState("");
@@ -44,6 +45,13 @@ const StartTerminal = () => {
     //NOTE: The last 2 elements are the current input area and the input wrapper, so we exclude them from removal
     const elementsToRemove = Array.from(allAnimatedSpanElements).slice(0, -2);
     switch (normalizedTerminalInputCommand) {
+      case "start":
+        if (isStartInitialized) {
+          terminalInputDisplayAreaElement.innerHTML += `\nCommand is already initialized`;
+        } else {
+          terminalCommand.start(setIsStartInitialized);
+        }
+        break;
       case "clear":
         terminalCommand.clear(
           elementsToRemove,
@@ -56,6 +64,13 @@ const StartTerminal = () => {
           terminalInputDisplayAreaElement,
         );
         break;
+      case "exit":
+        if (terminalContainerRef.current)
+          terminalCommand.exit(terminalContainerRef.current.minimizeTerminal);
+        break;
+      case "fastfetch":
+        terminalCommand.fastfetch(terminalInputDisplayAreaElement);
+        break;
       case "help":
         terminalCommand.help(terminalInputDisplayAreaElement);
         break;
@@ -67,8 +82,6 @@ const StartTerminal = () => {
         break;
     }
     setTerminalInput("");
-    //NOTE: This seems to always be null
-    terminalContainerRef?.current?.scrollIntoView();
   };
 
   //WARNING: Cannot derivatively put the AppendArea directly between AnimatedSpans as it will cause elements after it to not render in
@@ -197,6 +210,7 @@ const StartTerminal = () => {
           {typeSafeUserInfo && (
             <div id="terminal-user-info-icons">
               <Icon name={typeSafeUserInfo.platform} size="s" />
+              <Line vert height="32" marginX="4" />
               <Icon
                 name={
                   typeSafeUserInfo.bluetoothSupported
@@ -205,6 +219,7 @@ const StartTerminal = () => {
                 }
                 size="s"
               />
+              <Line vert height="32" marginX="4" />
               {typeSafeUserInfo.batteryIcon !== "batteryUnknown" &&
                 typeSafeUserInfo.batteryLevel && (
                   <IconButton
@@ -215,6 +230,7 @@ const StartTerminal = () => {
                     size="s"
                   />
                 )}
+              <Line vert height="32" marginX="4" />
             </div>
           )}
           <pre className="terminal-input-display">

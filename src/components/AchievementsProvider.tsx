@@ -97,39 +97,44 @@ export const AchievementsProvider = ({
         | [title: "Speedophile", split: number]
         | [title: Exclude<Achievement["title"], "Speedophile">]
     ) => {
-      const [title, split] = args;
-      const isCurrentAchievementAlreadyUnlocked = achievements.some(
-        (achievement) => achievement.title === title && achievement.isUnlocked,
-      );
-      if (isCurrentAchievementAlreadyUnlocked) return;
-      setAchievements((prev) =>
-        prev.map((achievement) => {
-          if (achievement.title !== title || achievement.isUnlocked) {
-            return achievement;
-          }
+      try {
+        const [title, split] = args;
+        const isCurrentAchievementAlreadyUnlocked = achievements.some(
+          (achievement) =>
+            achievement.title === title && achievement.isUnlocked,
+        );
+        if (isCurrentAchievementAlreadyUnlocked) return;
+        setAchievements((prev) =>
+          prev.map((achievement) => {
+            if (achievement.title !== title || achievement.isUnlocked) {
+              return achievement;
+            }
 
-          // Base update for all achievements
-          const updated = {
-            ...achievement,
-            isUnlocked: true,
-            unlockedAt: new Date(),
-          };
-
-          // Add split only if it's the Speedophile achievement
-          if (title === "Speedophile") {
-            const updatedAchievement: Achievement<"Speedophile"> = {
-              ...updated,
-              split: split,
+            // Base update for all achievements
+            const updated = {
+              ...achievement,
+              isUnlocked: true,
+              unlockedAt: new Date(),
             };
-            return updatedAchievement;
-          }
 
-          return updated;
-        }),
-      );
-      setCurrentAchievementUnlocked(
-        achievements.find((a) => a.title === title) || null,
-      );
+            // Add split only if it's the Speedophile achievement
+            if (title === "Speedophile") {
+              const updatedAchievement: Achievement<"Speedophile"> = {
+                ...updated,
+                split: split,
+              };
+              return updatedAchievement;
+            }
+
+            return updated;
+          }),
+        );
+        setCurrentAchievementUnlocked(
+          achievements.find((a) => a.title === title) || null,
+        );
+      } catch (error) {
+        console.error(error);
+      }
 
       //Next achievement-toast component will handle the rest
       // addToast({

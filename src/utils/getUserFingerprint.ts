@@ -14,6 +14,7 @@ import {
   getInitialAdvancedBehavior,
   generateUserProfile,
 } from "./getUserAdvancedDetails";
+import { getVisitCountCookieFromClient } from "./getVisitCountCookieFromClient";
 // import { getWasmFingerprint } from "./wasmFingerprint";
 // import { getWebGPUFingerprint } from "./webgpuFingerprint";
 // import { isChromeAIAvailable } from "./chromeAI";
@@ -62,6 +63,7 @@ export async function collectClientInfo(): Promise<ClientInfo> {
     (navigator as Navigator & { deviceMemory?: number }).deviceMemory || null;
 
   const result: ClientInfo = {
+    visitCount: getVisitCountCookieFromClient() || 1,
     // Screen
     screenWidth: window.screen.width,
     screenHeight: window.screen.height,

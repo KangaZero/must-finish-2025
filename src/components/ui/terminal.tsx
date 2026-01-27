@@ -5,8 +5,10 @@ import { gsap } from "gsap";
 import {
   Children,
   createContext,
+  RefObject,
   useContext,
   useEffect,
+  useImperativeHandle,
   useMemo,
   useRef,
   useState,
@@ -199,15 +201,16 @@ export const TypingAnimation = ({
   );
 };
 
-interface TerminalProps {
+export interface TerminalProps {
   children: React.ReactNode;
   className?: string;
   sequence?: boolean;
   startOnView?: boolean;
-  ref?: React.Ref<HTMLDivElement>;
+  ref: RefObject<{ minimizeTerminal: () => void } | null>;
 }
 
 export const Terminal = ({
+  ref,
   children,
   className,
   sequence = true,
@@ -308,6 +311,11 @@ export const Terminal = ({
       document.removeEventListener("keydown", handleKeyDown);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  useImperativeHandle(ref, () => {
+    return {
+      minimizeTerminal,
+    };
   }, []);
 
   const content = (

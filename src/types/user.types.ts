@@ -24,6 +24,8 @@ export interface ServerInfo {
 
 /** Client-side gathered information */
 export interface ClientInfo {
+  //Custom
+  visitCount: number;
   // Screen
   screenWidth: number;
   screenHeight: number;

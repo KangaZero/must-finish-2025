@@ -13,6 +13,8 @@ import {
 type UserInfoContextType = {
   userInfo: null | ClientInfo;
   typeSafeUserInfo: null | TypeSafeClientInfo;
+  isStartInitialized: boolean;
+  setIsStartInitialized: React.Dispatch<React.SetStateAction<boolean>>;
 };
 const UserInfoContext = createContext<UserInfoContextType | undefined>(
   undefined,
@@ -20,6 +22,7 @@ const UserInfoContext = createContext<UserInfoContextType | undefined>(
 
 export const UserInfoProvider = ({ children }: { children: ReactNode }) => {
   const [userInfo, setUserInfo] = useState<null | ClientInfo>(null);
+  const [isStartInitialized, setIsStartInitialized] = useState(false);
   const [typeSafeUserInfo, setTypeSafeUserInfo] =
     useState<null | TypeSafeClientInfo>(null);
   useEffect(() => {
@@ -38,8 +41,11 @@ export const UserInfoProvider = ({ children }: { children: ReactNode }) => {
       }
     };
     fetchUserInfo();
+    const interval = setInterval(fetchUserInfo, 60 * 1000); // Run every 1 minute
+    return () => clearInterval(interval);
   }, []);
 
+  //TODO just move this inside of whoAmI to reduce useStates running
   useEffect(() => {
     if (!userInfo) return;
     const platform = /Win|Windows/i.test(userInfo.platform)
@@ -87,6 +93,8 @@ export const UserInfoProvider = ({ children }: { children: ReactNode }) => {
       value={{
         userInfo,
         typeSafeUserInfo,
+        isStartInitialized,
+        setIsStartInitialized,
       }}
     >
       {children}

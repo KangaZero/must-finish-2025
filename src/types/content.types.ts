@@ -1,5 +1,6 @@
 import { WMOCodeDescriptions } from "@/resources";
 import { IconName } from "@/resources/icons";
+import type { Dispatch, SetStateAction } from "react";
 import { zones } from "tzdata";
 
 /**
@@ -377,7 +378,10 @@ export type Achievement<
     };
 
 export type TerminalCommandType = {
+  exit: (minimizeTerminal: () => void) => void;
+  start: (setIsStartInitialized: Dispatch<SetStateAction<boolean>>) => void;
   help: (inputAreaElement: HTMLElement) => void;
+  fastfetch: (inputAreaElement: HTMLElement) => void;
   echo: (argument: string, inputAreaElement: HTMLElement) => void;
   ls: (pathName: string, inputAreaElement: HTMLElement) => void;
   clear: (elementsToRemove: Element[], inputAreaElement: HTMLElement) => void;

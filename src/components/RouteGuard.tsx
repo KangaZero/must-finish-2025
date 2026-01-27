@@ -11,9 +11,7 @@ import {
   PasswordInput,
 } from "@once-ui-system/core";
 import NotFound from "@/app/[lang]/not-found";
-// import RotatingText from "@/components/ui/RotatingText";
-// import { useLocale } from "@/components/LocaleProvider";
-import { getVisitCountCookieFromClient } from "@/utils/getVisitCountCookieFromClient";
+import { useUserInfo } from "@/components/UserInfoProvider";
 import StartTerminal from "./StartTerminal";
 
 interface RouteGuardProps {
@@ -22,14 +20,13 @@ interface RouteGuardProps {
 
 const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
   const pathname = usePathname();
-  // const { translate } = useLocale();
+  const { isStartInitialized } = useUserInfo();
   const [isRouteEnabled, setIsRouteEnabled] = useState(false);
   const [isPasswordRequired, setIsPasswordRequired] = useState(false);
   const [password, setPassword] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
   const [loading, setLoading] = useState(true);
-  const visitCountCookieCount = getVisitCountCookieFromClient();
 
   useEffect(() => {
     const performChecks = async () => {
@@ -107,26 +104,9 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
     }
   };
 
-  if (loading || !visitCountCookieCount) {
-    // if (loading) {
+  if (loading || !isStartInitialized) {
     return (
       <Column fillWidth>
-        {/*<RotatingText
-          texts={[
-            translate("loading.0"),
-            translate("loading.1"),
-            translate("loading.2"),
-          ]}
-          mainClassName="px-2 sm:px-2 md:px-3 bg-cyan-300 text-black overflow-hidden py-2 sm:py-1 md:py-2 justify-center rounded-lg"
-          staggerFrom={"last"}
-          initial={{ y: "100%" }}
-          animate={{ y: 0 }}
-          exit={{ y: "-100%" }}
-          staggerDuration={0.025}
-          splitLevelClassName="overflow-hidden pb-1.5 sm:pb-1 md:pb-1"
-          transition={{ type: "spring", damping: 30, stiffness: 400 }}
-          rotationInterval={3500}
-        />*/}
         <Row style={{ minHeight: "90dvh" }} center fill>
           <StartTerminal />
         </Row>
