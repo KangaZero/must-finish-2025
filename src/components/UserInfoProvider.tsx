@@ -15,6 +15,8 @@ type UserInfoContextType = {
   typeSafeUserInfo: null | TypeSafeClientInfo;
   isStartInitialized: boolean;
   setIsStartInitialized: React.Dispatch<React.SetStateAction<boolean>>;
+  isTerminalOpen: boolean;
+  setIsTerminalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 const UserInfoContext = createContext<UserInfoContextType | undefined>(
   undefined,
@@ -23,6 +25,7 @@ const UserInfoContext = createContext<UserInfoContextType | undefined>(
 export const UserInfoProvider = ({ children }: { children: ReactNode }) => {
   const [userInfo, setUserInfo] = useState<null | ClientInfo>(null);
   const [isStartInitialized, setIsStartInitialized] = useState(false);
+  const [isTerminalOpen, setIsTerminalOpen] = useState(false);
   const [typeSafeUserInfo, setTypeSafeUserInfo] =
     useState<null | TypeSafeClientInfo>(null);
   useEffect(() => {
@@ -95,6 +98,8 @@ export const UserInfoProvider = ({ children }: { children: ReactNode }) => {
         typeSafeUserInfo,
         isStartInitialized,
         setIsStartInitialized,
+        isTerminalOpen,
+        setIsTerminalOpen,
       }}
     >
       {children}

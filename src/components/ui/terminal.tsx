@@ -6,6 +6,7 @@ import {
   Children,
   createContext,
   RefObject,
+  useCallback,
   useContext,
   useEffect,
   useImperativeHandle,
@@ -19,6 +20,8 @@ import { cn } from "@/lib/utils";
 import { ThemeToggle } from "../ThemeToggle";
 // import { Spinner } from "@once-ui-system/core";
 import { LocaleToggle } from "../LocaleToggle";
+import { useUserInfo } from "../UserInfoProvider";
+import { Dialog } from "@once-ui-system/core";
 
 interface SequenceContextValue {
   completeItem: (index: number) => void;
@@ -203,14 +206,16 @@ export const TypingAnimation = ({
 
 export interface TerminalProps {
   children: React.ReactNode;
+  enableDialog?: boolean;
   className?: string;
   sequence?: boolean;
   startOnView?: boolean;
-  ref: RefObject<{ minimizeTerminal: () => void } | null>;
+  ref?: RefObject<{ minimizeTerminal: () => void } | null>;
 }
 
 export const Terminal = ({
   ref,
+  enableDialog = false,
   children,
   className,
   sequence = true,
@@ -222,6 +227,7 @@ export const Terminal = ({
     once: true,
   });
 
+  const { isTerminalOpen, setIsTerminalOpen } = useUserInfo();
   const [activeIndex, setActiveIndex] = useState(0);
   const sequenceHasStarted = sequence ? !startOnView || isInView : false;
 
@@ -232,6 +238,7 @@ export const Terminal = ({
         setActiveIndex((current) =>
           index === current ? current + 1 : current,
         );
+        //NOTE: Active Index 5 is "Just before 'Added Wallpaper'"
         if (activeIndex === 5 && containerRef.current) {
           containerRef.current.classList.add("bg-fade-in");
         }
@@ -256,7 +263,7 @@ export const Terminal = ({
     containerRef.current.classList.toggle("terminal-code-area-maximized");
     containerRef.current.scrollIntoView();
   };
-  const minimizeTerminal = () => {
+  const minimizeTerminal = useCallback(() => {
     if (!containerRef.current) return;
     gsap.fromTo(
       containerRef.current,
@@ -271,12 +278,19 @@ export const Terminal = ({
         ease: "power2.inOut",
         x: 0,
         y: -500,
+        onComplete: () => {
+          if (enableDialog) {
+            setIsTerminalOpen(false);
+          }
+        },
       },
     );
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const handleKeyDown = (e: KeyboardEvent) => {
     if (e.shiftKey && (e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "p") {
       //NOTE: Have to track via styles as a useState seems to result being not updated within the useEffect
+      if (enableDialog) setIsTerminalOpen(!isTerminalOpen);
       if (
         containerRef.current &&
         containerRef.current.style.transform ===
@@ -316,10 +330,16 @@ export const Terminal = ({
     return {
       minimizeTerminal,
     };
-  }, []);
+  }, [minimizeTerminal]);
 
   const content = (
-    <div ref={containerRef} className={cn("terminal-container", className)}>
+    <div
+      ref={containerRef}
+      className={cn(
+        `${enableDialog ? "bg-fade-in" : ""} terminal-container`,
+        className,
+      )}
+    >
       <div className="terminal-header">
         <div className="terminal-dot-group">
           <div
@@ -357,11 +377,23 @@ export const Terminal = ({
     </div>
   );
 
-  if (!sequence) return content;
+  const contentFormat = enableDialog ? (
+    <Dialog
+      title=""
+      isOpen={isTerminalOpen}
+      onClose={() => setIsTerminalOpen(false)}
+    >
+      {content}
+    </Dialog>
+  ) : (
+    content
+  );
+
+  if (!sequence) return contentFormat;
 
   return (
     <SequenceContext.Provider value={contextValue}>
-      {content}
+      {contentFormat}
     </SequenceContext.Provider>
   );
 };

@@ -108,7 +108,7 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
     return (
       <Column fillWidth>
         <Row style={{ minHeight: "90dvh" }} center fill>
-          <StartTerminal />
+          <StartTerminal enableDialog={false} />
         </Row>
       </Column>
     );
@@ -138,7 +138,12 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
     );
   }
 
-  return <>{children}</>;
+  return (
+    <>
+      {children}
+      <StartTerminal enableDialog />
+    </>
+  );
 };
 
 export { RouteGuard };
