@@ -3,6 +3,8 @@
     --text-shadow-hsl-s: 9.5%;
     --text-shadow-hsl-l: 71%;
     --text-shadow-hsl: 73 9.5% 71%;
+    --animate-bounce-in-duration: 0.5s;
+    --animated-bounce-in-delay: 0.1s;
 }
 
 /*NOTE: Limited availability as of 2025/01/13, thus not implemented*/
@@ -17,8 +19,6 @@
 
 .link-wrapper {
     position: relative;
-    /*display: inline-block;*/
-    /*margin: 1rem 0;*/
     cursor: pointer;
 }
 
@@ -88,11 +88,6 @@
 }
 
 .p5DateBox {
-    /*background: black;*/
-    /*color: white;*/
-    /*border: 3px solid white;*/
-    /*border-radius: 0.5rem;*/
-    /*padding: 1rem 2rem;*/
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -101,9 +96,6 @@
         2.2px 2.2px hsl(var(--text-shadow-hsl) / 0.2),
         2.6px 2.6px hsl(var(--text-shadow-hsl) / 0.3),
         3px 3px hsl(var(--text-shadow-hsl) / 0.4);
-    /*box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);*/
-    /*font-family:
-        "Bangers", "Luckiest Guy", "Comic Sans MS", cursive, sans-serif;*/
     position: relative;
     z-index: 999;
     width: auto;
@@ -135,11 +127,24 @@
 
 .p5Day {
     transform: rotate(2deg);
+    scale: 0;
+    opacity: 0;
+}
+
+.p5Day.bounceIn {
+    --animate-duration: var(--animate-bounce-in-duration);
+    --animate-delay: var(--animated-bounce-in-delay);
 }
 
 .p5DateWeatherIcon {
     margin-left: 0.05rem;
     font-size: 2rem;
+}
+
+.p5DateWeatherIcon.bounceIn {
+    --animate-duration: var(--animate-bounce-in-duration);
+    --animate-delay: var(--animated-bounce-in-delay) +
+        (var(--animate-bounce-in-duration) * 1);
 }
 
 .p5DateMonthDay {
@@ -154,6 +159,14 @@
     font-size: 0.9rem;
     display: inline-block;
     transform: rotate(15deg);
+    scale: 0;
+    opacity: 0;
+}
+
+.p5Month.bounceIn {
+    --animate-duration: var(--animate-bounce-in-duration);
+    --animate-delay: var(--animated-bounce-in-delay) +
+        (var(--animate-bounce-in-duration) * 2);
 }
 
 .p5DateMonthDaySeparator {
@@ -163,6 +176,14 @@
     margin-top: -0.3rem;
     margin-left: 0rem;
     z-index: 1;
+    scale: 0;
+    opacity: 0;
+}
+
+.p5DateMonthDaySeparator.bounceIn {
+    --animate-duration: var(--animate-bounce-in-duration);
+    --animate-delay: var(--animated-bounce-in-delay) +
+        (var(--animate-bounce-in-duration) * 3);
 }
 
 .p5Date {
@@ -171,6 +192,14 @@
     font-size: 1.5rem;
     font-weight: bold;
     line-height: 0.5;
+    scale: 0;
+    opacity: 0;
+}
+
+.p5Date.bounceIn {
+    --animate-duration: var(--animate-bounce-in-duration);
+    --animate-delay: var(--animated-bounce-in-delay) +
+        (var(--animate-bounce-in-duration) * 4);
 }
 
 .p5Temperature {
@@ -178,6 +207,14 @@
     display: inline-block;
     transform: rotate(-5deg) translate(0, 6px);
     font-size: 1rem;
+    scale: 0;
+    opacity: 0;
+}
+
+.p5Temperature.bounceIn {
+    --animate-duration: var(--animate-bounce-in-duration);
+    --animate-delay: var(--animated-bounce-in-delay) +
+        (var(--animate-bounce-in-duration) * 5);
 }
 
 .p5Celsius {
@@ -185,6 +222,14 @@
     display: inline-block;
     transform: rotate(15deg) translate(3, 8px);
     font-size: 0.8rem;
+    scale: 0;
+    opacity: 0;
+}
+
+.p5Celsius.bounceIn {
+    --animate-duration: var(--animate-bounce-in-duration);
+    --animate-delay: var(--animated-bounce-in-delay) +
+        (var(--animate-bounce-in-duration) * 6);
 }
 /* Hover state enhancement */
 .link-wrapper:hover {

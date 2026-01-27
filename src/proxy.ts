@@ -13,19 +13,20 @@ export function proxy(request: NextRequest) {
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`,
   );
 
-  const localeFromCookie = request.cookies.get("NEXT_LOCALE")?.value;
-  //nextjs.org/docs/messages/proxy-relative-urls
+  let localeFromCookie = request.cookies.get("NEXT_LOCALE")?.value;
   if (
-    localeFromCookie &&
-    (localeFromCookie === "ja" || localeFromCookie === "en") &&
-    !pathnameHasLocale
-  ) {
-    if (pathname !== "/") {
+    !localeFromCookie ||
+    (localeFromCookie !== "ja" && localeFromCookie !== "en")
+  )
+    localeFromCookie = "en";
+  //nextjs.org/docs/messages/proxy-relative-urls
+  if (!pathnameHasLocale) {
+    if (pathname !== "/" && pathname !== "") {
       request.nextUrl.pathname = `/${localeFromCookie}/${pathname}`;
       return NextResponse.redirect(
         new URL(`/${localeFromCookie}/${pathname}`, request.url),
       );
-    } else if (pathname === "/") {
+    } else if (pathname === "/" || pathname === "") {
       request.nextUrl.pathname = `/${localeFromCookie}`;
       return NextResponse.redirect(
         new URL(`/${localeFromCookie}`, request.url),

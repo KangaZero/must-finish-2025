@@ -1,5 +1,6 @@
 "use client";
 import "./header-date.css";
+import "@/utils/animations/bounceIn.css";
 import { useState } from "react";
 import { getDailyWeatherForecast } from "@/api/queries/getDailyWeatherForecast";
 import { person, WMOCodeDescriptions } from "@/resources";
@@ -99,29 +100,29 @@ const HeaderDate = () => {
       <div className="img-wrapper">
         <div className={`p5DateBox ${isHovered ? "hover-active" : ""}`}>
           <div className="p5DateDay">
-            <span className="p5Day">{day}</span>
+            <span className="p5Day bounceIn">{day}</span>
             {data ? (
               <Icon
                 tooltip={weatherDescription}
                 name={weatherIcon}
-                className="p5DateWeatherIcon"
+                className="p5DateWeatherIcon bounceIn"
               />
             ) : (
               <Skeleton
                 shape="circle"
-                className="p5DateWeatherIcon"
+                className="p5DateWeatherIcon bounceIn"
                 delay="1"
               />
             )}
           </div>
           <div className="p5DateMonthDay" style={{ margin: data ? 0 : 0 }}>
-            <span className="p5Month">{month}</span>
-            <span className="p5DateMonthDaySeparator">/</span>
-            <span className="p5Date">{date}</span>
+            <span className="p5Month bounceIn">{month}</span>
+            <span className="p5DateMonthDaySeparator bounceIn">/</span>
+            <span className="p5Date bounceIn">{date}</span>
             {data && (
               <>
                 <span
-                  className="p5Temperature"
+                  className="p5Temperature bounceIn"
                   style={{
                     WebkitTextFillColor: gradient,
                     textShadow: `0 0 3px ${gradient}`,
@@ -130,7 +131,7 @@ const HeaderDate = () => {
                   {temperature}
                 </span>
                 <span
-                  className="p5Celsius"
+                  className="p5Celsius bounceIn"
                   style={{
                     WebkitTextFillColor: gradient,
                     textShadow: `0 0 3px ${gradient}`,
