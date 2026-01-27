@@ -3,7 +3,6 @@ import "./terminal.css";
 import "@/components/HeaderDock.css";
 import { gsap } from "gsap";
 import {
-  Activity,
   Children,
   createContext,
   useContext,
@@ -204,6 +203,7 @@ interface TerminalProps {
   className?: string;
   sequence?: boolean;
   startOnView?: boolean;
+  ref?: React.Ref<HTMLDivElement>;
 }
 
 export const Terminal = ({
@@ -219,7 +219,6 @@ export const Terminal = ({
   });
 
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isMinimized, setIsMinimized] = useState(false);
   const sequenceHasStarted = sequence ? !startOnView || isInView : false;
 
   const contextValue = useMemo<SequenceContextValue | null>(() => {
@@ -247,6 +246,7 @@ export const Terminal = ({
   const toggleTerminalSize = () => {
     if (!containerRef.current) return;
     containerRef.current.classList.toggle("terminal-container-maximized");
+    containerRef.current.classList.toggle("terminal-code-area-maximized");
     containerRef.current.scrollIntoView();
   };
 
@@ -265,27 +265,42 @@ export const Terminal = ({
         ease: "power2.inOut",
         x: 0,
         y: -500,
-        onComplete: () => {
-          if (!containerRef.current) return;
-          setIsMinimized(true);
-        },
       },
     );
   };
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (e.shiftKey && (e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "p") {
+      //NOTE: Have to track via styles as a useState seems to result being not updated within the useEffect
       if (
-        e.shiftKey &&
-        (e.metaKey || e.ctrlKey) &&
-        e.key.toLowerCase() === "p"
+        containerRef.current &&
+        containerRef.current.style.transform ===
+          "translate(0px, -500px) scale(0, 0)"
       ) {
-        e.preventDefault();
-        setIsMinimized(!isMinimized);
+        gsap.fromTo(
+          containerRef.current,
+          {
+            scale: 0,
+            x: 0,
+            y: -500,
+          },
+          {
+            scale: 1,
+            duration: 0.5,
+            ease: "power2.inOut",
+            y: 0,
+            onComplete: () => {
+              if (!containerRef.current) return;
+              containerRef.current.scrollIntoView();
+            },
+          },
+        );
+      } else {
+        minimizeTerminal();
       }
-    };
-
+    }
+  };
+  useEffect(() => {
     document.addEventListener("keydown", handleKeyDown);
-
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
@@ -293,51 +308,42 @@ export const Terminal = ({
   }, []);
 
   const content = (
-    <>
-      {isMinimized && (
-        <div className="terminal-minimized">
-          <button onPointerDown={() => setIsMinimized(false)}>Test</button>
-        </div>
-      )}
-      <Activity mode={isMinimized ? "hidden" : "visible"}>
-        <div ref={containerRef} className={cn("terminal-container", className)}>
-          <div className="terminal-header ">
-            <div className="terminal-dot-group">
-              <div
-                role="button"
-                aria-label="Close"
-                className="terminal-dot bg-red-500"
-              >
-                X
-              </div>
-              <div
-                role="button"
-                aria-label="Minimize"
-                className="terminal-dot bg-yellow-500"
-                onPointerDown={minimizeTerminal}
-              >
-                -
-              </div>
-              <div
-                role="button"
-                aria-label="Maximize"
-                className="terminal-dot bg-green-500"
-                onPointerDown={toggleTerminalSize}
-              >
-                ■
-              </div>
-            </div>
-            <div className="terminal-header-end">
-              <ThemeToggle className="menuIconManual" />
-              <LocaleToggle className="menuIconManual" />
-            </div>
+    <div ref={containerRef} className={cn("terminal-container", className)}>
+      <div className="terminal-header">
+        <div className="terminal-dot-group">
+          <div
+            role="button"
+            aria-label="Close"
+            className="terminal-dot bg-red-500"
+          >
+            X
           </div>
-          <pre className="terminal-code-area">
-            <code className="terminal-code">{wrappedChildren}</code>
-          </pre>
+          <div
+            role="button"
+            aria-label="Minimize"
+            className="terminal-dot bg-yellow-500"
+            onPointerDown={minimizeTerminal}
+          >
+            -
+          </div>
+          <div
+            role="button"
+            aria-label="Maximize"
+            className="terminal-dot bg-green-500"
+            onPointerDown={toggleTerminalSize}
+          >
+            ■
+          </div>
         </div>
-      </Activity>
-    </>
+        <div className="terminal-header-end">
+          <ThemeToggle className="menuIconManual" />
+          <LocaleToggle className="menuIconManual" />
+        </div>
+      </div>
+      <pre className="terminal-code-area">
+        <code className="terminal-code">{wrappedChildren}</code>
+      </pre>
+    </div>
   );
 
   if (!sequence) return content;

@@ -7,7 +7,7 @@
 
 .terminal-container {
     border: 1px solid var(--border);
-    z-index: 0;
+    z-index: 999;
     height: 100%;
     max-height: 80dvh;
     overflow: hidden;
@@ -33,6 +33,7 @@
 }
 
 .terminal-header {
+    min-height: 65px;
     border-bottom: 1px solid var(--border);
     display: flex;
     flex-direction: row;
@@ -93,6 +94,11 @@
 .terminal-code-area {
     padding: 0 0.4rem 0.4rem 0.4rem;
     margin: 0;
+    height: 85%;
+}
+
+.terminal-code-area-maximized {
+    height: calc(100dvh - 65px);
 }
 .terminal-code {
     scrollbar-width: none;
@@ -111,7 +117,6 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    border: 1px solid red;
     margin-top: auto;
 }
 
@@ -179,6 +184,7 @@
 #terminal-input-display-area {
     font-weight: 400;
     letter-spacing: -0.025rem;
+    line-height: 1.5;
 }
 
 #terminal-user-info-icons {

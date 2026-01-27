@@ -29,7 +29,6 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
   const [loading, setLoading] = useState(true);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const visitCountCookieCount = getVisitCountCookieFromClient();
 
   useEffect(() => {
@@ -111,7 +110,7 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
   if (loading || !visitCountCookieCount) {
     // if (loading) {
     return (
-      <Column fillWidth paddingY="128">
+      <Column fillWidth>
         {/*<RotatingText
           texts={[
             translate("loading.0"),
@@ -128,7 +127,7 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
           transition={{ type: "spring", damping: 30, stiffness: 400 }}
           rotationInterval={3500}
         />*/}
-        <Row center fill marginTop="64">
+        <Row style={{ minHeight: "90dvh" }} center fill>
           <StartTerminal />
         </Row>
       </Column>

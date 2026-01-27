@@ -14,11 +14,13 @@ import { useUserInfo } from "@/components/UserInfoProvider";
 
 const StartTerminal = () => {
   const pathname = usePathname();
+  const terminalContainerRef = useRef<HTMLDivElement | null>(null);
   const { typeSafeUserInfo } = useUserInfo();
   const terminalInputRef = useRef<HTMLInputElement | null>(null);
   const terminalSendBtnRef = useRef<HTMLButtonElement | null>(null);
   const [terminalInput, setTerminalInput] = useState("");
   const [isFocused, setIsFocused] = useState(false);
+  const [caretPos, setCaretPos] = useState(0);
 
   const handleSendTerminalCommand = () => {
     if (
@@ -65,7 +67,7 @@ const StartTerminal = () => {
         break;
     }
     setTerminalInput("");
-    terminalInputRef?.current?.scrollIntoView();
+    terminalContainerRef?.current?.scrollIntoView();
   };
 
   //WARNING: Cannot derivatively put the AppendArea directly between AnimatedSpans as it will cause elements after it to not render in
@@ -75,7 +77,7 @@ const StartTerminal = () => {
   }, [terminalInputRef]);
 
   return (
-    <Terminal>
+    <Terminal ref={terminalContainerRef}>
       <TypingAnimation>
         &gt; bunx samuel-yong/portfolio@latest init
       </TypingAnimation>
@@ -122,6 +124,11 @@ const StartTerminal = () => {
             onChange={(e) => {
               terminalInputRef?.current?.scrollIntoView();
               setTerminalInput(e.target.value);
+              setCaretPos(e.target.selectionStart ?? e.target.value.length);
+            }}
+            onPointerDown={(e) => {
+              const target = e.target as HTMLInputElement;
+              setCaretPos(target.selectionStart ?? terminalInput.length);
             }}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
@@ -137,6 +144,47 @@ const StartTerminal = () => {
               top: 0,
             }}
             onKeyDown={(e) => {
+              if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+                setCaretPos(
+                  terminalInputRef.current?.selectionStart ??
+                    terminalInput.length,
+                );
+              }
+              if (e.key === "ArrowRight" && e.ctrlKey) {
+                e.preventDefault();
+                const words = terminalInput
+                  .slice(caretPos)
+                  .split(/(\s+)/)
+                  .filter((word) => word.length > 0);
+                if (words.length === 0) return;
+                const firstWord = words[0];
+                const newCaretPos = caretPos + firstWord.length;
+                setCaretPos(newCaretPos);
+                setTimeout(() => {
+                  terminalInputRef.current?.setSelectionRange(
+                    newCaretPos,
+                    newCaretPos,
+                  );
+                }, 0);
+              }
+              if (e.key === "ArrowLeft" && e.ctrlKey) {
+                e.preventDefault();
+                const words = terminalInput
+                  .slice(0, caretPos)
+                  .split(/(\s+)/)
+                  .filter((word) => word.length > 0);
+                if (words.length === 0) return;
+                const lastWord = words[words.length - 1];
+                const newCaretPos = caretPos - lastWord.length;
+                setCaretPos(newCaretPos);
+                setTimeout(() => {
+                  terminalInputRef.current?.setSelectionRange(
+                    newCaretPos,
+                    newCaretPos,
+                  );
+                }, 0);
+              }
+
               if (e.key === "Enter") {
                 e.preventDefault();
                 handleSendTerminalCommand();
@@ -167,8 +215,9 @@ const StartTerminal = () => {
             </div>
           )}
           <pre className="terminal-input-display">
-            {terminalInput}
+            {terminalInput.slice(0, caretPos)}
             <span className={`custom-caret${isFocused ? " blink" : ""}`} />
+            {terminalInput.slice(caretPos)}
           </pre>
           <IconButton
             ref={terminalSendBtnRef}
