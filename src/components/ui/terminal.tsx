@@ -222,6 +222,8 @@ export const Terminal = ({
   startOnView = true,
 }: TerminalProps) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const terminalDialogRef = useRef<HTMLDivElement | null>(null);
+  const [isMaximizedDialog, setIsMaximizedDialog] = useState(false);
   const isInView = useInView(containerRef as React.RefObject<Element>, {
     amount: 0.3,
     once: true,
@@ -259,6 +261,9 @@ export const Terminal = ({
   }, [children, sequence]);
   const toggleTerminalSize = () => {
     if (!containerRef.current) return;
+    if (terminalDialogRef.current) {
+      setIsMaximizedDialog(!isMaximizedDialog);
+    }
     containerRef.current.classList.toggle("terminal-container-maximized");
     containerRef.current.classList.toggle("terminal-code-area-maximized");
     containerRef.current.scrollIntoView();
@@ -379,6 +384,8 @@ export const Terminal = ({
 
   const contentFormat = enableDialog ? (
     <Dialog
+      ref={terminalDialogRef}
+      className={isMaximizedDialog ? "terminal-container-maximized" : ""}
       title=""
       isOpen={isTerminalOpen}
       onClose={() => setIsTerminalOpen(false)}
