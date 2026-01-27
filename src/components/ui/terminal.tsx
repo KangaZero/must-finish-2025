@@ -37,6 +37,7 @@ interface AnimatedSpanProps extends MotionProps {
   delay?: number;
   className?: string;
   startOnView?: boolean;
+  ref?: React.Ref<HTMLDivElement>;
 }
 
 export const AnimatedSpan = ({
@@ -228,6 +229,9 @@ export const Terminal = ({
         setActiveIndex((current) =>
           index === current ? current + 1 : current,
         );
+        if (activeIndex === 5 && containerRef.current) {
+          containerRef.current.classList.add("bg-fade-in");
+        }
       },
       activeIndex,
       sequenceStarted: sequenceHasStarted,
@@ -249,7 +253,6 @@ export const Terminal = ({
     containerRef.current.classList.toggle("terminal-code-area-maximized");
     containerRef.current.scrollIntoView();
   };
-
   const minimizeTerminal = () => {
     if (!containerRef.current) return;
     gsap.fromTo(

@@ -159,7 +159,7 @@ export default async function RootLayout({
               fadeDistance={1.5}
               vignetteStrength={1}
               glowIntensity={0.1}
-              opacity={0.5}
+              opacity={0.3}
               gridRotation={55}
               mouseInteraction
               mouseInteractionRadius={0.4}

@@ -67,6 +67,7 @@ const StartTerminal = () => {
         break;
     }
     setTerminalInput("");
+    //NOTE: This seems to always be null
     terminalContainerRef?.current?.scrollIntoView();
   };
 
@@ -93,8 +94,10 @@ const StartTerminal = () => {
       <AnimatedSpan className="text-green-500">✔ Added scripts</AnimatedSpan>
 
       <AnimatedSpan className="text-green-500">
-        ✔ Added dependencies.
+        ✔ Added dependencies
       </AnimatedSpan>
+
+      <AnimatedSpan className="text-green-500">✔ Added wallpaper</AnimatedSpan>
 
       <AnimatedSpan className="text-blue-500">
         <span>ℹ Found 1 project:</span>
