@@ -63,7 +63,7 @@ const HomeHeading = () => {
               )}
             </Heading>
           ) : (
-            <Row fillWidth horizontal="between">
+            <Row fillWidth horizontal="between" s={{ horizontal: "center" }}>
               <Column>
                 <h1 className="vertical-text">
                   {home.subline(translate("home.subline.0"), true)}

@@ -20,6 +20,7 @@ import { home, about, person, baseURL, userSettings } from "@/resources";
 import MagicBento from "@/components/MagicBento";
 import { HomeHeading } from "@/components/home/HomeHeading";
 import HomeProjectsTitle from "@/components/home/HomeProjectsTitle";
+// import { ExpandableProjectCardGrid } from "@/components/ui/ExpandableProjectCardGrid";
 
 export async function generateMetadata(): Promise<Metadata> {
   return Meta.generate({
@@ -110,6 +111,7 @@ export default function Home() {
           textAutoHide={true}
           disableAnimations={!userSettings.isEffectsEnabled}
         />
+        {/*<ExpandableProjectCardGrid />*/}
         {/*<Projects range={[2]} />*/}
         {/*<Column fillWidth gap="xl">
           <Column fillWidth horizontal="center" gap="m" paddingBottom="m">
