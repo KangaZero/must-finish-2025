@@ -63,31 +63,42 @@ const HomeHeading = () => {
               )}
             </Heading>
           ) : (
-            <h1 id="home-headline" className="vertical-text">
-              {home.headline(
-                translate("home.headline.0"),
-                translate("home.headline.1"),
-                translate("home.headline.2"),
-                translate("home.headline.3"),
-              )}
-            </h1>
+            <Row fillWidth horizontal="between">
+              <Column>
+                <h1 className="vertical-text">
+                  {home.subline(translate("home.subline.0"), true)}
+                </h1>
+              </Column>
+              <Column>
+                <h1 id="home-headline" className="vertical-text">
+                  {home.headline(
+                    translate("home.headline.0"),
+                    translate("home.headline.1"),
+                    translate("home.headline.2"),
+                    translate("home.headline.3"),
+                  )}
+                </h1>
+              </Column>
+            </Row>
           )}
         </RevealFx>
-        <RevealFx
-          translateY="8"
-          delay={0.2}
-          fillWidth
-          horizontal="center"
-          paddingBottom="32"
-        >
-          <Text
-            wrap="balance"
-            onBackground="neutral-weak"
-            variant="heading-default-xl"
+        {locale === "en" && (
+          <RevealFx
+            translateY="8"
+            delay={0.2}
+            fillWidth
+            horizontal="center"
+            paddingBottom="32"
           >
-            {home.subline(translate("home.subline.0"))}
-          </Text>
-        </RevealFx>
+            <Text
+              wrap="balance"
+              onBackground="neutral-weak"
+              variant="heading-default-xl"
+            >
+              {home.subline(translate("home.subline.0"))}
+            </Text>
+          </RevealFx>
+        )}
       </Column>
       <Column horizontal="center" align="center" gap="16">
         <RevealFx

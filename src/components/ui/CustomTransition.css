@@ -1,0 +1,19 @@
+.panel-wrapper {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    box-sizing: border-box !important;
+    /*background: none !important;*/
+    border: none !important;
+}
+.panel {
+    transition: all 0.3s ease-in-out;
+    background-color: red;
+}
+
+.panel.left {
+}
+
+.panel.right {
+}

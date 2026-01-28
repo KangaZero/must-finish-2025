@@ -58,6 +58,15 @@ export function SlideTransition({
       </style>
       <ViewTransition name={name}>
         <div
+          style={{
+            margin: 0,
+            padding: 0,
+            width: "100%",
+            height: "100%",
+            boxSizing: "border-box",
+            background: "none",
+            border: "none",
+          }}
           className={cn(
             `${name}-enter-slide-${startName}`,
             `${name}-exit-slide-${endName}`,

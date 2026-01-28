@@ -331,7 +331,7 @@ const home: Home = {
     ),
     href: "/work/building-once-ui-a-customizable-design-system",
   },
-  subline: (text1 = useI18nIndicator) => (
+  subline: (text1 = useI18nIndicator, rotate = false) => (
     <Row>
       {text1}{" "}
       <Logo
@@ -344,9 +344,12 @@ const home: Home = {
         href={social.find((item) => item.name === "GitHub")?.link}
         style={{
           display: "inline-flex",
-          top: "0.25em",
-          marginLeft: "0.55em",
-          scale: "3",
+          top: "0.25rem",
+          marginTop: rotate ? "2rem" : "0",
+          paddingLeft: rotate ? "2rem" : "0",
+          marginLeft: "0.55rem",
+          scale: rotate ? "5" : "3",
+          transform: rotate ? "rotate(55deg)" : "none",
         }}
       />
       {/* , where I craft intuitive

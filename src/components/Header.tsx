@@ -303,7 +303,10 @@ export const Header = () => {
               gap="20"
               minWidth={15}
             >
-              <span ref={hoverCardDescriptionRef}></span>
+              <span
+                className={styles.hoverCardDescription}
+                ref={hoverCardDescriptionRef}
+              ></span>
             </Flex>
           )}
         </Flex>

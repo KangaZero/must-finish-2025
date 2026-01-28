@@ -118,7 +118,7 @@
     font-size: 1.4em;
     font-weight: bold;
     letter-spacing: -1px;
-    margin-bottom: -0.6rem;
+    margin-bottom: -0.3rem;
     display: flex;
     align-items: center;
     line-height: 1;
@@ -135,7 +135,19 @@
     --animate-duration: var(--animate-bounce-in-duration);
     --animate-delay: var(--animated-bounce-in-delay);
 }
+.p5Day2 {
+    font-size: 2rem;
+    margin-left: -0.1rem;
+    margin-bottom: 0.6rem;
+    transform: rotate(-20deg);
+    scale: 0;
+    opacity: 0;
+}
 
+.p5Day2.bounceIn {
+    --animate-duration: var(--animate-bounce-in-duration);
+    --animate-delay: var(--animated-bounce-in-delay) * 6;
+}
 .p5DateWeatherIcon {
     margin-left: 0.05rem;
     font-size: 2rem;
@@ -172,8 +184,8 @@
 .p5DateMonthDaySeparator {
     display: inline-block;
     transform: rotate(35deg) translate(0px, 12px);
-    font-size: 1.4rem;
-    margin-top: -0.3rem;
+    font-size: 1.6rem;
+    margin-top: -0.5rem;
     margin-left: 0rem;
     z-index: 1;
     scale: 0;
@@ -206,6 +218,7 @@
     text-shadow: none;
     display: inline-block;
     transform: rotate(-5deg) translate(0, 6px);
+    margin-left: 0.3rem;
     font-size: 1rem;
     scale: 0;
     opacity: 0;

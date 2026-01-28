@@ -5,6 +5,19 @@
         rgba(0, 200, 255, 0.1)
     );
 }
+
+::view-transition-old(root),
+::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+    padding: 0;
+}
 /*FOR css light-dark() to work forcibly*/
 [data-theme="light"] {
     color-scheme: light;
@@ -17,6 +30,7 @@
 html {
     max-width: 100dvw;
     overflow-x: hidden;
+    box-sizing: border-box;
     scroll-behavior: smooth;
 }
 body::-webkit-scrollbar {

@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { protectedRoutes, routes } from "@/resources";
 import {
@@ -16,7 +16,6 @@ import NotFound from "@/app/[lang]/not-found";
 import { useUserInfo } from "@/components/UserInfoProvider";
 import { useAchievements } from "@/components/AchievementsProvider";
 import StartTerminal from "./StartTerminal";
-// import { SlideTransition } from "@/components/ui/slideTransition";
 
 interface RouteGuardProps {
   children: React.ReactNode;
@@ -26,12 +25,12 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
   const pathname = usePathname();
   const { isStartInitialized } = useUserInfo();
   const { unlockAchievement } = useAchievements();
-  const [isRouteEnabled, setIsRouteEnabled] = useState(false);
+  const [isRouteEnabled, setIsRouteEnabled] = useState(true);
   const [isPasswordRequired, setIsPasswordRequired] = useState(false);
   const [password, setPassword] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const performChecks = async () => {
@@ -77,6 +76,7 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
       };
 
       const routeEnabled = checkRouteEnabled();
+      if (!routeEnabled) unlockAchievement("Out of Bounds");
       setIsRouteEnabled(routeEnabled);
 
       if (protectedRoutes[pathname as keyof typeof protectedRoutes]) {
@@ -92,6 +92,7 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
     };
 
     performChecks();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
   const handlePasswordSubmit = async () => {
@@ -116,6 +117,7 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
       </Flex>
     );
   }
+
   if (!isStartInitialized) {
     return (
       <Column fillWidth>
@@ -127,7 +129,6 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
   }
 
   if (!isRouteEnabled) {
-    unlockAchievement("Out of Bounds");
     return <NotFound />;
   }
 
@@ -152,18 +153,10 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
   }
 
   return (
-    <Suspense
-      fallback={
-        <Flex fillWidth style={{ minHeight: "90dvh" }} horizontal="center">
-          <Spinner />
-        </Flex>
-      }
-    >
-      {/*<SlideTransition name="slide">*/}
+    <>
       {children}
       <StartTerminal enableDialog />
-      {/*</SlideTransition>*/}
-    </Suspense>
+    </>
   );
 };
 

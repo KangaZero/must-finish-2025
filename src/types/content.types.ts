@@ -162,7 +162,7 @@ export interface Home extends BasePageConfig {
     href: string;
   };
   /** The sub text which appears below the headline */
-  subline: (text1?: string) => React.ReactNode;
+  subline: (text1?: string, rotate?: boolean) => React.ReactNode;
 }
 
 /**

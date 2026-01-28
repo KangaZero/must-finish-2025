@@ -23,6 +23,8 @@ const HeaderDate = () => {
   const day = translate(
     `headerDate.days.${now.getDay()}` as "headerDate.days.0",
   );
+  const allButLastCharDay = day.slice(0, -1);
+  const lastDayChar = day.slice(-1);
   const date = now.getDate();
   const hour = now.getHours();
   const isDay = data ? Boolean(data.current.is_day) : hour >= 6 && hour < 18;
@@ -100,7 +102,8 @@ const HeaderDate = () => {
       <div className="img-wrapper">
         <div className={`p5DateBox ${isHovered ? "hover-active" : ""}`}>
           <div className="p5DateDay">
-            <span className="p5Day bounceIn">{day}</span>
+            <span className="p5Day bounceIn">{allButLastCharDay}</span>
+            <span className="p5Day2 bounceIn">{lastDayChar}</span>
             {data ? (
               <Icon
                 tooltip={weatherDescription}
