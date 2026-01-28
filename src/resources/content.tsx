@@ -56,8 +56,8 @@ const terminalCommand: TerminalCommandType = {
       inputAreaElement.textContent += `\nAre you sure you want to exit the site? [Y/N]`;
     }
   },
-  start: (setIsStartInitialized) => {
-    setIsStartInitialized(true);
+  start: (setIsStartinitializedStateAndCookie) => {
+    setIsStartinitializedStateAndCookie(true);
   },
   history: (inputAreaElement, allUserCommands, argument) => {
     if (allUserCommands.length < 1)
@@ -301,18 +301,20 @@ const home: Home = {
     text1 = useI18nIndicator,
     text2 = useI18nIndicator,
     text3 = useI18nIndicator,
+    text4 = useI18nIndicator,
   ) => (
     <Text>
       {text1}
-      <br />
       {text2}
+      <br />
+      {text3}
       <br />
       <LetterFx
         speed="slow"
         trigger="instant"
         charset={"30459uirohe".split("")}
       >
-        {text3}
+        {text4}
       </LetterFx>
     </Text>
   ),
@@ -722,6 +724,13 @@ const achievementsList: Array<Achievement> = [
     id: 7,
     title: "Puzzle Master",
     description: "Solved the most difficult puzzle ever created",
+    rarity: "rare",
+    isUnlocked: false,
+  },
+  {
+    id: 8,
+    title: "Out of Bounds",
+    description: "Went to the backdoors",
     rarity: "rare",
     isUnlocked: false,
   },

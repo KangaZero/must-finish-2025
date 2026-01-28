@@ -14,10 +14,10 @@ import {
 } from "@once-ui-system/core";
 import { Footer, Header, RouteGuard, Providers } from "@/components";
 import { baseURL, effects, fonts, style, dataStyle, home } from "@/resources";
-import styles from "./layout.module.scss";
 import { Metadata } from "next";
 import { AchievementToast } from "@/components/ui/achievement-toast";
 import RippleGrid from "@/components/RippleGrid";
+import { LayoutBackgroundMaple } from "./layoutBackgroundMaple";
 
 export async function generateMetadata(): Promise<Metadata> {
   return Meta.generate({
@@ -37,17 +37,19 @@ export default async function RootLayout({
   params,
   children,
 }: LayoutProps<"/[lang]">) {
+  const lang = (await params).lang as "ja" | "en";
   return (
     <Flex
       suppressHydrationWarning
       as="html"
-      lang="en"
+      lang={lang}
       fillWidth
       className={classNames(
         fonts.heading.variable,
         fonts.body.variable,
         fonts.label.variable,
         fonts.code.variable,
+        fonts.headingJA.variable,
       )}
     >
       <head>
@@ -119,36 +121,7 @@ export default async function RootLayout({
           padding="0"
           horizontal="center"
         >
-          <div className="fixed inset-0 pointer-events-none z-1">
-            {[...Array(8)].map((_, i) => (
-              <div
-                key={i}
-                className={[
-                  styles.mapleLeaf,
-                  i % 4 === 0
-                    ? styles.mapleLeafSlow
-                    : i % 4 === 1
-                      ? styles.mapleLeafMedium
-                      : i % 4 === 2
-                        ? styles.mapleLeafFast
-                        : styles.mapleLeaf3D,
-                ].join(" ")}
-                style={{
-                  position: "absolute",
-                  fontSize: "2rem",
-                  opacity: 0.4,
-                  // eslint-disable-next-line react-hooks/purity
-                  left: `${Math.random() * 75}%`,
-                  // eslint-disable-next-line react-hooks/purity
-                  top: `${Math.random() * 75}%`,
-                  // eslint-disable-next-line react-hooks/purity
-                  animationDelay: `${Math.random() * 5}s`,
-                }}
-              >
-                🍁
-              </div>
-            ))}
-          </div>
+          <LayoutBackgroundMaple />
           <RevealFx fill position="absolute">
             <RippleGrid
               enableRainbow

@@ -15,8 +15,11 @@ import { useUserInfo } from "@/components/UserInfoProvider";
 const StartTerminal = ({ enableDialog }: { enableDialog: boolean }) => {
   const pathname = usePathname();
   const terminalContainerRef = useRef<{ minimizeTerminal: () => void }>(null);
-  const { typeSafeUserInfo, setIsStartInitialized, isStartInitialized } =
-    useUserInfo();
+  const {
+    typeSafeUserInfo,
+    isStartInitialized,
+    setIsStartInitializedStateAndCookie,
+  } = useUserInfo();
   const terminalInputRef = useRef<HTMLInputElement | null>(null);
   const terminalSendBtnRef = useRef<HTMLButtonElement | null>(null);
   const [allUserCommands, setAllUserCommands] = useState<
@@ -77,7 +80,7 @@ const StartTerminal = ({ enableDialog }: { enableDialog: boolean }) => {
         if (isStartInitialized) {
           terminalInputDisplayAreaElement.textContent += `\nCommand is already initialized`;
         } else {
-          terminalCommand.start(setIsStartInitialized);
+          terminalCommand.start(setIsStartInitializedStateAndCookie);
         }
         break;
       case "clear":
@@ -150,7 +153,7 @@ const StartTerminal = ({ enableDialog }: { enableDialog: boolean }) => {
             id="terminal-input"
             value={terminalInput}
             onChange={(e) => {
-              terminalInputRef?.current?.scrollIntoView();
+              // terminalInputRef?.current?.scrollIntoView();
               setTerminalInput(e.target.value);
               setCaretPos(e.target.selectionStart ?? e.target.value.length);
             }}
@@ -309,7 +312,7 @@ const StartTerminal = ({ enableDialog }: { enableDialog: boolean }) => {
             id="terminal-input"
             value={terminalInput}
             onChange={(e) => {
-              terminalInputRef?.current?.scrollIntoView();
+              // terminalInputRef?.current?.scrollIntoView();
               setTerminalInput(e.target.value);
               setCaretPos(e.target.selectionStart ?? e.target.value.length);
             }}

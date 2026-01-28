@@ -1,6 +1,6 @@
 import { WMOCodeDescriptions } from "@/resources";
 import { IconName } from "@/resources/icons";
-import type { Dispatch, SetStateAction } from "react";
+
 import { zones } from "tzdata";
 
 /**
@@ -149,7 +149,12 @@ export interface Home extends BasePageConfig {
    */
   image: `/images/${string}` | string;
   /** The headline of the home page */
-  headline: (text1?: string, text2?: string, text3?: string) => React.ReactNode;
+  headline: (
+    text1: string,
+    text2: string,
+    text3: string,
+    text4: string,
+  ) => React.ReactNode;
   /** Featured badge, which appears above the headline */
   featured: {
     display: boolean;
@@ -328,6 +333,7 @@ export type AchievementTitle =
   | "Snoopy Detective"
   | "Social Stalker"
   | "Test"
+  | "Out of Bounds"
   | "Woah! Hacker"
   | "Sand Mandala"
   | "Go Touch Grass"
@@ -383,7 +389,9 @@ export type TerminalCommandType = {
     inputAreaElement: HTMLElement,
     argument: string | "-y",
   ) => void;
-  start: (setIsStartInitialized: Dispatch<SetStateAction<boolean>>) => void;
+  start: (
+    setIsStartInitializedStateAndCookie: (state: boolean) => void,
+  ) => void;
   help: (inputAreaElement: HTMLElement) => void;
   history: (
     inpuAreaElement: HTMLElement,

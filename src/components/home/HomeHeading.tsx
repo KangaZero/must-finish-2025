@@ -1,5 +1,6 @@
 "use client";
 
+import "@/utils/styles/verticalText.css";
 import { home, about, person } from "@/resources";
 import {
   Badge,
@@ -15,7 +16,7 @@ import {
 import { useLocale } from "@/components/LocaleProvider";
 
 const HomeHeading = () => {
-  const { translate } = useLocale();
+  const { translate, locale } = useLocale();
   return (
     <Column paddingY="40" fillWidth horizontal="center" gap="m">
       <Column
@@ -49,16 +50,28 @@ const HomeHeading = () => {
         <RevealFx
           translateY="4"
           fillWidth
-          horizontal="center"
+          horizontal={locale === "en" ? "center" : "end"}
           paddingBottom="16"
         >
-          <Heading id="home-headline" wrap="balance" variant="display-strong-l">
-            {home.headline(
-              translate("home.headline.0"),
-              translate("home.headline.1"),
-              translate("home.headline.2"),
-            )}
-          </Heading>
+          {locale === "en" ? (
+            <Heading id="home-headline" variant="display-strong-l">
+              {home.headline(
+                translate("home.headline.0"),
+                translate("home.headline.1"),
+                translate("home.headline.2"),
+                translate("home.headline.3"),
+              )}
+            </Heading>
+          ) : (
+            <h1 id="home-headline" className="vertical-text">
+              {home.headline(
+                translate("home.headline.0"),
+                translate("home.headline.1"),
+                translate("home.headline.2"),
+                translate("home.headline.3"),
+              )}
+            </h1>
+          )}
         </RevealFx>
         <RevealFx
           translateY="8"

@@ -41,6 +41,7 @@ export type ProtectedRoutesConfig = Record<`/${string}`, boolean>;
  */
 export type FontsConfig = {
   heading: NextFontWithVariable;
+  headingJA: NextFontWithVariable;
   body: NextFontWithVariable;
   label: NextFontWithVariable;
   code: NextFontWithVariable;

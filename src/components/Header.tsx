@@ -89,10 +89,7 @@ export const Header = () => {
     );
 
     const toUnlockOrNotEosAchievement = (mode: "light" | "dark" | "system") => {
-      console.trace("theme from useTheme", theme);
-      console.trace("mode", mode);
       const documentTheme = document.documentElement.getAttribute("data-theme");
-      console.trace("document theme", documentTheme);
       if (theme === mode) return;
       if (mode !== documentTheme) unlockAchievement("Eos");
     };

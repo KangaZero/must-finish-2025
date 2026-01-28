@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { protectedRoutes, routes } from "@/resources";
 import {
@@ -9,10 +9,14 @@ import {
   Heading,
   Column,
   PasswordInput,
+  Flex,
+  Spinner,
 } from "@once-ui-system/core";
 import NotFound from "@/app/[lang]/not-found";
 import { useUserInfo } from "@/components/UserInfoProvider";
+import { useAchievements } from "@/components/AchievementsProvider";
 import StartTerminal from "./StartTerminal";
+// import { SlideTransition } from "@/components/ui/slideTransition";
 
 interface RouteGuardProps {
   children: React.ReactNode;
@@ -21,6 +25,7 @@ interface RouteGuardProps {
 const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
   const pathname = usePathname();
   const { isStartInitialized } = useUserInfo();
+  const { unlockAchievement } = useAchievements();
   const [isRouteEnabled, setIsRouteEnabled] = useState(false);
   const [isPasswordRequired, setIsPasswordRequired] = useState(false);
   const [password, setPassword] = useState("");
@@ -104,7 +109,14 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
     }
   };
 
-  if (loading || !isStartInitialized) {
+  if (loading) {
+    return (
+      <Flex fillWidth style={{ minHeight: "90dvh" }} horizontal="center">
+        <Spinner />
+      </Flex>
+    );
+  }
+  if (!isStartInitialized) {
     return (
       <Column fillWidth>
         <Row style={{ minHeight: "90dvh" }} center fill>
@@ -115,6 +127,7 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
   }
 
   if (!isRouteEnabled) {
+    unlockAchievement("Out of Bounds");
     return <NotFound />;
   }
 
@@ -139,10 +152,18 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
   }
 
   return (
-    <>
+    <Suspense
+      fallback={
+        <Flex fillWidth style={{ minHeight: "90dvh" }} horizontal="center">
+          <Spinner />
+        </Flex>
+      }
+    >
+      {/*<SlideTransition name="slide">*/}
       {children}
       <StartTerminal enableDialog />
-    </>
+      {/*</SlideTransition>*/}
+    </Suspense>
   );
 };
 

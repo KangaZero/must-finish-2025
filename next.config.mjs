@@ -28,6 +28,7 @@ const nextConfig = {
     compiler: "modern",
     silenceDeprecations: ["legacy-js-api"],
   },
+  cacheComponents: true,
 };
 
 export default withMDX(nextConfig);

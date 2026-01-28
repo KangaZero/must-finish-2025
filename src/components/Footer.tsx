@@ -13,9 +13,14 @@ import styles from "./Footer.module.scss";
 
 //Api
 import { getGithubProfile } from "@/api/queries/getGithubProfile";
+import { Suspense } from "react";
+
+const CurrentYearText = () => {
+  const currentYear = new Date().getFullYear();
+  return <Text onBackground="neutral-weak">© {currentYear}</Text>;
+};
 
 export const Footer = () => {
-  const currentYear = new Date().getFullYear();
   const {
     data: githubData,
     isLoading,
@@ -24,6 +29,7 @@ export const Footer = () => {
 
   return (
     <Row
+      suppressHydrationWarning
       as="footer"
       fillWidth
       padding="8"
@@ -45,7 +51,9 @@ export const Footer = () => {
         }}
       >
         <Text variant="body-default-s" onBackground="neutral-strong">
-          <Text onBackground="neutral-weak">© {currentYear} /</Text>
+          <Suspense fallback={<Text onBackground="neutral-weak">© 2026</Text>}>
+            <CurrentYearText />
+          </Suspense>
           <Text paddingX="4">{person.name} / KangaWorks</Text>
           <Text size="xs" onBackground="neutral-weak">
             {/* Usage of this template requires attribution. Please don't remove the link to Once UI unless you have a Pro license. */}

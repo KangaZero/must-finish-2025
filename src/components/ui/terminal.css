@@ -84,21 +84,21 @@
 
 .terminal-dot-group {
     display: flex;
-    gap: 0.5rem; /* gap-x-2 */
+    gap: 0.5rem;
 }
 .terminal-dot {
-    height: 0.7rem; /* h-2 */
-    width: 0.7rem; /* w-2 */
+    height: 0.7rem;
+    width: 0.7rem;
     font-size: 0.6rem;
     line-height: 3;
-    border-radius: 9999px; /* rounded-full */
+    border-radius: 9999px;
     display: flex;
     align-items: center;
     justify-content: center;
     @media (max-width: 599px) {
-        height: 1rem; /* h-1.5 */
-        font-size: 0.75rem;
-        width: 1rem; /* w-1.5 */
+        height: 2rem;
+        font-size: 1.75rem;
+        width: 2rem;
     }
 }
 

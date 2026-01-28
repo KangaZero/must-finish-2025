@@ -77,7 +77,12 @@ const en = {
   },
   home: {
     code: `// To visit the About page, type this in your browser console:\nwindow.location.href = '/about';`,
-    headline: ["Samuel Wai Weng Yong", "Portfolio", `${getCurrentYear("en")}`],
+    headline: [
+      "Samuel Wai Weng Yong",
+      "'s",
+      "Portfolio",
+      `${getCurrentYear("en")}`,
+    ],
     subline: ["Created by"],
     projects: "Projects",
   },

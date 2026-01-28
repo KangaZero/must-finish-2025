@@ -6,7 +6,7 @@
 // NOTE: Cannot import type Locale as this function is directly used for where type Locale references.
 const getCurrentYear = (locale: "en" | "ja"): number => {
   if (locale === "ja") {
-    return new Date().getFullYear() - 1988; // Japanese calendar year (Reiwa era started in 2019)
+    return new Date().getFullYear() - 2019; // Japanese calendar year (Reiwa era started in 2019)
   } else {
     return new Date().getFullYear();
   }

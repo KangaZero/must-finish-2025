@@ -1,6 +1,7 @@
 "use client";
 
 import { ClientInfo, TypeSafeClientInfo } from "@/types";
+import { getStartInitializedCookie } from "@/utils/getStartInitializedCookie";
 import { whoAmI } from "@/utils/getUserFingerprint";
 import {
   ReactNode,
@@ -14,7 +15,7 @@ type UserInfoContextType = {
   userInfo: null | ClientInfo;
   typeSafeUserInfo: null | TypeSafeClientInfo;
   isStartInitialized: boolean;
-  setIsStartInitialized: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsStartInitializedStateAndCookie: (state: boolean) => void;
   isTerminalOpen: boolean;
   setIsTerminalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -24,10 +25,23 @@ const UserInfoContext = createContext<UserInfoContextType | undefined>(
 
 export const UserInfoProvider = ({ children }: { children: ReactNode }) => {
   const [userInfo, setUserInfo] = useState<null | ClientInfo>(null);
-  const [isStartInitialized, setIsStartInitialized] = useState(false);
+  const [isStartInitialized, setIsStartInitialized] = useState(
+    getStartInitializedCookie() || false,
+  );
   const [isTerminalOpen, setIsTerminalOpen] = useState(false);
   const [typeSafeUserInfo, setTypeSafeUserInfo] =
     useState<null | TypeSafeClientInfo>(null);
+
+  const setStartInitializedCookie = (state: boolean) => {
+    if (typeof document === "undefined") return;
+    document.cookie = `START=${state ? "1" : "0"}; path=/; max-age=31536000`; // 1 year
+  };
+
+  const setIsStartInitializedStateAndCookie = (state: boolean) => {
+    setIsStartInitialized(state);
+    setStartInitializedCookie(state);
+  };
+
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
@@ -97,7 +111,7 @@ export const UserInfoProvider = ({ children }: { children: ReactNode }) => {
         userInfo,
         typeSafeUserInfo,
         isStartInitialized,
-        setIsStartInitialized,
+        setIsStartInitializedStateAndCookie,
         isTerminalOpen,
         setIsTerminalOpen,
       }}

@@ -21,6 +21,7 @@ import { ThemeToggle } from "../ThemeToggle";
 import { LocaleToggle } from "../LocaleToggle";
 import { useUserInfo } from "../UserInfoProvider";
 import { Dialog } from "@once-ui-system/core";
+import { terminalCommand } from "@/resources";
 
 interface SequenceContextValue {
   completeItem: (index: number) => void;
@@ -228,7 +229,11 @@ export const Terminal = ({
     once: true,
   });
 
-  const { isTerminalOpen, setIsTerminalOpen } = useUserInfo();
+  const {
+    isTerminalOpen,
+    setIsTerminalOpen,
+    setIsStartInitializedStateAndCookie,
+  } = useUserInfo();
   const [activeIndex, setActiveIndex] = useState(0);
   const sequenceHasStarted = sequence ? !startOnView || isInView : false;
 
@@ -350,6 +355,9 @@ export const Terminal = ({
             role="button"
             aria-label="Close"
             className="terminal-dot bg-red-500"
+            onPointerDown={() => {
+              terminalCommand.start(setIsStartInitializedStateAndCookie);
+            }}
           >
             X
           </div>
