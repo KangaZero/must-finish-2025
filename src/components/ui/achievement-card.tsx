@@ -12,6 +12,7 @@ import {
 } from "@once-ui-system/core";
 import GlareHover from "./glare-hover";
 import { useToast } from "@once-ui-system/core";
+import { AnimatedTooltip } from "./AnimatedTooltip";
 
 const rarityColors = {
   common: "var(--border-color)",
@@ -111,12 +112,17 @@ export const AchievementCard = ({
                 onBackground="neutral-medium"
                 paddingY="2"
               >
-                <IconButton
-                  tooltip="Share Achievement"
-                  icon="share"
-                  variant="ghost"
-                  onPointerDown={handleShareAchievement}
-                />
+                <AnimatedTooltip
+                  direction="top"
+                  title={"Share Achievement"}
+                  description="Share your achievement with others!"
+                >
+                  <IconButton
+                    icon="share"
+                    variant="ghost"
+                    onPointerDown={handleShareAchievement}
+                  />
+                </AnimatedTooltip>
               </Row>
             </>
           )}

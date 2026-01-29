@@ -16,7 +16,7 @@ import NotFound from "@/app/[lang]/not-found";
 import { useUserInfo } from "@/components/UserInfoProvider";
 import { useAchievements } from "@/components/AchievementsProvider";
 import StartTerminal from "./StartTerminal";
-import { AnimatePresence, motion } from "motion/react";
+// import { AnimatePresence, motion } from "motion/react";
 
 interface RouteGuardProps {
   children: React.ReactNode;
@@ -154,17 +154,26 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
   }
 
   return (
-    <AnimatePresence propagate>
-      <motion.section
+    <>
+      {/*<motion.section
+        style={{
+          margin: 0,
+          padding: 0,
+          width: "100%",
+          height: "100%",
+          boxSizing: "border-box",
+          background: "none",
+          border: "none",
+        }}
         key={pathname}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0, x: -1000 }}
-      >
-        {children}
-      </motion.section>
+      >*/}
+      {children}
+      {/*</motion.section>*/}
       <StartTerminal enableDialog />
-    </AnimatePresence>
+    </>
   );
 };
 

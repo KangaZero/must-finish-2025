@@ -35,8 +35,6 @@ export default function SearchBar({
     label: `${key.charAt(0).toUpperCase() + key.slice(1)} (${value})`,
     value: key as Achievement["rarity"],
   }));
-  //TODO remove when done
-  console.trace(achievementsCountAsArray, "acass");
   const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentSearchTerm(e.target.value);
   };

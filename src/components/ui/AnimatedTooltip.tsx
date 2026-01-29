@@ -8,19 +8,20 @@ import {
   useMotionValue,
   useSpring,
 } from "motion/react";
-import "./animated-tooltip.css";
+import "./AnimatedTooltip.css";
 
 export const AnimatedTooltip = ({
-  items,
+  title,
+  description,
+  children,
+  direction = "top",
 }: {
-  items: {
-    id: number;
-    name: string;
-    designation: string;
-    image: string;
-  }[];
+  title: string;
+  description: string;
+  children: React.ReactNode;
+  direction?: "top" | "bottom" | "left" | "right";
 }) => {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [isActive, setIsActive] = useState<boolean>(false);
   const springConfig = { stiffness: 100, damping: 15 };
   const x = useMotionValue(0);
   const animationFrameRef = useRef<number | null>(null);
@@ -34,67 +35,61 @@ export const AnimatedTooltip = ({
     springConfig,
   );
 
-  const handleMouseMove = (
-    event: React.MouseEvent<HTMLImageElement, MouseEvent>,
+  const handleShowAnimatedTooltip = (
+    event: React.PointerEvent<HTMLDivElement>,
   ) => {
     if (animationFrameRef.current) {
       cancelAnimationFrame(animationFrameRef.current);
     }
 
     animationFrameRef.current = requestAnimationFrame(() => {
-      const halfWidth = event.target.offsetWidth / 2;
+      const halfWidth = event.clientX / 2;
       x.set(event.nativeEvent.offsetX - halfWidth);
     });
   };
 
   return (
-    <>
-      {items.map((item) => (
-        <div
-          className="animated-tooltip-group"
-          key={item.name}
-          onMouseEnter={() => setHoveredIndex(item.id)}
-          onMouseLeave={() => setHoveredIndex(null)}
-        >
-          <AnimatePresence>
-            {hoveredIndex === item.id && (
-              <motion.div
-                initial={{ opacity: 0, y: 20, scale: 0.6 }}
-                animate={{
-                  opacity: 1,
-                  y: 0,
-                  scale: 1,
-                  transition: {
-                    type: "spring",
-                    stiffness: 260,
-                    damping: 10,
-                  },
-                }}
-                exit={{ opacity: 0, y: 20, scale: 0.6 }}
-                style={{
-                  translateX: translateX,
-                  rotate: rotate,
-                  whiteSpace: "nowrap",
-                }}
-                className="animated-tooltip-tooltip"
-              >
-                <div className="gradient1" />
-                <div className="gradient2" />
-                <div className="name">{item.name}</div>
-                <div className="designation">{item.designation}</div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-          <img
-            onMouseMove={handleMouseMove}
-            height={100}
-            width={100}
-            src={item.image}
-            alt={item.name}
-            className="animated-tooltip-img"
-          />
-        </div>
-      ))}
-    </>
+    <div
+      className="animated-tooltip"
+      onPointerEnter={() => setIsActive(true)}
+      onPointerMove={(event) => handleShowAnimatedTooltip(event)}
+      onPointerDown={(event) => {
+        handleShowAnimatedTooltip(event);
+        setIsActive(isActive);
+      }}
+      onPointerLeave={() => setIsActive(false)}
+    >
+      <AnimatePresence>
+        {isActive && (
+          <motion.div
+            initial={{ opacity: 0, y: 20, scale: 0.4 }}
+            animate={{
+              animationDuration: "1s",
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              transition: {
+                type: "spring",
+                stiffness: 260,
+                damping: 10,
+              },
+            }}
+            exit={{ opacity: 0, y: 20, scale: 0.6 }}
+            style={{
+              translateX: translateX,
+              rotate: rotate,
+              whiteSpace: "nowrap",
+            }}
+            className={`animated-tooltip-tooltip ${direction}`}
+          >
+            <div className="gradient1" />
+            <div className="gradient2" />
+            <div className="title">{title}</div>
+            <div className="description">{description}</div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      {children}
+    </div>
   );
 };

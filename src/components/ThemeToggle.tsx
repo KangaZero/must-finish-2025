@@ -4,6 +4,7 @@ import styles from "./ThemeToggle.module.scss";
 import React, { useEffect, useState } from "react";
 import { Icon, ToggleButton, useTheme } from "@once-ui-system/core";
 import { useAchievements } from "./AchievementsProvider";
+import { AnimatedTooltip } from "./ui/AnimatedTooltip";
 
 export const ThemeToggle: React.FC<{ className: string }> = ({ className }) => {
   const toggleThemeButtonRef = React.useRef<HTMLButtonElement>(null);
@@ -90,13 +91,19 @@ export const ThemeToggle: React.FC<{ className: string }> = ({ className }) => {
       }}
       aria-label={`Switch to ${nextTheme} mode`}
     >
-      <Icon
-        ref={toggleIconRef}
-        name={icon}
-        size="s"
-        tooltip={`Switch to ${nextTheme} mode`}
-        tooltipPosition="top"
-      />
+      <AnimatedTooltip
+        title="Theme"
+        description={`Switch to ${nextTheme} mode`}
+        direction="bottom"
+      >
+        <Icon
+          ref={toggleIconRef}
+          name={icon}
+          size="s"
+          // tooltip={`Switch to ${nextTheme} mode`}
+          // tooltipPosition="top"
+        />
+      </AnimatedTooltip>
     </ToggleButton>
   );
 };
